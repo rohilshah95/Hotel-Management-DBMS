@@ -1,0 +1,4 @@
+class team_t
+
+{
+}
