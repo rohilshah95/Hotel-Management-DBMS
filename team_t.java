@@ -1,4 +1,0 @@
-class team_t
-
-{
-}

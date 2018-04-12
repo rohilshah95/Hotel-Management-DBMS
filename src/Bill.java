@@ -1,7 +1,9 @@
-public static class Bill
+package src;
+
+public class Bill
 {
   static int id = 4; // because demo data already has 4 entries
-  void createBill(String id, String amount, String modeOfPayment, String discount)
+  void createBill(String amount, String modeOfPayment, String discount)
   {
     try
     {
@@ -28,7 +30,7 @@ public static class Bill
     }
   }
 
-  void generateReceipt(String custId, checkOutDate)
+  void generateReceipt(String custId, String checkOutDate)
   {
     try
     {

@@ -1,4 +1,6 @@
-public static class Customer
+package src;
+
+public class Customer
 {
   // int id;
   // String name;
@@ -45,7 +47,7 @@ public static class Customer
     }
   }
 
-  private int assignRoom(int customerId, int hotelId ,int roomId)
+  private void assignRoom(int customerId, int hotelId ,int roomId)
   {
     try
     {

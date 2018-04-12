@@ -1,6 +1,8 @@
 // Acknowledgments: This example is a modification of code provided
 // by Dimitri Rakitine. Further modified by Shrikanth N C for MySql(MariaDB) support
 // Relpace all $USER$ with your unity id and $PASSWORD$ with your 9 digit student id or updated password (if changed)
+package src;
+
 
 import java.sql.*;
 
