@@ -18,6 +18,7 @@ public class Customer {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
 		    ResultSet rs = null;
+		    stmt.executeUpdate("INSERT INTO CUSTOMER VALUES ('"+id+"','"+name+"','"+dob+"','"+phoneNumber+"','"+email+"','"+ssn+"','"+address+"','"+hasHotelCard);
 			// query
 		} catch (Exception e) {
 			System.out.println(e);
