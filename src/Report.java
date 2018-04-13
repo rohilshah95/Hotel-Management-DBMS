@@ -1,5 +1,9 @@
 package src;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 public class Report {
 	/*
 	 * hotel occupancy
@@ -11,30 +15,79 @@ public class Report {
 	 * revenue report
 	 */
 	void hotelOccupancy() {
-		// Query
+		try {
+			Connection conn = DBConnection.getConnection();
+		    Statement stmt = conn.createStatement();
+		    ResultSet rs = null;
+			// query
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 	
 	void roomOccupancy() {
-		// Query		
+		try {
+			Connection conn = DBConnection.getConnection();
+		    Statement stmt = conn.createStatement();
+		    ResultSet rs = null;
+			// query
+		} catch (Exception e) {
+			System.out.println(e);
+		}		
 	}
 	
 	void dateRangeOccupancy(String dateStart, String dateEnd) {
-		// Query
+		try {
+			Connection conn = DBConnection.getConnection();
+		    Statement stmt = conn.createStatement();
+		    ResultSet rs = null;
+			// query
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 	
 	void cityOccupancy() {
-		// Query
+		try {
+			Connection conn = DBConnection.getConnection();
+		    Statement stmt = conn.createStatement();
+		    ResultSet rs = null;
+			// query
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 	
 	void groupStaffByRole() {
-		// Query
+		try {
+			Connection conn = DBConnection.getConnection();
+		    Statement stmt = conn.createStatement();
+		    ResultSet rs = null;
+			// query
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 	
 	void staffServingCustomer() {
-		// Query
+		try {
+			Connection conn = DBConnection.getConnection();
+		    Statement stmt = conn.createStatement();
+		    ResultSet rs = null;
+			// query
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 	
 	void revenueReport() {
-		// Query
+		try {
+			Connection conn = DBConnection.getConnection();
+		    Statement stmt = conn.createStatement();
+		    ResultSet rs = null;
+			// query
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 }
