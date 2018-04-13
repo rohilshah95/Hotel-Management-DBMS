@@ -1,10 +1,8 @@
 package src;
 
 import java.sql.*;
+
 public class Customer {
-	Connection conn = DBConnection.getConnection();
-    Statement stmt = null;
-    ResultSet rs = null;
 	// int id;
 	// String name;
 	// String dob;
@@ -17,7 +15,9 @@ public class Customer {
 	public void createCustomer(String id, String name, String dob, String phoneNumber, String email, String ssn,
 			String address, String hasHotelCard) {
 		try {
-			
+			Connection conn = DBConnection.getConnection();
+		    Statement stmt = conn.createStatement();
+		    ResultSet rs = null;
 			// query
 		} catch (Exception e) {
 			System.out.println(e);
