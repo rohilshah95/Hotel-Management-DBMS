@@ -1,5 +1,7 @@
 package src;
 
+import java.sql.*;
+
 public class Customer {
 	// int id;
 	// String name;
@@ -10,34 +12,46 @@ public class Customer {
 	// String address;
 	// byte hasHotelCard;
 
-	void createCustomer(String id, String name, String dob, String phoneNumber, String email, String ssn,
+	public void createCustomer(String id, String name, String dob, String phoneNumber, String email, String ssn,
 			String address, String hasHotelCard) {
 		try {
+			Connection conn = DBConnection.getConnection();
+		    Statement stmt = conn.createStatement();
+		    ResultSet rs = null;
 			// query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
 
-	void updateCustomer(String id, String name, String dob, String phoneNumber, String email, String ssn,
+	public void updateCustomer(String id, String name, String dob, String phoneNumber, String email, String ssn,
 			String address, String hasHotelCard) {
 		try {
+			Connection conn = DBConnection.getConnection();
+		    Statement stmt = conn.createStatement();
+		    ResultSet rs = null;
 			// query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
 
-	void deleteCustomer(String id) {
+	public void deleteCustomer(String id) {
 		try {
+			Connection conn = DBConnection.getConnection();
+		    Statement stmt = conn.createStatement();
+		    ResultSet rs = null;
 			// query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
 
-	void assignRoom(int customerId, int hotelId, int roomId) {
+	public void assignRoom(int customerId, int hotelId, int roomId) {
 		try {
+			Connection conn = DBConnection.getConnection();
+		    Statement stmt = conn.createStatement();
+		    ResultSet rs = null;
 			// query
 		} catch (Exception e) {
 			System.out.println(e);
