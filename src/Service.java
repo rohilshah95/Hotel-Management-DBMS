@@ -1,4 +1,6 @@
-public static class Service
+package src;
+
+public class Service
 {
   private void createService(String name, String cost)
   {
