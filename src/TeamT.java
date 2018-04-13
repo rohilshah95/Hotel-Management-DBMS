@@ -9,18 +9,19 @@ public class TeamT {
 	public static void main(String[] args) {
 		DBConnection.initialize();
 		while (true) {
+			int user = Login.getUser();
 			switch (selectOption()) {
 			case 1:
-				informationProcessing();
+				informationProcessing(user);
 				break;
 			case 2:
-				serviceRecords();
+				serviceRecords(user);
 				break;
 			case 3:
-				billingAccounts();
+				billingAccounts(user);
 				break;
 			case 4:
-				reports();
+				reports(user);
 				break;
 			case 5:
 				System.out.println("Exiting!");
@@ -55,23 +56,23 @@ public class TeamT {
 //		}
 	}
 	
-	public static void reports() {
+	public static void reports(int user) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public static void billingAccounts() {
+	public static void billingAccounts(int user) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public static void serviceRecords() {
+	public static void serviceRecords(int user) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public static void informationProcessing() {
-		// TODO Auto-generated method stub
+	public static void informationProcessing(int user) {
+		
 		
 	}
 
