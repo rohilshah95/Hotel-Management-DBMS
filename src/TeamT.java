@@ -31,25 +31,25 @@ public class TeamT {
 				System.out.println("\n ENTER CORRE" + "CT CHOICE! \n");
 			}
 		}
-	
+	}
+
 	public static void reports(int user) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public static void billingAccounts(int user) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public static void serviceRecords(int user) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public static void informationProcessing(int user) {
-		
-		
+
 	}
 
 	public static int selectOption() {
@@ -57,8 +57,8 @@ public class TeamT {
 		System.out.println("\n\n******************************************************************\n\n");
 		// Enter user choice
 		System.out.println("Which user would you like to login as?");
-		System.out.println("1. Information Processing \n" + "2. Maintaining Service Records \n" + "3. Maintaining Billing Accounts \n" + "4. Reports \n"
-						+ "5. Exit");
+		System.out.println("1. Information Processing \n" + "2. Maintaining Service Records \n"
+				+ "3. Maintaining Billing Accounts \n" + "4. Reports \n" + "5. Exit");
 		System.out.println("Enter the number of your choice:");
 		user = Integer.parseInt(readInput());
 		return user;
