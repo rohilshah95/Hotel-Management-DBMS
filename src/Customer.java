@@ -66,7 +66,6 @@ public class Customer {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
 		    ResultSet rs = null;
-		    
 		    PreparedStatement pstmt = conn.prepareStatement("DELETE FROM CUSTOMER WHERE ID=?");
 		    pstmt.setInt(1, id);
 		    pstmt.executeUpdate();
