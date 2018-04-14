@@ -17,7 +17,7 @@ public class TeamT {
 //		Customer.createCustomer(1008, "David", "1980-01-30", "123", "david@gmail.com", "593-9846", "980 TRT St, Raleigh NC", (byte)0);
 		while (true) {
 			int user = Login.getUser();
-			String hotelID = Login.getHotelID();
+			int hotelID = Login.getHotelID();
 			switch (selectOption()) {
 			case 1:
 				informationProcessing(user, hotelID);
@@ -56,7 +56,7 @@ public class TeamT {
 
 	}
 
-	public static void informationProcessing(int user, String hotelID) {
+	public static void informationProcessing(int user, int hotelID) {
 		while (true) {
 			System.out.println(
 					"Make changes into:\n1. Customer\n2. Staff\n3. Room\n4. Hotel\n5. Service\n6. Bill\n7. Logout\n");
@@ -169,9 +169,35 @@ public class TeamT {
 					Room.createRoom(Integer.parseInt(send.get(0)), Integer.parseInt(send.get(1)), send.get(2), Integer.parseInt(send.get(3)),
 							Integer.parseInt(send.get(4)), Integer.parseInt(send.get(5)));
 				} else if (op == 2) { // Read
-					
+					System.out.println("1. All rooms\n2. By Room Number");
+					int query = Integer.parseInt(readInput());
+					if (query == 2) {
+						System.out.println("Enter Room Number");
+						int id = Integer.parseInt(readInput());
+						ResultSet rs = Room.getRoom(hotelID, id);
+						outputResult(rs);
+					} else {
+						ResultSet rs = Room.getAllRooms(hotelID);
+						outputResult(rs);
+					}
 				} else if (op == 3) { // Update
-
+					System.out.println("Enter Room Number");
+					int id = Integer.parseInt(readInput());
+					ResultSet rs = Room.getRoom(hotelID, id);
+					List<String> check = new LinkedList<String>();
+					try {
+						while (rs.next()) {
+							for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+								check.add(rs.getString(i));
+							}
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+					String[] params = { "HotelID", "Number", "Category", "Rate", "Availability", "MaxOccupancy" };
+					List<String> send = update(params, check);
+					Room.updateRoom(Integer.parseInt(send.get(0)), Integer.parseInt(send.get(1)), send.get(2), Integer.parseInt(send.get(3)),
+							Integer.parseInt(send.get(4)), Integer.parseInt(send.get(5)));
 				} else if (op == 4) { // Delete
 					System.out.println("Enter Room Number");
 					int id = Integer.parseInt(readInput());
