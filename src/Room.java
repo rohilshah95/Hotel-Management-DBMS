@@ -155,7 +155,7 @@ public class Room {
 		return rs;
 	}
 	
-	public static ResultSet getAllRooms()
+	public static ResultSet getAllRoomsAllHotels()
 	{
 		ResultSet rs = null;
 		try {
@@ -163,6 +163,24 @@ public class Room {
 		    Statement stmt = conn.createStatement();
 	
 		    rs= stmt.executeQuery("SELECT * from ROOM");
+			// query
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return rs;
+	}
+	
+	public static ResultSet getAllRooms(int hotelId)
+	{
+		ResultSet rs = null;
+		try {
+			Connection conn = DBConnection.getConnection();
+		    Statement stmt = conn.createStatement();
+	
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT * from ROOM WHERE number=? AND hotelid=?");
+		    pstmt.setInt(1, hotelId);
+		    rs= pstmt.executeQuery();
+		    
 			// query
 		} catch (Exception e) {
 			System.out.println(e);
