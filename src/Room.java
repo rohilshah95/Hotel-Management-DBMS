@@ -156,4 +156,37 @@ public class Room {
 		// To create an entry in the provides table, here we have a common serviceId for the service to provide to presidential suite. 
 	}
 	
+	public static ResultSet getRoom(int number, int hotelId)
+	{
+		ResultSet rs = null;
+		try {
+			Connection conn = DBConnection.getConnection();
+		    Statement stmt = conn.createStatement();
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT * from ROOM WHERE number=? AND hotelid=?");
+		    pstmt.setInt(1, number);
+		    pstmt.setInt(2, hotelId);
+		    rs= pstmt.executeQuery();
+
+		    // query
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return rs;
+	}
+	
+	public static ResultSet getAllRooms()
+	{
+		ResultSet rs = null;
+		try {
+			Connection conn = DBConnection.getConnection();
+		    Statement stmt = conn.createStatement();
+	
+		    rs= stmt.executeQuery("SELECT * from ROOM");
+			// query
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return rs;
+	}
+	
 }
