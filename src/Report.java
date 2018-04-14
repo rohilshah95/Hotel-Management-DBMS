@@ -15,83 +15,96 @@ public class Report {
 	 * staff servicing customer
 	 * revenue report
 	 */
-	void hotelOccupancy() {
+	static ResultSet hotelOccupancy() {
+		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
-		    ResultSet rs = stmt.executeQuery("SELECT HotelID, COUNT(*) FROM ROOM WHERE Availability=0 GROUP BY HotelID");
-		    TeamT.outputResult(rs);
+		    rs = stmt.executeQuery("SELECT HotelID, COUNT(*) FROM ROOM WHERE Availability=0 GROUP BY HotelID");
 			// query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		return rs;
 	}
 	
-	void roomOccupancy() {
+	static ResultSet roomOccupancy() {
+		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
-		    ResultSet rs = stmt.executeQuery("SELECT HotelID, COUNT(*) FROM ROOM WHERE Availability=0 GROUP BY Category");
-		    TeamT.outputResult(rs);
-			// query
+		    rs = stmt.executeQuery("SELECT HotelID, COUNT(*) FROM ROOM WHERE Availability=0 GROUP BY Category");
 		} catch (Exception e) {
 			System.out.println(e);
-		}		
+		}
+		return rs;
 	}
 	
-	void dateRangeOccupancy(String dateStart, String dateEnd) {
+	static ResultSet dateRangeOccupancy(String dateStart, String dateEnd) {
+		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
 		    PreparedStatement pstmt = conn.prepareStatement("SELECT HotelID, COUNT(*) FROM CHECKIN WHERE (CheckInTime >= ? OR CheckOutTime <= ?) AND NOT (CheckInTime >= ? OR CheckOutTime <= ?) GROUP BY HotelID;");
-		    ResultSet rs = pstmt.executeQuery();
-		    TeamT.outputResult(rs);
-			// query
+		    pstmt.setString(1, dateStart);
+		    pstmt.setString(2, dateEnd);
+		    pstmt.setString(3, dateStart);
+		    pstmt.setString(4, dateEnd);
+		    rs = pstmt.executeQuery();
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		return rs;
 	}
 	
-	void cityOccupancy() {
+	static ResultSet cityOccupancy() {
+		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
-		    ResultSet rs = null;
-			// query
+		    rs = stmt.executeQuery("SELECT HotelID, COUNT(*), Address FROM ROOM JOIN HOTEL Where Availability=0 GROUP BY Address");
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		return rs;
 	}
 	
-	void groupStaffByRole() {
+	static ResultSet groupStaffByRole() {
+		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
-		    ResultSet rs = null;
-			// query
+		    rs = stmt.executeQuery("SELECT * FROM STAFF GROUP BY Title");
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		return rs;
 	}
 	
-	void staffServingCustomer() {
+	static ResultSet staffServingCustomer(int customerId) {
+		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
-		    Statement stmt = conn.createStatement();
-		    ResultSet rs = null;
-			// query
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT STAFF.ID, STAFF.Name, Timestamp FROM STAFF JOIN PROVIDES ON STAFF.ID=PROVIDES.staffID WHERE ID IN (SELECT DISTINCT StaffID FROM PROVIDES JOIN CHECKIN WHERE CustomerID = ?)");
+		    pstmt.setInt(1, customerId);
+		    rs = pstmt.executeQuery();
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		return rs;
 	}
 	
-	void revenueReport() {
+	static ResultSet revenueReport(int hotelId, String checkInTime, String checkOutTime) {
+		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
-		    Statement stmt = conn.createStatement();
-		    ResultSet rs = null;
-			// query
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT SUM(BILL.Amount) FROM BILL JOIN CHECKIN WHERE (CHECKIN.CheckOutTime >= ? AND CHECKIN.CheckOutTime <= ? AND CHECKIN.HotelID=?)");
+		    pstmt.setString(1, checkInTime);
+		    pstmt.setString(2, checkOutTime);
+		    pstmt.setInt(3, hotelId);
+		    rs = pstmt.executeQuery();
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		return rs;
 	}
 }
