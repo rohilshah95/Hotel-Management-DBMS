@@ -8,6 +8,7 @@ public class TeamT {
 
 	public static void main(String[] args) {
 		DBConnection.initialize();
+//		Customer.createCustomer(1008, "David", "1980-01-30", "123", "david@gmail.com", "593-9846", "980 TRT St, Raleigh NC", (byte)0);
 		while (true) {
 			int user = Login.getUser();
 			switch (selectOption()) {
@@ -142,7 +143,7 @@ public class TeamT {
 		}
 	}
 
-	private static int crud() {
+	private static void crud() {
 		System.out.println("Enter operation:\n1. Create\n2. Read\n3. Update\n4. Delete\n");
 		return;
 	}
