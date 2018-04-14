@@ -22,10 +22,10 @@ public class Login {
 		return user;
 	}
 
-	public static String getHotelID() {
+	public static int getHotelID() {
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Enter HotelID: ");
-		String hotelID = sc.nextLine();
+		int hotelID = sc.nextInt();
 		sc.close();
 		return hotelID;
 	}
