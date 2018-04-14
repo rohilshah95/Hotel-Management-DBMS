@@ -1,6 +1,7 @@
 package src;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -18,7 +19,8 @@ public class Report {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
-		    ResultSet rs = null;
+		    ResultSet rs = stmt.executeQuery("SELECT HotelID, COUNT(*) FROM ROOM WHERE Availability=0 GROUP BY HotelID");
+		    TeamT.outputResult(rs);
 			// query
 		} catch (Exception e) {
 			System.out.println(e);
@@ -29,7 +31,8 @@ public class Report {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
-		    ResultSet rs = null;
+		    ResultSet rs = stmt.executeQuery("SELECT HotelID, COUNT(*) FROM ROOM WHERE Availability=0 GROUP BY Category");
+		    TeamT.outputResult(rs);
 			// query
 		} catch (Exception e) {
 			System.out.println(e);
@@ -39,8 +42,9 @@ public class Report {
 	void dateRangeOccupancy(String dateStart, String dateEnd) {
 		try {
 			Connection conn = DBConnection.getConnection();
-		    Statement stmt = conn.createStatement();
-		    ResultSet rs = null;
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT HotelID, COUNT(*) FROM CHECKIN WHERE (CheckInTime >= ? OR CheckOutTime <= ?) AND NOT (CheckInTime >= ? OR CheckOutTime <= ?) GROUP BY HotelID;");
+		    ResultSet rs = pstmt.executeQuery();
+		    TeamT.outputResult(rs);
 			// query
 		} catch (Exception e) {
 			System.out.println(e);
