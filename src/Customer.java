@@ -53,22 +53,23 @@ public class Customer {
 		    pstmt.setByte(7, hasHotelCard);
 		    pstmt.setInt(8, id);
 		    pstmt.executeUpdate();
-		    
-		    
-//		    stmt.executeUpdate("UPDATE CUSTOMER SET Name='"+name+"', dob='"+dob+"', phone='"+phoneNumber+"', email='"+email+"', ssn='"+ssn+"', address='"+address+"', hashotelcard="+hasHotelCard +"WHERE ID="+id+")");
-		    
+		    		    
 		    // query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
 
-	public static void deleteCustomer(String id) {
+	public static void deleteCustomer(int id) {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
 		    ResultSet rs = null;
-		    stmt.executeUpdate("DELETE FROM CUSTOMER WHERE id='"+id);
+		    
+		    PreparedStatement pstmt = conn.prepareStatement("DELETE FROM CUSTOMER WHERE ID=?");
+		    pstmt.setInt(1, id);
+		    pstmt.executeUpdate();
+		    
 			// query
 		} catch (Exception e) {
 			System.out.println(e);
@@ -89,6 +90,7 @@ public class Customer {
 		    
 		    PreparedStatement pstmt1= conn.prepareStatement("INSERT INTO BILL (ID, AMOUNT, MODEOFPAYMENT, DISCOUNT) VALUES (?, 0, NULL, 0)");
 		    pstmt1.setInt(1, billId);
+		    pstmt1.executeUpdate();
 		    
 		    DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
 		    DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
@@ -100,7 +102,8 @@ public class Customer {
 		    pstmt2.setInt(4,  billId);
 		    pstmt2.setString(5, dateFormat.format(date));
 		    pstmt2.setString(6, timeFormat.format(date));
-		    pstmt.setInt(7,  noOfGuests);
+		    pstmt2.setInt(7,  noOfGuests);
+		    pstmt2.executeUpdate();
 		    		    
 			// query
 		} catch (Exception e) {
@@ -108,15 +111,17 @@ public class Customer {
 		}
 	}
 	
-	public static ResultSet getCustomer(String id)
+	public static ResultSet getCustomer(int id)
 	{
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
-	
-		    rs= stmt.executeQuery("SELECT * from CUSTOMER WHERE id="+id+")");
-			// query
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT * from CUSTOMER WHERE ID=?");
+		    pstmt.setInt(1, id);
+		    rs= pstmt.executeQuery();
+
+		    // query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
