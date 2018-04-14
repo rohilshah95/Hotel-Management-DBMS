@@ -21,7 +21,7 @@ public class Hotel {
 		}
 	}
 
-	void editHotel(String id,String name, String address, String phoneNumber, String managerId) {
+	void editHotel(int id,String name, String address, String city, String phoneNumber, int managerId) {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
@@ -32,7 +32,7 @@ public class Hotel {
 		}
 	}
 
-	void deleteHotel(String id) {
+	void deleteHotel(int id) {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
