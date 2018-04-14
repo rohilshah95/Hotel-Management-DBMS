@@ -2,6 +2,8 @@ package src;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class Staff {
 
@@ -54,5 +56,37 @@ public class Staff {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+	}
+	
+	public static ResultSet getStaff(int id)
+	{
+		ResultSet rs = null;
+		try {
+			Connection conn = DBConnection.getConnection();
+		    Statement stmt = conn.createStatement();
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT * from STAFF WHERE ID=?");
+		    pstmt.setInt(1, id);
+		    rs= pstmt.executeQuery();
+
+		    // query
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return rs;
+	}
+	
+	public static ResultSet getAllStaff()
+	{
+		ResultSet rs = null;
+		try {
+			Connection conn = DBConnection.getConnection();
+		    Statement stmt = conn.createStatement();
+	
+		    rs= stmt.executeQuery("SELECT * from STAFF");
+			// query
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return rs;
 	}
 }
