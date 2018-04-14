@@ -49,11 +49,11 @@ public class Room {
 	
 	
 	
-	static void deleteRoom(String hotelID, int number) {
+	static void deleteRoom(int hotelID, int number) {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    PreparedStatement pstmt = conn.prepareStatement("DELETE FROM ROOM WHERE hotelId=? AND number=?");
-		    pstmt.setString(1, hotelID);
+		    pstmt.setInt(1, hotelID);
 		    pstmt.setInt(2, number);
 		    pstmt.executeUpdate();
 			// query
