@@ -1,5 +1,7 @@
 package src;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 public class TeamT {
@@ -60,7 +62,9 @@ public class TeamT {
 				crud();
 				op = Integer.parseInt(readInput());
 				if(op == 1){ //Create
-					
+					String [] params = {"ID", "Name", "DOB", "Phone Number", "Email","SSN", "Address", "Has Hotel Card?"};
+					List<String> send = create(params);
+					Customer.createCustomer(Integer.parseInt(send.get(0)),send.get(1), send.get(2), send.get(3), send.get(4), send.get(5), send.get(6),Byte.valueOf(send.get(7)));
 				}else if(op == 2){ //Read
 					
 				}else if(op == 3){ //Update
@@ -73,7 +77,9 @@ public class TeamT {
 				crud();
 				op = Integer.parseInt(readInput());
 				if(op == 1){ //Create
-					
+					String [] params = {"ID", "Name", "DOB", "Phone Number", "Email","SSN", "Address", "Has Hotel Card?"};
+					List<String> send = create(params);
+					Customer.createCustomer(Integer.parseInt(send.get(0)),send.get(1), send.get(2), send.get(3), send.get(4), send.get(5), send.get(6),Byte.valueOf(send.get(7)));
 				}else if(op == 2){ //Read
 					
 				}else if(op == 3){ //Update
@@ -86,7 +92,9 @@ public class TeamT {
 				crud();
 				op = Integer.parseInt(readInput());
 				if(op == 1){ //Create
-					
+					String [] params = {"ID", "Name", "DOB", "Phone Number", "Email","SSN", "Address", "Has Hotel Card?"};
+					List<String> send = create(params);
+					Customer.createCustomer(Integer.parseInt(send.get(0)),send.get(1), send.get(2), send.get(3), send.get(4), send.get(5), send.get(6),Byte.valueOf(send.get(7)));
 				}else if(op == 2){ //Read
 					
 				}else if(op == 3){ //Update
@@ -99,7 +107,9 @@ public class TeamT {
 				crud();
 				op = Integer.parseInt(readInput());
 				if(op == 1){ //Create
-					
+					String [] params = {"ID", "Name", "DOB", "Phone Number", "Email","SSN", "Address", "Has Hotel Card?"};
+					List<String> send = create(params);
+					Customer.createCustomer(Integer.parseInt(send.get(0)),send.get(1), send.get(2), send.get(3), send.get(4), send.get(5), send.get(6),Byte.valueOf(send.get(7)));
 				}else if(op == 2){ //Read
 					
 				}else if(op == 3){ //Update
@@ -112,7 +122,9 @@ public class TeamT {
 				crud();
 				op = Integer.parseInt(readInput());
 				if(op == 1){ //Create
-					
+					String [] params = {"ID", "Name", "DOB", "Phone Number", "Email","SSN", "Address", "Has Hotel Card?"};
+					List<String> send = create(params);
+					Customer.createCustomer(Integer.parseInt(send.get(0)),send.get(1), send.get(2), send.get(3), send.get(4), send.get(5), send.get(6),Byte.valueOf(send.get(7)));
 				}else if(op == 2){ //Read
 					
 				}else if(op == 3){ //Update
@@ -125,7 +137,9 @@ public class TeamT {
 				crud();
 				op = Integer.parseInt(readInput());
 				if(op == 1){ //Create
-					
+					String [] params = {"ID", "Name", "DOB", "Phone Number", "Email","SSN", "Address", "Has Hotel Card?"};
+					List<String> send = create(params);
+					Customer.createCustomer(Integer.parseInt(send.get(0)),send.get(1), send.get(2), send.get(3), send.get(4), send.get(5), send.get(6),Byte.valueOf(send.get(7)));
 				}else if(op == 2){ //Read
 					
 				}else if(op == 3){ //Update
@@ -141,6 +155,17 @@ public class TeamT {
 				System.out.println("\n ENTER CORRECT CHOICE! \n");
 			}
 		}
+	}
+
+	private static List<String> create(String[] params) {
+		System.out.println("Enter the following details:");
+		List<String> send = new LinkedList<String>();
+		for(String i : params){
+			System.out.print(i+": ");
+			String str = readInput();
+			send.add(str);
+		}
+		return send;
 	}
 
 	private static void crud() {
