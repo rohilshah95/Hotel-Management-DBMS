@@ -29,27 +29,31 @@ public class Customer {
 		    pstmt.executeUpdate();
 		    
 		    ResultSet rs = null;
-//		    stmt.executeUpdate("INSERT INTO CUSTOMER VALUES ('"+id+
-//		    		"','"+name+
-//		    		"','"+dob+
-//		    		"','"+phoneNumber+
-//		    		"','"+email+
-//		    		"','"+ssn+
-//		    		"','"+address+
-//		    		"',"+hasHotelCard+")");
 //			// query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
 
-	public static void updateCustomer(String id, String name, String dob, String phoneNumber, String email, String ssn,
-			String address, String hasHotelCard) {
+	public static void updateCustomer(int id, String name, String dob, String phoneNumber, String email, String ssn,
+			String address, Byte hasHotelCard) {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
 		    ResultSet rs = null;
-		    stmt.executeUpdate("UPDATE CUSTOMER SET Name='"+name+"', dob='"+dob+"', phone='"+phoneNumber+"', email='"+email+"', ssn='"+ssn+"', address='"+address+"', hashotelcard="+hasHotelCard +"WHERE ID="+id+")");
+		    PreparedStatement pstmt = conn.prepareStatement("UPDATE CUSTOMER SET Name=?, dob=?, phone=?, email=?, ssn=?, address=?, hashotelcard=? WHERE id=?");
+		    pstmt.setString(1, name);
+		    pstmt.setString(2, dob);
+		    pstmt.setString(3, phoneNumber);
+		    pstmt.setString(4, email);
+		    pstmt.setString(5, ssn);
+		    pstmt.setString(6, address);
+		    pstmt.setByte(7, hasHotelCard);
+		    pstmt.setInt(8, id);
+		    pstmt.executeUpdate();
+		    
+		    
+//		    stmt.executeUpdate("UPDATE CUSTOMER SET Name='"+name+"', dob='"+dob+"', phone='"+phoneNumber+"', email='"+email+"', ssn='"+ssn+"', address='"+address+"', hashotelcard="+hasHotelCard +"WHERE ID="+id+")");
 		    
 		    // query
 		} catch (Exception e) {
