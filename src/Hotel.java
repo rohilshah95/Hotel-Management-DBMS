@@ -1,7 +1,6 @@
 package src;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class Hotel {
@@ -13,7 +12,6 @@ public class Hotel {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
-		    ResultSet rs = null;
 		    stmt.executeUpdate("CREATE TABLE HOTEL (ID INT PRIMARY KEY,NAME VARCHAR(32) NOT NULL,ADDRESS VARCHAR(64) NOT NULL,PHONE VARCHAR(32) NOT NULL,MANAGERID INT,FOREIGN KEY(MANAGERID) REFERENCES STAFF(ID));");
 			// query
 		} catch (Exception e) {
@@ -25,7 +23,6 @@ public class Hotel {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
-		    ResultSet rs = null;
 		    stmt.executeUpdate("UPDATE HOTEL SET Name = '"+name+"', phone='"+phoneNumber+"', address='"+address+"', managerid="+managerId+" WHERE ID= "+id);
 		} catch (Exception e) {
 			System.out.println(e);
@@ -36,7 +33,6 @@ public class Hotel {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
-		    ResultSet rs = null;
 		    stmt.executeUpdate("DELETE FROM HOTEL WHERE ID="+id);
 			// query
 		} catch (Exception e) {

@@ -129,7 +129,7 @@ public class TeamT {
 						ResultSet rs = Staff.getStaff(id);
 						outputResult(rs);
 					} else {
-						ResultSet rs = Staff.getAllStaff();
+						ResultSet rs = Staff.getAllStaff(hotelID);
 						outputResult(rs);
 					}
 				} else if (op == 3) { // Update
@@ -211,20 +211,19 @@ public class TeamT {
 				crud();
 				op = Integer.parseInt(readInput());
 				if (op == 1) { // Create
-					String[] params = { "ID", "Name", "DOB", "Phone Number", "Email", "SSN", "Address",
-							"Has Hotel Card?" };
+					String[] params = { "ID", "Name", "Address", "City", "Phone Number" , "ManagerID"};
 					List<String> send = create(params);
-					Customer.createCustomer(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3),
-							send.get(4), send.get(5), send.get(6), Byte.valueOf(send.get(7)));
+					Hotel.createHotel(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3), send.get(4),
+							Integer.parseInt(send.get(5)));
 				} else if (op == 2) { // Read
 
 				} else if (op == 3) { // Update
 
 				} else if (op == 4) { // Delete
-					System.out.println("Enter Customer ID");
+					System.out.println("Enter Hotel ID");
 					int id = Integer.parseInt(readInput());
-					Customer.deleteCustomer(id);
-					System.out.println("Customer with ID " + id + " deleted");
+					Hotel.deleteHotel(id);
+					System.out.println("Hotel with ID " + id + " deleted");
 				} else {
 
 				}
