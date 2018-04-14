@@ -5,18 +5,18 @@ import java.sql.*;
 public class DBDemo {
 	static final String jdbcURL = "jdbc:mariadb://classdb2.csc.ncsu.edu:3306/rshah8";
 
-	public static void main(String[] args) {
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			String user = "rshah8";
-			String passwd = "200204305";
-			Connection conn = null;
-			Statement stmt = null;
-			ResultSet rs = null;
+	public static void initializeDB() {
+//		try {
+//			Class.forName("org.mariadb.jdbc.Driver");
+//			String user = "rshah8";
+//			String passwd = "200204305";
+//			Connection conn = null;
+//			Statement stmt = null;
+//			ResultSet rs = null;
 			try {
-				conn = DriverManager.getConnection(jdbcURL, user, passwd);
-				stmt = conn.createStatement();
-
+				Connection conn = DBConnection.getConnection();
+			    Statement stmt = conn.createStatement();
+			 
 				// Drop Tables
 				stmt.executeUpdate("DROP TRIGGER IF EXISTS addpresidential");
 				stmt.executeUpdate("Drop TABLE IF EXISTS PRESIDENTIAL");
@@ -58,7 +58,7 @@ public class DBDemo {
 
 				//create trigger for presidential suite
 				
-				stmt.executeUpdate("CREATE TRIGGER addpresidential AFTER INSERT ON ROOM REFERENCING NEW ROW AS newRoom FOR EACH ROW WHEN(newRoom.category='Presidential') INSERT INTO PROVIDES (number, HotelID) VALUES (newRoom.number, newRoom.hotelId)");
+				stmt.executeUpdate("CREATE TRIGGER add presidential AFTER INSERT ON ROOM REFERENCING NEW ROW AS newRoom FOR EACH ROW WHEN(newRoom.category='Presidential') INSERT INTO PRESIDENTIAL (number, HotelID) VALUES (newRoom.number, newRoom.hotelId)");
 				
 				
 				
@@ -147,40 +147,9 @@ public class DBDemo {
 						"INSERT INTO CHECKIN VALUES (1004, 0003, 02, 4, '2018-05-10', '14:30:00', '2018-05-12', '10:00:00' ,2)");
 
 				stmt.executeUpdate("INSERT INTO PRESIDENTIAL VALUES (01, 0004)");
-			} finally {
-				close(rs);
-				close(stmt);
-				close(conn);
-			}
-		} catch (Throwable oops) {
-			oops.printStackTrace();
+		} catch (Exception e) {
+			System.out.println(e);
 		}
 	}
 
-	static void close(Connection conn) {
-		if (conn != null) {
-			try {
-				conn.close();
-			} catch (Throwable whatever) {
-			}
-		}
-	}
-
-	static void close(Statement st) {
-		if (st != null) {
-			try {
-				st.close();
-			} catch (Throwable whatever) {
-			}
-		}
-	}
-
-	static void close(ResultSet rs) {
-		if (rs != null) {
-			try {
-				rs.close();
-			} catch (Throwable whatever) {
-			}
-		}
-	}
 }
