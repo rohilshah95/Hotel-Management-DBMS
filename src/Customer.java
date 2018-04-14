@@ -5,6 +5,7 @@ import java.text.*;
 import java.util.Date;
 
 public class Customer {
+	static int billId = 4; // because demo data already has 4 entries
 	// int id;
 	// String name;
 	// String dob;
@@ -77,7 +78,7 @@ public class Customer {
 	}
 
 	//billid global variable 
-	public static void assignRoom(int customerId, int hotelId, int roomId, int billId, int noOfGuests) {
+	public static void assignRoom(int customerId, int hotelId, int roomId, int noOfGuests) {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
@@ -91,18 +92,19 @@ public class Customer {
 		    PreparedStatement pstmt1= conn.prepareStatement("INSERT INTO BILL (ID, AMOUNT, MODEOFPAYMENT, DISCOUNT) VALUES (?, 0, NULL, 0)");
 		    pstmt1.setInt(1, billId);
 		    pstmt1.executeUpdate();
+		    billId++;
 		    
-		    DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
-		    DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+//		    DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+//		    DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 		    Date date = new Date();
-		    PreparedStatement pstmt2= conn.prepareStatement("INSERT INTO CHECKIN (CUSTOMERID, HOTELID, NUMBER, BILLID, CHECKINDATE, CHECKINTIME, CHECKOUTDATE, CHECKOUTTIME, GUESTS) VALUES (?, ?, ?, ?, ?, ?, null, null, ?)");
+		    PreparedStatement pstmt2= conn.prepareStatement("INSERT INTO CHECKIN (CUSTOMERID, HOTELID, NUMBER, BILLID, CHECKINDATE, CHECKINTIME, CHECKOUTDATE, CHECKOUTTIME, GUESTS) VALUES (?, ?, ?, ?, CURDATE(), CURTIME(), null, null, ?)");
 		    pstmt2.setInt(1,  customerId);
 		    pstmt2.setInt(2,  hotelId);
 		    pstmt2.setInt(3,  roomId);
 		    pstmt2.setInt(4,  billId);
-		    pstmt2.setString(5, dateFormat.format(date));
-		    pstmt2.setString(6, timeFormat.format(date));
-		    pstmt2.setInt(7,  noOfGuests);
+//		    pstmt2.setString(5, dateFormat.format(date));
+//		    pstmt2.setString(6, timeFormat.format(date));
+		    pstmt2.setInt(5,  noOfGuests);
 		    pstmt2.executeUpdate();
 		    		    
 			// query
