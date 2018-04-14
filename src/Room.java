@@ -137,12 +137,11 @@ public class Room {
 		// To create an entry in the provides table, here we have a common serviceId for the service to provide to presidential suite. 
 	}
 	
-	public static ResultSet getRoom(int number, int hotelId)
+	public static ResultSet getRoom(int hotelId, int number)
 	{
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
-		    Statement stmt = conn.createStatement();
 		    PreparedStatement pstmt = conn.prepareStatement("SELECT * from ROOM WHERE number=? AND hotelid=?");
 		    pstmt.setInt(1, number);
 		    pstmt.setInt(2, hotelId);
