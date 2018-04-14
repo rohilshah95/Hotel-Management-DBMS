@@ -1,6 +1,8 @@
 package src;
 
 import java.sql.*;
+import java.text.*;
+import java.util.Date;
 
 public class Customer {
 	// int id;
@@ -74,16 +76,32 @@ public class Customer {
 	}
 
 	//billid global variable 
-	public static void assignRoom(String customerId, String hotelId, String roomId, String billID) {
+	public static void assignRoom(int customerId, int hotelId, int roomId, int billId, int noOfGuests) {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
 		    ResultSet rs = null;
 		    
-		    stmt.executeUpdate("ASSIGN");
-		    stmt.executeUpdate("INSERT INTO BILL(ID, Amount, ModeOfPayment, Discount) VALUES ("+billID+","+"0, null, 0");
-		    stmt.executeUpdate("CHECKIN"+roomId);
+		    PreparedStatement pstmt= conn.prepareStatement("UPDATE ROOM SET Availability=0 WHERE number=? and hotelid=? ");
+		    pstmt.setInt(1, roomId);
+		    pstmt.setInt(2, hotelId);
+		    pstmt.executeUpdate();
 		    
+		    PreparedStatement pstmt1= conn.prepareStatement("INSERT INTO BILL (ID, AMOUNT, MODEOFPAYMENT, DISCOUNT) VALUES (?, 0, NULL, 0)");
+		    pstmt1.setInt(1, billId);
+		    
+		    DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+		    DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+		    Date date = new Date();
+		    PreparedStatement pstmt2= conn.prepareStatement("INSERT INTO CHECKIN (CUSTOMERID, HOTELID, NUMBER, BILLID, CHECKINDATE, CHECKINTIME, CHECKOUTDATE, CHECKOUTTIME, GUESTS) VALUES (?, ?, ?, ?, ?, ?, null, null, ?)");
+		    pstmt2.setInt(1,  customerId);
+		    pstmt2.setInt(2,  hotelId);
+		    pstmt2.setInt(3,  roomId);
+		    pstmt2.setInt(4,  billId);
+		    pstmt2.setString(5, dateFormat.format(date));
+		    pstmt2.setString(6, timeFormat.format(date));
+		    pstmt.setInt(7,  noOfGuests);
+		    		    
 			// query
 		} catch (Exception e) {
 			System.out.println(e);
@@ -98,6 +116,21 @@ public class Customer {
 		    Statement stmt = conn.createStatement();
 	
 		    rs= stmt.executeQuery("SELECT * from CUSTOMER WHERE id="+id+")");
+			// query
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return rs;
+	}
+	
+	public static ResultSet getAllCustomers()
+	{
+		ResultSet rs = null;
+		try {
+			Connection conn = DBConnection.getConnection();
+		    Statement stmt = conn.createStatement();
+	
+		    rs= stmt.executeQuery("SELECT * from CUSTOMER");
 			// query
 		} catch (Exception e) {
 			System.out.println(e);
