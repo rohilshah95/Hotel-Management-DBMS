@@ -23,7 +23,10 @@ public class Login {
 	}
 
 	public static String getHotelID() {
-		// TODO Auto-generated method stub
-		return null;
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Enter HotelID: ");
+		String hotelID = sc.nextLine();
+		sc.close();
+		return hotelID;
 	}
 }
