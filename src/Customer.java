@@ -12,20 +12,21 @@ public class Customer {
 	// String address;
 	// byte hasHotelCard;
 
-	public void createCustomer(String id, String name, String dob, String phoneNumber, String email, String ssn,
+	public static void createCustomer(String id, String name, String dob, String phoneNumber, String email, String ssn,
 			String address, String hasHotelCard) {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
 		    ResultSet rs = null;
-		    stmt.executeUpdate("INSERT INTO CUSTOMER VALUES ('"+id+"','"+name+"','"+dob+"','"+phoneNumber+"','"+email+"','"+ssn+"','"+address+"','"+hasHotelCard);
+		    stmt.executeUpdate("INSERT INTO CUSTOMER VALUES ('"+id+"','"+name+"','"+dob+"','"+phoneNumber+"','"+email+"','"+ssn+"','"+address+"',"+hasHotelCard+")");
+		    
 			// query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
 
-	public void updateCustomer(String id, String name, String dob, String phoneNumber, String email, String ssn,
+	public static void updateCustomer(String id, String name, String dob, String phoneNumber, String email, String ssn,
 			String address, String hasHotelCard) {
 		try {
 			Connection conn = DBConnection.getConnection();
@@ -37,7 +38,7 @@ public class Customer {
 		}
 	}
 
-	public void deleteCustomer(String id) {
+	public static void deleteCustomer(String id) {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
@@ -48,7 +49,7 @@ public class Customer {
 		}
 	}
 
-	public void assignRoom(int customerId, int hotelId, int roomId) {
+	public static void assignRoom(int customerId, int hotelId, int roomId) {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
