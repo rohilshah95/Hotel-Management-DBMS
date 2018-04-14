@@ -3,7 +3,6 @@ package src;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -133,6 +132,23 @@ public class TeamT {
 						outputResult(rs);
 					}
 				} else if (op == 3) { // Update
+					System.out.println("Enter Staff ID");
+					int id = Integer.parseInt(readInput());
+					ResultSet rs = Staff.getStaff(id);
+					List<String> check = new LinkedList<String>();
+					try {
+						while (rs.next()) {
+							for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+								check.add(rs.getString(i));
+							}
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+					String[] params = { "ID", "Name", "Title", "Department", "Address", "Phone", "Availability" };
+					List<String> send = update(params, check);
+					Staff.updateStaff(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3),
+							send.get(4), send.get(5), Byte.valueOf(send.get(6)));
 
 				} else if (op == 4) { // Delete
 					System.out.println("Enter Staff ID");
