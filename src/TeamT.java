@@ -3,7 +3,6 @@ package src;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -18,9 +17,10 @@ public class TeamT {
 //		Customer.createCustomer(1008, "David", "1980-01-30", "123", "david@gmail.com", "593-9846", "980 TRT St, Raleigh NC", (byte)0);
 		while (true) {
 			int user = Login.getUser();
+			String hotelID = Login.getHotelID();
 			switch (selectOption()) {
 			case 1:
-				informationProcessing(user);
+				informationProcessing(user, hotelID);
 				break;
 			case 2:
 				serviceRecords(user);
@@ -56,7 +56,7 @@ public class TeamT {
 
 	}
 
-	public static void informationProcessing(int user) {
+	public static void informationProcessing(int user, String hotelID) {
 		while (true) {
 			System.out.println(
 					"Make changes into:\n1. Customer\n2. Staff\n3. Room\n4. Hotel\n5. Service\n6. Bill\n7. Logout\n");
@@ -116,20 +116,46 @@ public class TeamT {
 				crud();
 				op = Integer.parseInt(readInput());
 				if (op == 1) { // Create
-					String[] params = { "ID", "Name", "DOB", "Phone Number", "Email", "SSN", "Address",
-							"Has Hotel Card?" };
+					String[] params = { "ID", "Name", "Title", "Department", "Address", "Phone", "Availability" };
 					List<String> send = create(params);
-					Customer.createCustomer(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3),
-							send.get(4), send.get(5), send.get(6), Byte.valueOf(send.get(7)));
+					Staff.createStaff(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3),
+							send.get(4), send.get(5), Byte.valueOf(send.get(6)));
 				} else if (op == 2) { // Read
-
+					System.out.println("1. All staff\n2. By staff ID");
+					int query = Integer.parseInt(readInput());
+					if (query == 2) {
+						System.out.println("Enter Staff ID");
+						int id = Integer.parseInt(readInput());
+						ResultSet rs = Staff.getStaff(id);
+						outputResult(rs);
+					} else {
+						ResultSet rs = Staff.getAllStaff();
+						outputResult(rs);
+					}
 				} else if (op == 3) { // Update
+					System.out.println("Enter Staff ID");
+					int id = Integer.parseInt(readInput());
+					ResultSet rs = Staff.getStaff(id);
+					List<String> check = new LinkedList<String>();
+					try {
+						while (rs.next()) {
+							for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+								check.add(rs.getString(i));
+							}
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+					String[] params = { "ID", "Name", "Title", "Department", "Address", "Phone", "Availability" };
+					List<String> send = update(params, check);
+					Staff.updateStaff(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3),
+							send.get(4), send.get(5), Byte.valueOf(send.get(6)));
 
 				} else if (op == 4) { // Delete
-					System.out.println("Enter Customer ID");
+					System.out.println("Enter Staff ID");
 					int id = Integer.parseInt(readInput());
-					Customer.deleteCustomer(id);
-					System.out.println("Customer with ID " + id + " deleted");
+					Staff.deleteStaff(id);
+					System.out.println("Staff with ID " + id + " deleted");
 				} else {
 
 				}
@@ -138,20 +164,19 @@ public class TeamT {
 				crud();
 				op = Integer.parseInt(readInput());
 				if (op == 1) { // Create
-					String[] params = { "ID", "Name", "DOB", "Phone Number", "Email", "SSN", "Address",
-							"Has Hotel Card?" };
+					String[] params = { "HotelID", "Number", "Category", "Rate", "Availability", "MaxOccupancy"};
 					List<String> send = create(params);
-					Customer.createCustomer(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3),
-							send.get(4), send.get(5), send.get(6), Byte.valueOf(send.get(7)));
+					Room.createRoom(Integer.parseInt(send.get(0)), Integer.parseInt(send.get(1)), send.get(2), Integer.parseInt(send.get(3)),
+							Integer.parseInt(send.get(4)), Integer.parseInt(send.get(5)));
 				} else if (op == 2) { // Read
-
+					
 				} else if (op == 3) { // Update
 
 				} else if (op == 4) { // Delete
-					System.out.println("Enter Customer ID");
+					System.out.println("Enter Room Number");
 					int id = Integer.parseInt(readInput());
-					Customer.deleteCustomer(id);
-					System.out.println("Customer with ID " + id + " deleted");
+					Room.deleteRoom(hotelID, id);
+					System.out.println("Room number "+id+" of hotel with ID "+hotelID+" deleted");
 				} else {
 
 				}
