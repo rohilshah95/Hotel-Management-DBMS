@@ -18,7 +18,7 @@ public class DBDemo {
 				stmt = conn.createStatement();
 
 				// Drop Tables
-
+				stmt.executeUpdate("DROP TRIGGER IF EXISTS addpresidential");
 				stmt.executeUpdate("Drop TABLE IF EXISTS PRESIDENTIAL");
 				stmt.executeUpdate("Drop TABLE IF EXISTS CHECKIN");
 				stmt.executeUpdate("Drop TABLE IF EXISTS PROVIDES");
@@ -56,6 +56,13 @@ public class DBDemo {
 				stmt.executeUpdate(
 						"CREATE TABLE PRESIDENTIAL (NUMBER INT(2) ZEROFILL, HOTELID INT(4) ZEROFILL, CONSTRAINT FOREIGN KEY(NUMBER) REFERENCES ROOM(NUMBER) ON DELETE CASCADE ON UPDATE CASCADE, CONSTRAINT FOREIGN KEY(HOTELID) REFERENCES HOTEL(ID) ON DELETE CASCADE ON UPDATE CASCADE, PRIMARY KEY(NUMBER, HOTELID))");
 
+				//create trigger for presidential suite
+				
+				stmt.executeUpdate("CREATE TRIGGER addpresidential AFTER INSERT ON ROOM REFERENCING NEW ROW AS newRoom FOR EACH ROW WHEN(newRoom.category='Presidential') INSERT INTO PROVIDES (number, HotelID) VALUES (newRoom.number, newRoom.hotelId)");
+				
+				
+				
+				
 				stmt.executeUpdate(
 						"INSERT INTO CUSTOMER VALUES (1001, 'David', '1980-01-30', '123', 'david@gmail.com', '593-9846', '980 TRT St , Raleigh NC', 0)");
 				stmt.executeUpdate(
