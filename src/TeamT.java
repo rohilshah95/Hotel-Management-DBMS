@@ -14,7 +14,8 @@ public class TeamT {
 	public static void main(String[] args) {
 		DBConnection.initialize();
 		DBDemo.initializeDB();
-//		Customer.createCustomer(1008, "David", "1980-01-30", "123", "david@gmail.com", "593-9846", "980 TRT St, Raleigh NC", (byte)0);
+		// Customer.createCustomer(1008, "David", "1980-01-30", "123",
+		// "david@gmail.com", "593-9846", "980 TRT St, Raleigh NC", (byte)0);
 		while (true) {
 			int user = Login.getUser();
 			int hotelID = Login.getHotelID();
@@ -118,8 +119,8 @@ public class TeamT {
 				if (op == 1) { // Create
 					String[] params = { "ID", "Name", "Title", "Department", "Address", "Phone", "Availability" };
 					List<String> send = create(params);
-					Staff.createStaff(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3),
-							send.get(4), send.get(5), Byte.valueOf(send.get(6)));
+					Staff.createStaff(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3), send.get(4),
+							send.get(5), Byte.valueOf(send.get(6)));
 				} else if (op == 2) { // Read
 					System.out.println("1. All staff\n2. By staff ID");
 					int query = Integer.parseInt(readInput());
@@ -148,8 +149,8 @@ public class TeamT {
 					}
 					String[] params = { "ID", "Name", "Title", "Department", "Address", "Phone", "Availability" };
 					List<String> send = update(params, check);
-					Staff.updateStaff(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3),
-							send.get(4), send.get(5), Byte.valueOf(send.get(6)));
+					Staff.updateStaff(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3), send.get(4),
+							send.get(5), Byte.valueOf(send.get(6)));
 
 				} else if (op == 4) { // Delete
 					System.out.println("Enter Staff ID");
@@ -164,10 +165,11 @@ public class TeamT {
 				crud();
 				op = Integer.parseInt(readInput());
 				if (op == 1) { // Create
-					String[] params = { "HotelID", "Number", "Category", "Rate", "Availability", "MaxOccupancy"};
+					String[] params = { "HotelID", "Number", "Category", "Rate", "Availability", "MaxOccupancy" };
 					List<String> send = create(params);
-					Room.createRoom(Integer.parseInt(send.get(0)), Integer.parseInt(send.get(1)), send.get(2), Integer.parseInt(send.get(3)),
-							Integer.parseInt(send.get(4)), Integer.parseInt(send.get(5)));
+					Room.createRoom(Integer.parseInt(send.get(0)), Integer.parseInt(send.get(1)), send.get(2),
+							Integer.parseInt(send.get(3)), Integer.parseInt(send.get(4)),
+							Integer.parseInt(send.get(5)));
 				} else if (op == 2) { // Read
 					System.out.println("1. All rooms\n2. By Room Number");
 					int query = Integer.parseInt(readInput());
@@ -196,13 +198,14 @@ public class TeamT {
 					}
 					String[] params = { "HotelID", "Number", "Category", "Rate", "Availability", "MaxOccupancy" };
 					List<String> send = update(params, check);
-					Room.updateRoom(Integer.parseInt(send.get(0)), Integer.parseInt(send.get(1)), send.get(2), Integer.parseInt(send.get(3)),
-							Integer.parseInt(send.get(4)), Integer.parseInt(send.get(5)));
+					Room.updateRoom(Integer.parseInt(send.get(0)), Integer.parseInt(send.get(1)), send.get(2),
+							Integer.parseInt(send.get(3)), Integer.parseInt(send.get(4)),
+							Integer.parseInt(send.get(5)));
 				} else if (op == 4) { // Delete
 					System.out.println("Enter Room Number");
 					int id = Integer.parseInt(readInput());
 					Room.deleteRoom(hotelID, id);
-					System.out.println("Room number "+id+" of hotel with ID "+hotelID+" deleted");
+					System.out.println("Room number " + id + " of hotel with ID " + hotelID + " deleted");
 				} else {
 
 				}
@@ -211,7 +214,7 @@ public class TeamT {
 				crud();
 				op = Integer.parseInt(readInput());
 				if (op == 1) { // Create
-					String[] params = { "ID", "Name", "Address", "City", "Phone Number" , "ManagerID"};
+					String[] params = { "ID", "Name", "Address", "City", "Phone Number", "ManagerID" };
 					List<String> send = create(params);
 					Hotel.createHotel(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3), send.get(4),
 							Integer.parseInt(send.get(5)));
@@ -232,20 +235,43 @@ public class TeamT {
 				crud();
 				op = Integer.parseInt(readInput());
 				if (op == 1) { // Create
-					String[] params = { "ID", "Name", "DOB", "Phone Number", "Email", "SSN", "Address",
-							"Has Hotel Card?" };
+					String[] params = { "Service ID", "Name", "Cost" };
 					List<String> send = create(params);
-					Customer.createCustomer(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3),
-							send.get(4), send.get(5), send.get(6), Byte.valueOf(send.get(7)));
+					Service.createService(Integer.parseInt(send.get(0)), send.get(1), Integer.parseInt(send.get(2)));
 				} else if (op == 2) { // Read
-
+					System.out.println("1. All services\n2. By service ID");
+					int query = Integer.parseInt(readInput());
+					if (query == 2) {
+						System.out.println("Enter Service ID");
+						int id = Integer.parseInt(readInput());
+						ResultSet rs = Service.getService(id);
+						outputResult(rs);
+					} else {
+						ResultSet rs = Service.getAllServices();
+						outputResult(rs);
+					}
 				} else if (op == 3) { // Update
-
-				} else if (op == 4) { // Delete
-					System.out.println("Enter Customer ID");
+					System.out.println("Enter Service ID");
 					int id = Integer.parseInt(readInput());
-					Customer.deleteCustomer(id);
-					System.out.println("Customer with ID " + id + " deleted");
+					ResultSet rs = Service.getService(id);
+					List<String> check = new LinkedList<String>();
+					try {
+						while (rs.next()) {
+							for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+								check.add(rs.getString(i));
+							}
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+					String[] params = { "Service ID", "Name", "Cost" };
+					List<String> send = update(params, check);
+					Service.updateService(Integer.parseInt(send.get(0)), send.get(1), Integer.parseInt(send.get(2)));
+				} else if (op == 4) { // Delete
+					System.out.println("Enter Service ID");
+					int id = Integer.parseInt(readInput());
+					Service.deleteService(id);
+					System.out.println("Service with ID " + id + " deleted");
 				} else {
 
 				}

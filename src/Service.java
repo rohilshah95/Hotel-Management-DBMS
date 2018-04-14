@@ -3,7 +3,7 @@ package src;
 import java.sql.*;
 
 public class Service {
-	private void createService(int serviceId, String name, int cost) {
+	public static void createService(int serviceId, String name, int cost) {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
@@ -19,7 +19,7 @@ public class Service {
 		}
 	}
 
-	private void deleteService(int id) {
+	public static void deleteService(int id) {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
@@ -35,7 +35,7 @@ public class Service {
 		}
 	}
 
-	private void updateService(int serviceId, String name, int cost) {
+	public static void updateService(int serviceId, String name, int cost) {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
