@@ -18,7 +18,14 @@ public class Customer {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
 		    ResultSet rs = null;
-		    stmt.executeUpdate("INSERT INTO CUSTOMER VALUES ('"+id+"','"+name+"','"+dob+"','"+phoneNumber+"','"+email+"','"+ssn+"','"+address+"',"+hasHotelCard+")");
+		    stmt.executeUpdate("INSERT INTO CUSTOMER VALUES ('"+id+
+		    		"','"+name+
+		    		"','"+dob+
+		    		"','"+phoneNumber+
+		    		"','"+email+
+		    		"','"+ssn+
+		    		"','"+address+
+		    		"',"+hasHotelCard+")");
 		    
 			// query
 		} catch (Exception e) {
@@ -32,7 +39,9 @@ public class Customer {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
 		    ResultSet rs = null;
-			// query
+		    stmt.executeUpdate("UPDATE CUSTOMER SET Name='"+name+"', dob='"+dob+"', phone='"+phoneNumber+"', email='"+email+"', ssn='"+ssn+"', address='"+address+"', hashotelcard="+hasHotelCard +"WHERE ID="+id+")");
+		    
+		    // query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -43,6 +52,7 @@ public class Customer {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
 		    ResultSet rs = null;
+		    stmt.executeUpdate("DELETE FROM CUSTOMER WHERE id='"+id);
 			// query
 		} catch (Exception e) {
 			System.out.println(e);
@@ -58,6 +68,21 @@ public class Customer {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+	}
+	
+	public static ResultSet getCustomer(String id)
+	{
+		ResultSet rs = null;
+		try {
+			Connection conn = DBConnection.getConnection();
+		    Statement stmt = conn.createStatement();
+	
+		    rs= stmt.executeQuery("SELECT * from CUSTOMER WHERE id="+id+")");
+			// query
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return rs;
 	}
 
 }
