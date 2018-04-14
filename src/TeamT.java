@@ -8,6 +8,7 @@ public class TeamT {
 
 	public static void main(String[] args) {
 		DBConnection.initialize();
+//		Customer.createCustomer(1008, "David", "1980-01-30", "123", "david@gmail.com", "593-9846", "980 TRT St, Raleigh NC", (byte)0);
 		while (true) {
 			int user = Login.getUser();
 			switch (selectOption()) {
@@ -28,7 +29,7 @@ public class TeamT {
 				System.exit(0);
 				break;
 			default:
-				System.out.println("\n ENTER CORRECT CHOICE! \n");
+				System.out.println("\n ENTER CORRE" + "CT CHOICE! \n");
 			}
 		}
 	}
@@ -49,36 +50,14 @@ public class TeamT {
 	}
 
 	public static void informationProcessing(int user) {
-		while (true) {
-			System.out.println("Make changes into:\n1. Customer\n2. Staff\n3. Room\n4. Hotel\n5. Service\n6. Bill\n7. Logout\n");
-			int option = Integer.parseInt(readInput());
-			switch (option) {
-			case 1:
-				
-				break;
-			case 2:
-				break;
-			case 3:
-				break;
-			case 4:
-				break;
-			case 5:
-				break;
-			case 6:
-				break;
-			case 7:
-				break;
-			default:
-				System.out.println("\n ENTER CORRECT CHOICE! \n");
-			}
-		}
+
 	}
 
 	public static int selectOption() {
 		int user = 0;
 		System.out.println("\n\n******************************************************************\n\n");
 		// Enter user choice
-		System.out.println("Select Operation:");
+		System.out.println("Which user would you like to login as?");
 		System.out.println("1. Information Processing \n" + "2. Maintaining Service Records \n"
 				+ "3. Maintaining Billing Accounts \n" + "4. Reports \n" + "5. Exit");
 		System.out.println("Enter the number of your choice:");

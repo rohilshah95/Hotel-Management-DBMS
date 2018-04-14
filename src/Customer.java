@@ -12,22 +12,32 @@ public class Customer {
 	// String address;
 	// byte hasHotelCard;
 
-	public static void createCustomer(String id, String name, String dob, String phoneNumber, String email, String ssn,
-			String address, String hasHotelCard) {
+	public static void createCustomer(int id, String name, String dob, String phoneNumber, String email, String ssn,
+			String address, Byte hasHotelCard) {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
-		    ResultSet rs = null;
-		    stmt.executeUpdate("INSERT INTO CUSTOMER VALUES ('"+id+
-		    		"','"+name+
-		    		"','"+dob+
-		    		"','"+phoneNumber+
-		    		"','"+email+
-		    		"','"+ssn+
-		    		"','"+address+
-		    		"',"+hasHotelCard+")");
+		    PreparedStatement pstmt = conn.prepareStatement("INSERT INTO CUSTOMER (ID, NAME, DOB, PHONE, EMAIL,SSN, ADDRESS, HASHOTELCARD) VALUES (?,?,?,?,?,?,?,?)");
+		    pstmt.setInt(1, id);
+		    pstmt.setString(2, name);
+		    pstmt.setString(3, dob);
+		    pstmt.setString(4, phoneNumber);
+		    pstmt.setString(5, email);
+		    pstmt.setString(6, ssn);
+		    pstmt.setString(7, address);
+		    pstmt.setByte(8, hasHotelCard);
+		    pstmt.executeUpdate();
 		    
-			// query
+		    ResultSet rs = null;
+//		    stmt.executeUpdate("INSERT INTO CUSTOMER VALUES ('"+id+
+//		    		"','"+name+
+//		    		"','"+dob+
+//		    		"','"+phoneNumber+
+//		    		"','"+email+
+//		    		"','"+ssn+
+//		    		"','"+address+
+//		    		"',"+hasHotelCard+")");
+//			// query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -59,11 +69,17 @@ public class Customer {
 		}
 	}
 
-	public static void assignRoom(int customerId, int hotelId, int roomId) {
+	//billid global variable 
+	public static void assignRoom(String customerId, String hotelId, String roomId, String billID) {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
 		    ResultSet rs = null;
+		    
+		    stmt.executeUpdate("ASSIGN");
+		    stmt.executeUpdate("INSERT INTO BILL(ID, Amount, ModeOfPayment, Discount) VALUES ("+billID+","+"0, null, 0");
+		    stmt.executeUpdate("CHECKIN"+roomId);
+		    
 			// query
 		} catch (Exception e) {
 			System.out.println(e);
