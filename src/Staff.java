@@ -74,7 +74,7 @@ public class Staff {
 		return rs;
 	}
 	
-	public static ResultSet getAllStaff()
+	public static ResultSet getAllStaffAllHotels()
 	{
 		ResultSet rs = null;
 		try {
@@ -82,6 +82,21 @@ public class Staff {
 		    Statement stmt = conn.createStatement();
 	
 		    rs= stmt.executeQuery("SELECT * from STAFF");
+			// query
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return rs;
+	}
+	
+	public static ResultSet getAllStaff(int hotelId)
+	{
+		ResultSet rs = null;
+		try {
+			Connection conn = DBConnection.getConnection();
+		    Statement stmt = conn.createStatement();
+		    PreparedStatement pstmt = conn.prepareCall("SELECT STAFF.ID, STAFF.NAME, STAFF.TITLE, STAFF.DEPARTMENT, STAFF.ADDRESS, STAFF.PHONE, STAFF.AVAILABILITY, HIRES.HOTELID FROM STAFF JOIN HIRES WHERE STAFF.ID=HIRES.STAFFID and HIRES.HOTELID=?");
+		    pstmt.setInt(1, hotelId);
 			// query
 		} catch (Exception e) {
 			System.out.println(e);
