@@ -21,4 +21,9 @@ public class Login {
 		
 		return user;
 	}
+
+	public static String getHotelID() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
