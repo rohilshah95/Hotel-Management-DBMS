@@ -58,7 +58,7 @@ public class DBDemo {
 
 				//create trigger for presidential suite
 				
-				stmt.executeUpdate("CREATE TRIGGER add presidential AFTER INSERT ON ROOM REFERENCING NEW ROW AS newRoom FOR EACH ROW WHEN(newRoom.category='Presidential') INSERT INTO PRESIDENTIAL (number, HotelID) VALUES (newRoom.number, newRoom.hotelId)");
+//				stmt.executeUpdate("CREATE TRIGGER addpresidential AFTER INSERT ON ROOM REFERENCING NEW ROW AS newRoom FOR EACH ROW WHEN(newRoom.category='Presidential') INSERT INTO PRESIDENTIAL (number, HotelID) VALUES (newRoom.number, newRoom.hotelId)");
 				
 				
 				
