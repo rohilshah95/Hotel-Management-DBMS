@@ -1,8 +1,6 @@
 package src;
 
 import java.sql.*;
-import java.text.*;
-import java.util.Date;
 
 public class Customer {
 	static int billId = 4; // because demo data already has 4 entries
@@ -19,7 +17,6 @@ public class Customer {
 			String address, Byte hasHotelCard) {
 		try {
 			Connection conn = DBConnection.getConnection();
-		    Statement stmt = conn.createStatement();
 		    PreparedStatement pstmt = conn.prepareStatement("INSERT INTO CUSTOMER (ID, NAME, DOB, PHONE, EMAIL,SSN, ADDRESS, HASHOTELCARD) VALUES (?,?,?,?,?,?,?,?)");
 		    pstmt.setInt(1, id);
 		    pstmt.setString(2, name);
@@ -30,8 +27,6 @@ public class Customer {
 		    pstmt.setString(7, address);
 		    pstmt.setByte(8, hasHotelCard);
 		    pstmt.executeUpdate();
-		    
-		    ResultSet rs = null;
 //			// query
 		} catch (Exception e) {
 			System.out.println(e);
@@ -42,8 +37,6 @@ public class Customer {
 			String address, Byte hasHotelCard) {
 		try {
 			Connection conn = DBConnection.getConnection();
-		    Statement stmt = conn.createStatement();
-		    ResultSet rs = null;
 		    PreparedStatement pstmt = conn.prepareStatement("UPDATE CUSTOMER SET Name=?, dob=?, phone=?, email=?, ssn=?, address=?, hashotelcard=? WHERE id=?");
 		    pstmt.setString(1, name);
 		    pstmt.setString(2, dob);
@@ -64,8 +57,6 @@ public class Customer {
 	public static void deleteCustomer(int id) {
 		try {
 			Connection conn = DBConnection.getConnection();
-		    Statement stmt = conn.createStatement();
-		    ResultSet rs = null;
 		    PreparedStatement pstmt = conn.prepareStatement("DELETE FROM CUSTOMER WHERE ID=?");
 		    pstmt.setInt(1, id);
 		    pstmt.executeUpdate();
@@ -80,9 +71,6 @@ public class Customer {
 	public static void assignRoom(int customerId, int hotelId, int roomId, int noOfGuests) {
 		try {
 			Connection conn = DBConnection.getConnection();
-		    Statement stmt = conn.createStatement();
-		    ResultSet rs = null;
-		    
 		    PreparedStatement pstmt= conn.prepareStatement("UPDATE ROOM SET Availability=0 WHERE number=? and hotelid=? ");
 		    pstmt.setInt(1, roomId);
 		    pstmt.setInt(2, hotelId);
@@ -95,7 +83,6 @@ public class Customer {
 		    
 //		    DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
 //		    DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-		    Date date = new Date();
 		    PreparedStatement pstmt2= conn.prepareStatement("INSERT INTO CHECKIN (CUSTOMERID, HOTELID, NUMBER, BILLID, CHECKINDATE, CHECKINTIME, CHECKOUTDATE, CHECKOUTTIME, GUESTS) VALUES (?, ?, ?, ?, CURDATE(), CURTIME(), null, null, ?)");
 		    pstmt2.setInt(1,  customerId);
 		    pstmt2.setInt(2,  hotelId);
@@ -117,7 +104,6 @@ public class Customer {
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
-		    Statement stmt = conn.createStatement();
 		    PreparedStatement pstmt = conn.prepareStatement("SELECT * from CUSTOMER WHERE ID=?");
 		    pstmt.setInt(1, id);
 		    rs= pstmt.executeQuery();

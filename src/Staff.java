@@ -63,7 +63,6 @@ public class Staff {
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
-		    Statement stmt = conn.createStatement();
 		    PreparedStatement pstmt = conn.prepareStatement("SELECT * from STAFF WHERE ID=?");
 		    pstmt.setInt(1, id);
 		    rs= pstmt.executeQuery();

@@ -2,7 +2,6 @@ package src;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class Room {
@@ -14,7 +13,6 @@ public class Room {
 	public static void createRoom(int id, int number, String category, int nightlyRate, int availability , int maxOccupancy) {
 		try {
 			Connection conn = DBConnection.getConnection();
-		    Statement stmt = conn.createStatement();
 		    PreparedStatement pstmt = conn.prepareStatement("INSERT INTO ROOM (HotelID, Number, Category, Rate, Availability, MaxOccupancy) VALUES (?,?,?,?,?,?)");
 		    pstmt.setInt(1, id);
 		    pstmt.setInt(2, number);
@@ -23,8 +21,6 @@ public class Room {
 		    pstmt.setInt(5, availability);
 		    pstmt.setInt(6, maxOccupancy);
 		    pstmt.executeUpdate();
-		    
-		    ResultSet rs = null;
 //			// query
 		} catch (Exception e) {
 			System.out.println(e);
@@ -36,8 +32,6 @@ public class Room {
 	public static void updateRoom(int hotelID, int number, String category, int nightlyRate, int availability, int maxOccupancy) {
 		try {
 			Connection conn = DBConnection.getConnection();
-		    Statement stmt = conn.createStatement();
-		    ResultSet rs = null;
 		    PreparedStatement pstmt = conn.prepareStatement("UPDATE ROOM SET category=?, rate=?, availability=?, maxOccupancy=? WHERE hotelid=? AND number=?");
 		    pstmt.setString(1, category);
 		    pstmt.setInt(2, nightlyRate);
@@ -60,9 +54,6 @@ public class Room {
 	static void deleteRoom(String hotelID, int number) {
 		try {
 			Connection conn = DBConnection.getConnection();
-		    Statement stmt = conn.createStatement();
-		    ResultSet rs = null;
-		    
 		    PreparedStatement pstmt = conn.prepareStatement("DELETE FROM ROOM WHERE hotelId=? AND number=?");
 		    pstmt.setString(1, hotelID);
 		    pstmt.setInt(2, number);
@@ -78,7 +69,6 @@ public class Room {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
-		    ResultSet rs = null;
 			// query
 		    stmt.executeUpdate("SELECT * FROM ROOM WHERE availability=1 AND hotelId="+hotelId);
 		    
@@ -91,7 +81,6 @@ public class Room {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
-		    ResultSet rs = null;
 		    stmt.executeUpdate("SELECT * FROM ROOM WHERE availability=1 AND hotelId="+hotelId + " AND category='"+category+"'");
 			// query
 		} catch (Exception e) {
@@ -103,8 +92,6 @@ public class Room {
 	static void releaseRoom(int hotelId, int number) {
 		try {
 			Connection conn = DBConnection.getConnection();
-		    Statement stmt = conn.createStatement();
-		    ResultSet rs = null;
 		    PreparedStatement pstmt = conn.prepareStatement("UPDATE ROOM SET availability=1 WHERE hotelid=? AND number=?");
 		    pstmt.setInt(1, hotelId);
 		    pstmt.setInt(2, number);
@@ -119,8 +106,6 @@ public class Room {
 	static void addServiceToRoom(int hotelId, int number, int staffId,int  serviceId) {
 		try {
 			Connection conn = DBConnection.getConnection();
-		    Statement stmt = conn.createStatement();
-		    ResultSet rs = null;
 			// query
 		    PreparedStatement pstmt = conn.prepareStatement("INSERT INTO PROVIDES (HotelID, Number, StaffID, ServiceID, Timestamp) VALUES (?,?,?,?,NOW())");
 		    pstmt.setInt(1, hotelId);
@@ -137,8 +122,6 @@ public class Room {
 	static void addStaffToPresidential(int hotelId, int number, int staffId) {
 		try {
 			Connection conn = DBConnection.getConnection();
-		    Statement stmt = conn.createStatement();
-		    ResultSet rs = null;
 			// query
 		    PreparedStatement pstmt = conn.prepareStatement("INSERT INTO ASSIGNED (HotelID, Number, StaffID) VALUES (?,?,?)");
 		    pstmt.setInt(1, hotelId);

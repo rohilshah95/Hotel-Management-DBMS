@@ -8,7 +8,6 @@ public class Bill {
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
-		    Statement stmt = conn.createStatement();
 		 
 		    PreparedStatement pstmt = conn.prepareStatement("UPDATE Bill SET Discount=5 WHERE ID IN (SELECT CheckIn.BillID FROM CheckIn JOIN Customer WHERE Customer.hasHotelCard=1 AND Customer.ID=?)");
 		    pstmt.setInt(1, custId);
@@ -65,7 +64,6 @@ public class Bill {
 	    ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
-		    Statement stmt = conn.createStatement();
 		    
 		    PreparedStatement pstmt = conn.prepareStatement("(SELECT SERVICE.Cost AS Cost, SERVICE.name as Name" + 
 		    		"FROM CHECKIN JOIN PROVIDES JOIN SERVICE" + 

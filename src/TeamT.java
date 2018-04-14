@@ -116,20 +116,29 @@ public class TeamT {
 				crud();
 				op = Integer.parseInt(readInput());
 				if (op == 1) { // Create
-					String[] params = { "ID", "Name", "DOB", "Phone Number", "Email", "SSN", "Address",
-							"Has Hotel Card?" };
+					String[] params = { "ID", "Name", "Title", "Department", "Address", "Phone", "Availability" };
 					List<String> send = create(params);
-					Customer.createCustomer(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3),
-							send.get(4), send.get(5), send.get(6), Byte.valueOf(send.get(7)));
+					Staff.createStaff(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3),
+							send.get(4), send.get(5), Byte.valueOf(send.get(6)));
 				} else if (op == 2) { // Read
-
+					System.out.println("1. All staff\n2. By staff ID");
+					int query = Integer.parseInt(readInput());
+					if (query == 2) {
+						System.out.println("Enter Staff ID");
+						int id = Integer.parseInt(readInput());
+						ResultSet rs = Staff.getStaff(id);
+						outputResult(rs);
+					} else {
+						ResultSet rs = Staff.getAllStaff();
+						outputResult(rs);
+					}
 				} else if (op == 3) { // Update
 
 				} else if (op == 4) { // Delete
-					System.out.println("Enter Customer ID");
+					System.out.println("Enter Staff ID");
 					int id = Integer.parseInt(readInput());
-					Customer.deleteCustomer(id);
-					System.out.println("Customer with ID " + id + " deleted");
+					Staff.deleteStaff(id);
+					System.out.println("Staff with ID " + id + " deleted");
 				} else {
 
 				}
