@@ -2,6 +2,8 @@ package src;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -64,103 +66,160 @@ public class TeamT {
 			case 1: // Customer
 				crud();
 				op = Integer.parseInt(readInput());
-				if(op == 1){ //Create
-					String [] params = {"ID", "Name", "DOB", "Phone Number", "Email","SSN", "Address", "Has Hotel Card?"};
+				if (op == 1) { // Create
+					String[] params = { "ID", "Name", "DOB", "Phone Number", "Email", "SSN", "Address",
+							"Has Hotel Card?" };
 					List<String> send = create(params);
-					Customer.createCustomer(Integer.parseInt(send.get(0)),send.get(1), send.get(2), send.get(3), send.get(4), send.get(5), send.get(6),Byte.valueOf(send.get(7)));
-				}else if(op == 2){ //Read
-					
-				}else if(op == 3){ //Update
-					
-				}else if(op == 4){ //Delete
-					
-				}else{
-					
+					Customer.createCustomer(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3),
+							send.get(4), send.get(5), send.get(6), Byte.valueOf(send.get(7)));
+				} else if (op == 2) { // Read
+					System.out.println("1. All customers\n2. By customer ID");
+					int query = Integer.parseInt(readInput());
+					if (query == 2) {
+						System.out.println("Enter Customer ID");
+						int id = Integer.parseInt(readInput());
+						ResultSet rs = Customer.getCustomer(id);
+						outputResult(rs);
+					} else {
+						ResultSet rs = Customer.getAllCustomers();
+						outputResult(rs);
+					}
+				} else if (op == 3) { // Update
+					System.out.println("Enter Customer ID");
+					int id = Integer.parseInt(readInput());
+					ResultSet rs = Customer.getCustomer(id);
+					List<String> check = new LinkedList<String>();
+					try {
+						while (rs.next()) {
+							for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+								check.add(rs.getString(i));
+							}
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+					String[] params = { "ID", "Name", "DOB", "Phone Number", "Email", "SSN", "Address",
+							"Has Hotel Card?" };
+					List<String> send = update(params, check);
+					Customer.updateCustomer(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3),
+							send.get(4), send.get(5), send.get(6), Byte.valueOf(send.get(7)));
+				} else if (op == 4) { // Delete
+					System.out.println("Enter Customer ID");
+					int id = Integer.parseInt(readInput());
+					Customer.deleteCustomer(id);
+					System.out.println("Customer with ID " + id + " deleted");
+				} else {
+
 				}
 				break;
 			case 2: // Staff
 				crud();
 				op = Integer.parseInt(readInput());
-				if(op == 1){ //Create
-					String [] params = {"ID", "Name", "DOB", "Phone Number", "Email","SSN", "Address", "Has Hotel Card?"};
+				if (op == 1) { // Create
+					String[] params = { "ID", "Name", "DOB", "Phone Number", "Email", "SSN", "Address",
+							"Has Hotel Card?" };
 					List<String> send = create(params);
-					Customer.createCustomer(Integer.parseInt(send.get(0)),send.get(1), send.get(2), send.get(3), send.get(4), send.get(5), send.get(6),Byte.valueOf(send.get(7)));
-				}else if(op == 2){ //Read
-					
-				}else if(op == 3){ //Update
-					
-				}else if(op == 4){ //Delete
-					
-				}else{
-					
+					Customer.createCustomer(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3),
+							send.get(4), send.get(5), send.get(6), Byte.valueOf(send.get(7)));
+				} else if (op == 2) { // Read
+
+				} else if (op == 3) { // Update
+
+				} else if (op == 4) { // Delete
+					System.out.println("Enter Customer ID");
+					int id = Integer.parseInt(readInput());
+					Customer.deleteCustomer(id);
+					System.out.println("Customer with ID " + id + " deleted");
+				} else {
+
 				}
 				break;
 			case 3: // Room
 				crud();
 				op = Integer.parseInt(readInput());
-				if(op == 1){ //Create
-					String [] params = {"ID", "Name", "DOB", "Phone Number", "Email","SSN", "Address", "Has Hotel Card?"};
+				if (op == 1) { // Create
+					String[] params = { "ID", "Name", "DOB", "Phone Number", "Email", "SSN", "Address",
+							"Has Hotel Card?" };
 					List<String> send = create(params);
-					Customer.createCustomer(Integer.parseInt(send.get(0)),send.get(1), send.get(2), send.get(3), send.get(4), send.get(5), send.get(6),Byte.valueOf(send.get(7)));
-				}else if(op == 2){ //Read
-					
-				}else if(op == 3){ //Update
-					
-				}else if(op == 4){ //Delete
-					
-				}else{
-					
+					Customer.createCustomer(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3),
+							send.get(4), send.get(5), send.get(6), Byte.valueOf(send.get(7)));
+				} else if (op == 2) { // Read
+
+				} else if (op == 3) { // Update
+
+				} else if (op == 4) { // Delete
+					System.out.println("Enter Customer ID");
+					int id = Integer.parseInt(readInput());
+					Customer.deleteCustomer(id);
+					System.out.println("Customer with ID " + id + " deleted");
+				} else {
+
 				}
 				break;
 			case 4: // Hotel
 				crud();
 				op = Integer.parseInt(readInput());
-				if(op == 1){ //Create
-					String [] params = {"ID", "Name", "DOB", "Phone Number", "Email","SSN", "Address", "Has Hotel Card?"};
+				if (op == 1) { // Create
+					String[] params = { "ID", "Name", "DOB", "Phone Number", "Email", "SSN", "Address",
+							"Has Hotel Card?" };
 					List<String> send = create(params);
-					Customer.createCustomer(Integer.parseInt(send.get(0)),send.get(1), send.get(2), send.get(3), send.get(4), send.get(5), send.get(6),Byte.valueOf(send.get(7)));
-				}else if(op == 2){ //Read
-					
-				}else if(op == 3){ //Update
-					
-				}else if(op == 4){ //Delete
-					
-				}else{
-					
+					Customer.createCustomer(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3),
+							send.get(4), send.get(5), send.get(6), Byte.valueOf(send.get(7)));
+				} else if (op == 2) { // Read
+
+				} else if (op == 3) { // Update
+
+				} else if (op == 4) { // Delete
+					System.out.println("Enter Customer ID");
+					int id = Integer.parseInt(readInput());
+					Customer.deleteCustomer(id);
+					System.out.println("Customer with ID " + id + " deleted");
+				} else {
+
 				}
 				break;
 			case 5: // Service
 				crud();
 				op = Integer.parseInt(readInput());
-				if(op == 1){ //Create
-					String [] params = {"ID", "Name", "DOB", "Phone Number", "Email","SSN", "Address", "Has Hotel Card?"};
+				if (op == 1) { // Create
+					String[] params = { "ID", "Name", "DOB", "Phone Number", "Email", "SSN", "Address",
+							"Has Hotel Card?" };
 					List<String> send = create(params);
-					Customer.createCustomer(Integer.parseInt(send.get(0)),send.get(1), send.get(2), send.get(3), send.get(4), send.get(5), send.get(6),Byte.valueOf(send.get(7)));
-				}else if(op == 2){ //Read
-					
-				}else if(op == 3){ //Update
-					
-				}else if(op == 4){ //Delete
-					
-				}else{
-					
+					Customer.createCustomer(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3),
+							send.get(4), send.get(5), send.get(6), Byte.valueOf(send.get(7)));
+				} else if (op == 2) { // Read
+
+				} else if (op == 3) { // Update
+
+				} else if (op == 4) { // Delete
+					System.out.println("Enter Customer ID");
+					int id = Integer.parseInt(readInput());
+					Customer.deleteCustomer(id);
+					System.out.println("Customer with ID " + id + " deleted");
+				} else {
+
 				}
 				break;
 			case 6: // Bill
 				crud();
 				op = Integer.parseInt(readInput());
-				if(op == 1){ //Create
-					String [] params = {"ID", "Name", "DOB", "Phone Number", "Email","SSN", "Address", "Has Hotel Card?"};
+				if (op == 1) { // Create
+					String[] params = { "ID", "Name", "DOB", "Phone Number", "Email", "SSN", "Address",
+							"Has Hotel Card?" };
 					List<String> send = create(params);
-					Customer.createCustomer(Integer.parseInt(send.get(0)),send.get(1), send.get(2), send.get(3), send.get(4), send.get(5), send.get(6),Byte.valueOf(send.get(7)));
-				}else if(op == 2){ //Read
-					
-				}else if(op == 3){ //Update
-					
-				}else if(op == 4){ //Delete
-					
-				}else{
-					
+					Customer.createCustomer(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3),
+							send.get(4), send.get(5), send.get(6), Byte.valueOf(send.get(7)));
+				} else if (op == 2) { // Read
+
+				} else if (op == 3) { // Update
+
+				} else if (op == 4) { // Delete
+					System.out.println("Enter Customer ID");
+					int id = Integer.parseInt(readInput());
+					Customer.deleteCustomer(id);
+					System.out.println("Customer with ID " + id + " deleted");
+				} else {
+
 				}
 				break;
 			case 7: // Logout
@@ -172,11 +231,29 @@ public class TeamT {
 		}
 	}
 
+	private static List<String> update(String[] params, List<String> check) {
+		System.out.println("Enter fields to update: (Enter any other value to execute update)");
+		for (int i = 1; i < params.length; i++) {
+			System.out.print(i + ". " + params[i] + "\n");
+		}
+		while (true) {
+			int change = Integer.parseInt(readInput());
+			if (change >= 1 && change < params.length) {
+				System.out.println(params[change] + ": ");
+				check.set(change, readInput());
+				System.out.println(params[change] + " changed. Enter another attribute to change, press 0 to exit.");
+			} else {
+				break;
+			}
+		}
+		return check;
+	}
+
 	private static List<String> create(String[] params) {
 		System.out.println("Enter the following details:");
 		List<String> send = new LinkedList<String>();
-		for(String i : params){
-			System.out.print(i+": ");
+		for (String i : params) {
+			System.out.print(i + ": ");
 			String str = readInput();
 			send.add(str);
 		}
@@ -205,20 +282,21 @@ public class TeamT {
 		s = stdin.nextLine();
 		return s;
 	}
-	
+
 	public static void outputResult(ResultSet rs) {
 		try {
-		ResultSetMetaData rsmd = rs.getMetaData();
-		   System.out.println("querying SELECT * FROM XXX");
-		   int columnsNumber = rsmd.getColumnCount();
-		   while (rs.next()) {
-		       for (int i = 1; i <= columnsNumber; i++) {
-		           if (i > 1) System.out.print(",  ");
-		           String columnValue = rs.getString(i);
-		           System.out.print(columnValue + " " + rsmd.getColumnName(i));
-		       }
-		       System.out.println("");
-		   }
+			ResultSetMetaData rsmd = rs.getMetaData();
+			// System.out.println("querying SELECT * FROM XXX");
+			int columnsNumber = rsmd.getColumnCount();
+			while (rs.next()) {
+				for (int i = 1; i <= columnsNumber; i++) {
+					if (i > 1)
+						System.out.print(",  ");
+					String columnValue = rs.getString(i);
+					System.out.print(columnValue + " " + rsmd.getColumnName(i));
+				}
+				System.out.println();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
