@@ -1,42 +1,89 @@
 package src;
 
-import java.sql.Connection;
-import java.sql.Statement;
+import java.sql.*;
 
 public class Hotel {
 
 	/*
 	 * Data - id, managerId, long phoneNumber, address, city;
 	 */
-	void createHotel(String id, String address, String phoneNumber, String managerId) {
+	public static void createHotel(int id, String name, String address, String city, String phoneNumber, int managerId) {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
-		    stmt.executeUpdate("CREATE TABLE HOTEL (ID INT PRIMARY KEY,NAME VARCHAR(32) NOT NULL,ADDRESS VARCHAR(64) NOT NULL,PHONE VARCHAR(32) NOT NULL,MANAGERID INT,FOREIGN KEY(MANAGERID) REFERENCES STAFF(ID));");
-			// query
+		    PreparedStatement pstmt= conn.prepareStatement("INSERT INTO HOTEL(ID, NAME, ADDRESS, CITY, PHONE, MANAGERID) VALUES (?,?,?,?,?,?)");
+		    pstmt.setInt(1, id);
+		    pstmt.setString(2, name);
+		    pstmt.setString(3,  address);
+		    pstmt.setString(4,  city);
+		    pstmt.setString(5, phoneNumber);
+		    pstmt.setInt(6, managerId);
+		    pstmt.executeUpdate();
+		    
+		    // query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
 
-	void editHotel(int id,String name, String address, String city, String phoneNumber, int managerId) {
+	public static void editHotel(int id,String name, String address, String city, String phoneNumber, int managerId) {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
-		    stmt.executeUpdate("UPDATE HOTEL SET Name = '"+name+"', phone='"+phoneNumber+"', address='"+address+"', managerid="+managerId+" WHERE ID= "+id);
+		    PreparedStatement pstmt= conn.prepareStatement("UPDATE HOTEL SET NAME=?, ADDRESS=?, CITY=?, PHONE=?, MANAGERID=? WHERE ID=?");
+		    pstmt.setString(1, name);
+		    pstmt.setString(2,  address);
+		    pstmt.setString(3,  city);
+		    pstmt.setString(4, phoneNumber);
+		    pstmt.setInt(5, managerId);
+		    pstmt.setInt(6, id);
+		    pstmt.executeUpdate();
+		    
+		    
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
 
-	void deleteHotel(int id) {
+	public static void deleteHotel(int id) {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
-		    stmt.executeUpdate("DELETE FROM HOTEL WHERE ID="+id);
-			// query
+		    PreparedStatement pstmt=conn.prepareStatement("DELETE FROM HOTEL WHERE ID=?");
+		    pstmt.setInt(1, id);
+		    pstmt.executeUpdate();
+		    // query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+	}
+	
+	public static ResultSet getHotel(int id) {
+		ResultSet rs= null;
+		try {
+			Connection conn = DBConnection.getConnection();
+		    Statement stmt = conn.createStatement();
+		    PreparedStatement pstmt=conn.prepareStatement("SELECT * FROM HOTEL WHERE ID=?");
+		    pstmt.setInt(1, id);
+		    rs= pstmt.executeQuery();
+		    // query
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return rs;
+	}
+	
+	public static ResultSet showHotels() {
+		ResultSet rs= null;
+		try {
+			Connection conn = DBConnection.getConnection();
+		    Statement stmt = conn.createStatement();
+		    PreparedStatement pstmt=conn.prepareStatement("SELECT * FROM HOTEL");
+		    rs= pstmt.executeQuery();
+		    // query
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return rs;
 	}
 }
