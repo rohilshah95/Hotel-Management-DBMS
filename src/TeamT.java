@@ -1,5 +1,7 @@
 package src;
 
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -189,5 +191,23 @@ public class TeamT {
 		String s = "";
 		s = stdin.nextLine();
 		return s;
+	}
+	
+	public static void outputResult(ResultSet rs) {
+		try {
+		ResultSetMetaData rsmd = rs.getMetaData();
+		   System.out.println("querying SELECT * FROM XXX");
+		   int columnsNumber = rsmd.getColumnCount();
+		   while (rs.next()) {
+		       for (int i = 1; i <= columnsNumber; i++) {
+		           if (i > 1) System.out.print(",  ");
+		           String columnValue = rs.getString(i);
+		           System.out.print(columnValue + " " + rsmd.getColumnName(i));
+		       }
+		       System.out.println("");
+		   }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
