@@ -50,28 +50,101 @@ public class TeamT {
 
 	public static void informationProcessing(int user) {
 		while (true) {
-			System.out.println("Make changes into:\n1. Customer\n2. Staff\n3. Room\n4. Hotel\n5. Service\n6. Bill\n7. Logout\n");
+			System.out.println(
+					"Make changes into:\n1. Customer\n2. Staff\n3. Room\n4. Hotel\n5. Service\n6. Bill\n7. Logout\n");
 			int option = Integer.parseInt(readInput());
+			int op = 0;
 			switch (option) {
-			case 1:
-				
+			case 1: // Customer
+				crud();
+				op = Integer.parseInt(readInput());
+				if(op == 1){ //Create
+					
+				}else if(op == 2){ //Read
+					
+				}else if(op == 3){ //Update
+					
+				}else{ //Delete
+					
+				}
 				break;
-			case 2:
+			case 2: // Staff
+				crud();
+				op = Integer.parseInt(readInput());
+				if(op == 1){ //Create
+					
+				}else if(op == 2){ //Read
+					
+				}else if(op == 3){ //Update
+					
+				}else{ //Delete
+					
+				}
 				break;
-			case 3:
+			case 3: // Room
+				crud();
+				op = Integer.parseInt(readInput());
+				if(op == 1){ //Create
+					
+				}else if(op == 2){ //Read
+					
+				}else if(op == 3){ //Update
+					
+				}else{ //Delete
+					
+				}
 				break;
-			case 4:
+			case 4: // Hotel
+				crud();
+				op = Integer.parseInt(readInput());
+				if(op == 1){ //Create
+					
+				}else if(op == 2){ //Read
+					
+				}else if(op == 3){ //Update
+					
+				}else{ //Delete
+					
+				}
 				break;
-			case 5:
+			case 5: // Service
+				crud();
+				op = Integer.parseInt(readInput());
+				if(op == 1){ //Create
+					
+				}else if(op == 2){ //Read
+					
+				}else if(op == 3){ //Update
+					
+				}else{ //Delete
+					
+				}
 				break;
-			case 6:
+			case 6: // Bill
+				crud();
+				op = Integer.parseInt(readInput());
+				if(op == 1){ //Create
+					
+				}else if(op == 2){ //Read
+					
+				}else if(op == 3){ //Update
+					
+				}else{ //Delete
+					
+				}
 				break;
-			case 7:
+			case 7: // Logout
+
 				break;
 			default:
 				System.out.println("\n ENTER CORRECT CHOICE! \n");
 			}
 		}
+	}
+
+	private static int crud() {
+		System.out.println("Enter operation:\n1. Create\n2. Read\n3. Update\n4. Delete\n");
+		return;
 	}
 
 	public static int selectOption() {
