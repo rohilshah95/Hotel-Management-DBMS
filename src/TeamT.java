@@ -115,13 +115,56 @@ public class TeamT {
 	}
 
 	public static void billingAccounts(int user) {
+		Scanner sc = new Scanner(System.in);
 		// TODO Auto-generated method stub
-
+		Scanner sc = new Scanner(System.in);
+		while (true) {
+			System.out.println("\n1. assign room to customer\n2. assign staff to room");
+			int option = Integer.parseInt(readInput());
+			switch (option) {
+				case 1:
+				{
+					int hotelId = Login.getHotelID();
+					System.out.print("Enter the customer ID: ");
+					int customerId = sc.nextInt();
+					System.out.print("Enter the number of guests: ");
+					int noOfGuests = sc.nextInt();
+					
+					// get a list of the available
+					System.out.println("The available rooms are: ");
+					ResultSet rs = Room.checkRoomAvailability(hotelId);
+					outputResult(rs);
+					
+					System.out.print("Enter room from the above list: ");
+					int roomId = sc.nextInt();
+					
+					// assign room to the customer
+					Customer.assignRoom(customerId, hotelId, roomId, noOfGuests);
+					
+					
+					// check if the room is presidential
+					rs = Room.getRoom(hotelId, roomId);
+					while (rs.next()) {
+							rs.getString(3);
+						}
+					
+					
+				}
+				case 2:
+				{
+					
+				}
+				default:
+				{
+					
+				}
+			}
+		}
 	}
 
 	public static void serviceRecords(int user) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	public static void informationProcessing(int user, int hotelID) {
