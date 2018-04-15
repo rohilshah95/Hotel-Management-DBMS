@@ -116,9 +116,9 @@ public class TeamT {
 			System.out.print("Enter Customer ID:");
 			int id = Integer.parseInt(readInput());
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			Date date = new Date();			
+			Date date = new Date();
 			switch (option) {
-			case 1:				
+			case 1:
 				System.out.println("Enter Mode of payment:\n1. Hotel Card\n2. Credit/Debit Card\n3. Cash");
 				int op = Integer.parseInt(readInput());
 				String modeOfPayment = "cash";
@@ -171,18 +171,15 @@ public class TeamT {
 
 				// check if the room is presidential
 				rs = Room.getRoom(hotelId, roomId);
-				String category="";
-				try
-				{
+				String category = "";
+				try {
 					while (rs.next()) {
 						category = rs.getString(3);
 					}
-				}
-				catch(Exception e)
-				{
+				} catch (Exception e) {
 					System.out.println(e);
 				}
-				
+
 				if (category == "Presidential") {
 					rs = Staff.getAvailableStaff();
 					outputResult(rs);
@@ -196,7 +193,7 @@ public class TeamT {
 				int hotelId = Login.getHotelID();
 				System.out.print("enter the room you want to assign staff to: ");
 				int roomId = sc.nextInt();
-				
+
 				ResultSet rs = Staff.getAvailableStaff();
 				outputResult(rs);
 				System.out.print("enter the staff to assign to room: ");
