@@ -3,8 +3,7 @@ package src;
 import java.sql.*;
 
 public class Customer {
-	static int billId = 4; 
-	static int id=1004;
+	//	static int id=1004;
 	// because demo data already has 4 entries
 	// int id;
 	// String name;
@@ -18,17 +17,17 @@ public class Customer {
 	public static void createCustomer(String name, String dob, String phoneNumber, String email, String ssn,
 			String address, Byte hasHotelCard) {
 		try {
-			id++;
+//			id++;
 			Connection conn = DBConnection.getConnection();
-		    PreparedStatement pstmt = conn.prepareStatement("INSERT INTO CUSTOMER (ID, NAME, DOB, PHONE, EMAIL,SSN, ADDRESS, HASHOTELCARD) VALUES (?,?,?,?,?,?,?,?)");
-		    pstmt.setInt(1, id);
-		    pstmt.setString(2, name);
-		    pstmt.setString(3, dob);
-		    pstmt.setString(4, phoneNumber);
-		    pstmt.setString(5, email);
-		    pstmt.setString(6, ssn);
-		    pstmt.setString(7, address);
-		    pstmt.setByte(8, hasHotelCard);
+		    PreparedStatement pstmt = conn.prepareStatement("INSERT INTO CUSTOMER (NAME, DOB, PHONE, EMAIL,SSN, ADDRESS, HASHOTELCARD) VALUES (?,?,?,?,?,?,?)");
+//		    pstmt.setInt(1, id);
+		    pstmt.setString(1, name);
+		    pstmt.setString(2, dob);
+		    pstmt.setString(3, phoneNumber);
+		    pstmt.setString(4, email);
+		    pstmt.setString(5, ssn);
+		    pstmt.setString(6, address);
+		    pstmt.setByte(7, hasHotelCard);
 		    pstmt.executeUpdate();
 //			// query
 		} catch (Exception e) {
@@ -72,6 +71,7 @@ public class Customer {
 
 	//billid global variable 
 	public static void assignRoom(int customerId, int hotelId, int roomId, int noOfGuests) {
+		ResultSet rs=null;
 		try {
 			Connection conn = DBConnection.getConnection();
 		    PreparedStatement pstmt= conn.prepareStatement("UPDATE ROOM SET Availability=0 WHERE number=? and hotelid=? ");
@@ -79,10 +79,24 @@ public class Customer {
 		    pstmt.setInt(2, hotelId);
 		    pstmt.executeUpdate();
 		    
-		    PreparedStatement pstmt1= conn.prepareStatement("INSERT INTO BILL (ID, AMOUNT, MODEOFPAYMENT, DISCOUNT) VALUES (?, 0, NULL, 0)");
-		    pstmt1.setInt(1, billId);
+		    PreparedStatement pstmt1= conn.prepareStatement("INSERT INTO BILL (AMOUNT, MODEOFPAYMENT, DISCOUNT) VALUES (0, NULL, 0)");
+//		    pstmt1.setInt(1, billId);
 		    pstmt1.executeUpdate();
-		    billId++;
+//		    billId++;
+		    
+		    PreparedStatement pstmt3= conn.prepareStatement("SELECT MAX(id) from BILL");
+		    rs=pstmt3.executeQuery();
+		    int billId=0;
+		    try {
+				while (rs.next()) {
+					billId=rs.getInt(1);
+					
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		    
+		    
 		    
 //		    DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
 //		    DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");

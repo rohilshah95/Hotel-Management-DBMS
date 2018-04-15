@@ -13,7 +13,7 @@ public class TeamT {
 
 	public static void main(String[] args) {
 		DBConnection.initialize();
-		// DBDemo.initializeDB();
+//		 DBDemo.initializeDB();
 		// Customer.createCustomer(1008, "David", "1980-01-30", "123",
 		// "david@gmail.com", "593-9846", "980 TRT St, Raleigh NC", (byte)0);
 		while (true) {
