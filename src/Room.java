@@ -96,10 +96,10 @@ public class Room {
 	}
 
 	
-	static void releaseRoom(int hotelId, int number, int custId) {
+	public static void releaseRoom(int hotelId, int number, int custId) {
 		try {
 			Connection conn = DBConnection.getConnection();
-		    PreparedStatement pstmt1 = conn.prepareStatement("UPDATE CHECKIN SET CHECKOUTDATE = CURDATE(), CHECKOUTTIME=CURTIME() WHERE CUSTOMERID =? AND CHECKOUTDATE=NULL");
+		    PreparedStatement pstmt1 = conn.prepareStatement("UPDATE CHECKIN SET CHECKOUTDATE = CURDATE(), CHECKOUTTIME=CURTIME() WHERE CUSTOMERID =? AND CHECKOUTDATE IS NULL");
 		    pstmt1.setInt(1, custId);
 		    pstmt1.executeUpdate();
 

@@ -49,7 +49,7 @@ public class Customer {
 		    pstmt.setByte(7, hasHotelCard);
 		    pstmt.setInt(8, id);
 		    pstmt.executeUpdate();
-		    		    
+
 		    // query
 		} catch (Exception e) {
 			System.out.println(e);
@@ -62,14 +62,14 @@ public class Customer {
 		    PreparedStatement pstmt = conn.prepareStatement("DELETE FROM CUSTOMER WHERE ID=?");
 		    pstmt.setInt(1, id);
 		    pstmt.executeUpdate();
-		    
+
 			// query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
 
-	//billid global variable 
+	//billid global variable
 	public static void assignRoom(int customerId, int hotelId, int roomId, int noOfGuests) {
 		ResultSet rs=null;
 		try {
@@ -78,26 +78,26 @@ public class Customer {
 		    pstmt.setInt(1, roomId);
 		    pstmt.setInt(2, hotelId);
 		    pstmt.executeUpdate();
-		    
+
 		    PreparedStatement pstmt1= conn.prepareStatement("INSERT INTO BILL (AMOUNT, MODEOFPAYMENT, DISCOUNT) VALUES (0, NULL, 0)");
 //		    pstmt1.setInt(1, billId);
 		    pstmt1.executeUpdate();
 //		    billId++;
-		    
+
 		    PreparedStatement pstmt3= conn.prepareStatement("SELECT MAX(id) from BILL");
 		    rs=pstmt3.executeQuery();
 		    int billId=0;
 		    try {
 				while (rs.next()) {
 					billId=rs.getInt(1);
-					
+
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+
 		    
-		    
-		    
+
 //		    DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
 //		    DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 		    PreparedStatement pstmt2= conn.prepareStatement("INSERT INTO CHECKIN (CUSTOMERID, HOTELID, NUMBER, BILLID, CHECKINDATE, CHECKINTIME, CHECKOUTDATE, CHECKOUTTIME, GUESTS) VALUES (?, ?, ?, ?, CURDATE(), CURTIME(), null, null, ?)");
@@ -109,13 +109,13 @@ public class Customer {
 //		    pstmt2.setString(6, timeFormat.format(date));
 		    pstmt2.setInt(5,  noOfGuests);
 		    pstmt2.executeUpdate();
-		    		    
+
 			// query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
-	
+
 	public static ResultSet getCustomer(int id)
 	{
 		ResultSet rs = null;
@@ -131,14 +131,14 @@ public class Customer {
 		}
 		return rs;
 	}
-	
+
 	public static ResultSet getAllCustomers()
 	{
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
-	
+
 		    rs= stmt.executeQuery("SELECT * from CUSTOMER");
 			// query
 		} catch (Exception e) {
