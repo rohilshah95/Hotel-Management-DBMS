@@ -51,7 +51,7 @@ public class TeamT {
 			switch (option) {
 			case 1: {
 				// get hotel occupancy details
-				if(user==3 || user==4){
+				if (user == 3 || user == 4) {
 					System.out.println("You are not authorised to perform this operation.");
 					break;
 				}
@@ -61,7 +61,7 @@ public class TeamT {
 			}
 			case 2: {
 				// get room occupancy
-				if(user==3 || user==4){
+				if (user == 3 || user == 4) {
 					System.out.println("You are not authorised to perform this operation.");
 					break;
 				}
@@ -70,7 +70,7 @@ public class TeamT {
 				break;
 			}
 			case 3: {
-				if(user==3 || user==4){
+				if (user == 3 || user == 4) {
 					System.out.println("You are not authorised to perform this operation.");
 					break;
 				}
@@ -83,7 +83,7 @@ public class TeamT {
 				break;
 			}
 			case 4: {
-				if(user==3 || user==4){
+				if (user == 3 || user == 4) {
 					System.out.println("You are not authorised to perform this operation.");
 					break;
 				}
@@ -92,7 +92,7 @@ public class TeamT {
 				break;
 			}
 			case 5: {
-				if(user==3 || user==4){
+				if (user == 3 || user == 4) {
 					System.out.println("You are not authorised to perform this operation.");
 					break;
 				}
@@ -101,7 +101,7 @@ public class TeamT {
 				break;
 			}
 			case 6: {
-				if(user==4){
+				if (user == 4) {
 					System.out.println("You are not authorised to perform this operation.");
 					break;
 				}
@@ -112,7 +112,7 @@ public class TeamT {
 				break;
 			}
 			case 7: {
-				if(user==3 || user==4){
+				if (user == 3 || user == 4) {
 					System.out.println("You are not authorised to perform this operation.");
 					break;
 				}
@@ -141,7 +141,7 @@ public class TeamT {
 			ResultSet rs = null;
 			switch (option) {
 			case 1:
-				if(user==4){
+				if (user == 4) {
 					System.out.println("You are not authorised to perform this operation.");
 					break;
 				}
@@ -167,7 +167,7 @@ public class TeamT {
 				outputResult(rs);
 				break;
 			case 2:
-				if(user==4){
+				if (user == 4) {
 					System.out.println("You are not authorised to perform this operation.");
 					break;
 				}
@@ -189,7 +189,7 @@ public class TeamT {
 			int option = readInt();
 			switch (option) {
 			case 1: {
-				if(user==4){
+				if (user == 4) {
 					System.out.println("You are not authorised to perform this operation.");
 					break;
 				}
@@ -231,7 +231,7 @@ public class TeamT {
 				break;
 			}
 			case 2: {
-				if(user==4){
+				if (user == 4) {
 					System.out.println("You are not authorised to perform this operation.");
 					break;
 				}
