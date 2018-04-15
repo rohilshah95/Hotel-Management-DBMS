@@ -13,7 +13,7 @@ public class TeamT {
 
 	public static void main(String[] args) {
 		DBConnection.initialize();
-//		DBDemo.initializeDB();
+		// DBDemo.initializeDB();
 		// Customer.createCustomer(1008, "David", "1980-01-30", "123",
 		// "david@gmail.com", "593-9846", "980 TRT St, Raleigh NC", (byte)0);
 		while (true) {
@@ -127,7 +127,7 @@ public class TeamT {
 	public static void informationProcessing(int user, int hotelID) {
 		while (true) {
 			System.out.println(
-					"Make changes into:\n1. Customer\n2. Staff\n3. Room\n4. Hotel\n5. Service\n6. Bill\n7. Logout\n");
+					"Make changes into:\n1. Customer\n2. Staff\n3. Room\n4. Hotel\n5. Service\n6. Logout\n");
 			int option = Integer.parseInt(readInput());
 			int op = 0;
 			switch (option) {
@@ -135,11 +135,11 @@ public class TeamT {
 				crud();
 				op = Integer.parseInt(readInput());
 				if (op == 1) { // Create
-					String[] params = { "ID", "Name", "DOB", "Phone Number", "Email", "SSN", "Address",
+					String[] params = { "Name", "DOB", "Phone Number", "Email", "SSN", "Address",
 							"Has Hotel Card?" };
 					List<String> send = create(params);
-					Customer.createCustomer(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3),
-							send.get(4), send.get(5), send.get(6), Byte.valueOf(send.get(7)));
+					Customer.createCustomer(send.get(0), send.get(1), send.get(2),
+							send.get(3), send.get(4), send.get(5), Byte.valueOf(send.get(6)));
 				} else if (op == 2) { // Read
 					System.out.println("1. All customers\n2. By customer ID");
 					int query = Integer.parseInt(readInput());
@@ -184,10 +184,10 @@ public class TeamT {
 				crud();
 				op = Integer.parseInt(readInput());
 				if (op == 1) { // Create
-					String[] params = { "ID", "Name", "Title", "Department", "Address", "Phone", "Availability" };
+					String[] params = { "Name", "Title", "Department", "Address", "Phone", "Availability" };
 					List<String> send = create(params);
-					Staff.createStaff(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3), send.get(4),
-							send.get(5), Byte.valueOf(send.get(6)));
+					Staff.createStaff(send.get(0), send.get(1), send.get(2), send.get(3),
+							send.get(4), Byte.valueOf(send.get(5)));
 				} else if (op == 2) { // Read
 					System.out.println("1. All staff\n2. By staff ID");
 					int query = Integer.parseInt(readInput());
@@ -230,6 +230,9 @@ public class TeamT {
 				break;
 			case 3: // Room
 				crud();
+				System.out.println("5. Check rooms available in the hotel");
+				System.out.println("6. Check rooms available of a category in the hotel");
+				System.out.println("7. Assign room to customer");
 				op = Integer.parseInt(readInput());
 				if (op == 1) { // Create
 					String[] params = { "HotelID", "Number", "Category", "Rate", "Availability", "MaxOccupancy" };
@@ -273,22 +276,70 @@ public class TeamT {
 					int id = Integer.parseInt(readInput());
 					Room.deleteRoom(hotelID, id);
 					System.out.println("Room number " + id + " of hotel with ID " + hotelID + " deleted");
-				} else {
-
+				} else if(op == 5 ) {
+					ResultSet rs = Room.checkRoomAvailability(hotelID);
+					outputResult(rs);
+				} else if(op == 6 ) {
+					System.out.println("Enter the room category:");
+					String category = readInput();
+					ResultSet rs = Room.checkRoomAvailability(hotelID, category);
+					outputResult(rs);
+				} else if(op == 7 ) {
+					System.out.println("Enter Customer's ID: ");
+					int customerId = Integer.parseInt(readInput());
+					System.out.println("Enter the number of guests: ");
+					int noOfGuests = Integer.parseInt(readInput());
+					System.out.println("Enter the roomId");
+					int roomId = Integer.parseInt(readInput());
+					Customer.assignRoom(customerId, hotelID, roomId, noOfGuests);
+					System.out.println("Room has been assigned!");
+				} else if(op == 8){
+					System.out.println("Enter Customer ID: ");
+					int custId = Integer.parseInt(readInput());
+					System.out.println("Enter the Room Numer: ");
+					int number = Integer.parseInt(readInput());
+					Room.releaseRoom(hotelID, number, custId);
+				} else {	
 				}
 				break;
 			case 4: // Hotel
 				crud();
 				op = Integer.parseInt(readInput());
 				if (op == 1) { // Create
-					String[] params = { "ID", "Name", "Address", "City", "Phone Number", "ManagerID" };
+					String[] params = { "Name", "Address", "City", "Phone Number", "ManagerID" };
 					List<String> send = create(params);
-					Hotel.createHotel(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3), send.get(4),
-							Integer.parseInt(send.get(5)));
+					Hotel.createHotel(send.get(0), send.get(1), send.get(2), send.get(3),
+							Integer.parseInt(send.get(4)));
 				} else if (op == 2) { // Read
-
+					System.out.println("1. All hotels\n2. By Hotel ID");
+					int query = Integer.parseInt(readInput());
+					if (query == 2) {
+						System.out.println("Enter Hotel ID");
+						int id = Integer.parseInt(readInput());
+						ResultSet rs = Hotel.getHotel(id);
+						outputResult(rs);
+					} else {
+						ResultSet rs = Hotel.getAllHotels();
+						outputResult(rs);
+					}
 				} else if (op == 3) { // Update
-
+					System.out.println("Enter Hotel ID");
+					int id = Integer.parseInt(readInput());
+					ResultSet rs = Hotel.getHotel(id);
+					List<String> check = new LinkedList<String>();
+					try {
+						while (rs.next()) {
+							for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+								check.add(rs.getString(i));
+							}
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+					String[] params = { "ID", "Name", "Address", "City", "Phone Number", "ManagerID" };
+					List<String> send = update(params, check);
+					Hotel.updateHotel(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3), send.get(4),
+							Integer.parseInt(send.get(5)));
 				} else if (op == 4) { // Delete
 					System.out.println("Enter Hotel ID");
 					int id = Integer.parseInt(readInput());
@@ -302,9 +353,9 @@ public class TeamT {
 				crud();
 				op = Integer.parseInt(readInput());
 				if (op == 1) { // Create
-					String[] params = { "Service ID", "Name", "Cost" };
+					String[] params = { "Name", "Cost" };
 					List<String> send = create(params);
-					Service.createService(Integer.parseInt(send.get(0)), send.get(1), Integer.parseInt(send.get(2)));
+					Service.createService(send.get(0), Integer.parseInt(send.get(1)));
 				} else if (op == 2) { // Read
 					System.out.println("1. All services\n2. By service ID");
 					int query = Integer.parseInt(readInput());
@@ -343,30 +394,7 @@ public class TeamT {
 
 				}
 				break;
-			case 6: // Bill
-				crud();
-				op = Integer.parseInt(readInput());
-				if (op == 1) { // Create
-					String[] params = { "ID", "Name", "DOB", "Phone Number", "Email", "SSN", "Address",
-							"Has Hotel Card?" };
-					List<String> send = create(params);
-					Customer.createCustomer(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3),
-							send.get(4), send.get(5), send.get(6), Byte.valueOf(send.get(7)));
-				} else if (op == 2) { // Read
-
-				} else if (op == 3) { // Update
-
-				} else if (op == 4) { // Delete
-					System.out.println("Enter Customer ID");
-					int id = Integer.parseInt(readInput());
-					Customer.deleteCustomer(id);
-					System.out.println("Customer with ID " + id + " deleted");
-				} else {
-
-				}
-				break;
-			case 7: // Logout
-
+			case 6: // Logout
 				break;
 			default:
 				System.out.println("\n ENTER CORRECT CHOICE! \n");
@@ -431,15 +459,26 @@ public class TeamT {
 			ResultSetMetaData rsmd = rs.getMetaData();
 			// System.out.println("querying SELECT * FROM XXX");
 			int columnsNumber = rsmd.getColumnCount();
+			System.out.println(
+					"\n**************************************************************************************************");
+			for (int i = 1; i <= columnsNumber; i++) {
+				if (i > 1)
+					System.out.print(",  ");
+				System.out.print(rsmd.getColumnName(i));
+			}
+			System.out.println(
+					"\n**************************************************************************************************");
 			while (rs.next()) {
 				for (int i = 1; i <= columnsNumber; i++) {
 					if (i > 1)
 						System.out.print(",  ");
 					String columnValue = rs.getString(i);
-					System.out.print(columnValue + " " + rsmd.getColumnName(i));
+					System.out.print(columnValue);
 				}
 				System.out.println();
 			}
+			System.out.println(
+					"**************************************************************************************************\n");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

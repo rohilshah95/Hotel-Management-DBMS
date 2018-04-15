@@ -7,9 +7,11 @@ import java.sql.Statement;
 
 public class Staff {
 
-	public static void createStaff(int id, String name, String title, String department, String address, String phone,
+	static int id=106;
+	public static void createStaff(String name, String title, String department, String address, String phone,
 			Byte availability) {
 		try {
+			id++;
 			Connection conn = DBConnection.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(
 					"INSERT INTO STAFF (ID, Name, Title, Department, Address, Phone, Availability) VALUES (?,?,?,?,?,?,?)");

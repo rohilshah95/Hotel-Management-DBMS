@@ -13,9 +13,9 @@ public class Bill {
 		    pstmt.setInt(1, custId);
 		    pstmt.executeUpdate();
 		    
-		    PreparedStatement pstmt1 = conn.prepareStatement("UPDATE CHECKIN SET CHECKOUTDATE = CURDATE(), CHECKOUTTIME=CURTIME() WHERE CUSTOMERID =? AND CHECKOUTDATE=NULL");
-		    pstmt1.setInt(1, custId);
-		    pstmt1.executeUpdate();
+//		    PreparedStatement pstmt1 = conn.prepareStatement("UPDATE CHECKIN SET CHECKOUTDATE = CURDATE(), CHECKOUTTIME=CURTIME() WHERE CUSTOMERID =? AND CHECKOUTDATE=NULL");
+//		    pstmt1.setInt(1, custId);
+//		    pstmt1.executeUpdate();
 		    
 		    PreparedStatement pstmt2 = conn.prepareStatement("UPDATE BILL SET ModeOfPayment =? WHERE ID = ?;");
 		    pstmt2.setString(1, modeOfPayment);

@@ -3,14 +3,15 @@ package src;
 import java.sql.*;
 
 public class Hotel {
-
+	static int id=4;
 	/*
 	 * Data - id, managerId, long phoneNumber, address, city;
 	 */
-	public static void createHotel(int id, String name, String address, String city, String phoneNumber, int managerId) {
+	public static void createHotel(String name, String address, String city, String phoneNumber, int managerId) {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
+		    id++;
 		    PreparedStatement pstmt= conn.prepareStatement("INSERT INTO HOTEL(ID, NAME, ADDRESS, CITY, PHONE, MANAGERID) VALUES (?,?,?,?,?,?)");
 		    pstmt.setInt(1, id);
 		    pstmt.setString(2, name);
@@ -26,7 +27,7 @@ public class Hotel {
 		}
 	}
 
-	public static void editHotel(int id,String name, String address, String city, String phoneNumber, int managerId) {
+	public static void updateHotel(int id,String name, String address, String city, String phoneNumber, int managerId) {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
@@ -73,7 +74,7 @@ public class Hotel {
 		return rs;
 	}
 	
-	public static ResultSet showHotels() {
+	public static ResultSet getAllHotels() {
 		ResultSet rs= null;
 		try {
 			Connection conn = DBConnection.getConnection();

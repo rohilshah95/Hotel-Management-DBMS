@@ -49,7 +49,7 @@ public class Room {
 	
 	
 	
-	static void deleteRoom(int hotelID, int number) {
+	public static void deleteRoom(int hotelID, int number) {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    PreparedStatement pstmt = conn.prepareStatement("DELETE FROM ROOM WHERE hotelId=? AND number=?");
@@ -63,33 +63,46 @@ public class Room {
 	}
 	
 	
-	static void checkRoomAvailability(int hotelId) {
+	public static ResultSet checkRoomAvailability(int hotelId) {
+		ResultSet rs=null;
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
 			// query
-		    stmt.executeUpdate("SELECT * FROM ROOM WHERE availability=1 AND hotelId="+hotelId);
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM ROOM WHERE AVAILABILITY=1 AND HOTELID=?");
+		    pstmt.setInt(1, hotelId);
+		    rs = pstmt.executeQuery();
 		    
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		return rs;
 	}
 	
-	static void checkRoomAvailability(int hotelId, String category) {
+	public static ResultSet checkRoomAvailability(int hotelId, String category) {
+		ResultSet rs=null;
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
-		    stmt.executeUpdate("SELECT * FROM ROOM WHERE availability=1 AND hotelId="+hotelId + " AND category='"+category+"'");
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM ROOM WHERE AVAILABILITY=1 AND HOTELID=? AND CATEGORY=?");
+		    pstmt.setInt(1, hotelId);
+		    pstmt.setString(2, category);
+		    rs=pstmt.executeQuery();
 			// query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		return rs;
 	}
 
 	
-	static void releaseRoom(int hotelId, int number) {
+	static void releaseRoom(int hotelId, int number, int custId) {
 		try {
 			Connection conn = DBConnection.getConnection();
+		    PreparedStatement pstmt1 = conn.prepareStatement("UPDATE CHECKIN SET CHECKOUTDATE = CURDATE(), CHECKOUTTIME=CURTIME() WHERE CUSTOMERID =? AND CHECKOUTDATE=NULL");
+		    pstmt1.setInt(1, custId);
+		    pstmt1.executeUpdate();
+
 		    PreparedStatement pstmt = conn.prepareStatement("UPDATE ROOM SET availability=1 WHERE hotelid=? AND number=?");
 		    pstmt.setInt(1, hotelId);
 		    pstmt.setInt(2, number);
@@ -101,7 +114,7 @@ public class Room {
 		// *********************************** MAKE CHANGES IN REPORT 1, TAKE HOTEL ID AS A PARAMETER IN THE FUNCTION **************************
 	}
 	
-	static void addServiceToRoom(int hotelId, int number, int staffId,int  serviceId) {
+	public static void addServiceToRoom(int hotelId, int number, int staffId,int  serviceId) {
 		try {
 			Connection conn = DBConnection.getConnection();
 			// query
@@ -117,7 +130,7 @@ public class Room {
 		// *********************************** MAKE CHANGES IN REPORT 1, TAKE HOTEL ID AS A PARAMETER IN THE FUNCTION **************************
 	}
 	
-	static void addStaffToPresidential(int hotelId, int number, int staffId) {
+	public static void addStaffToPresidential(int hotelId, int number, int staffId) {
 		try {
 			Connection conn = DBConnection.getConnection();
 			// query
