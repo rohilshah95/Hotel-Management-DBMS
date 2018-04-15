@@ -13,6 +13,7 @@ import java.util.Scanner;
 public class TeamT {
 
 	static Scanner stdin = new Scanner(System.in);
+	static boolean loggedIn = false;
 
 	public static void main(String[] args) {
 		DBConnection.initialize();
@@ -21,6 +22,7 @@ public class TeamT {
 		// "david@gmail.com", "593-9846", "980 TRT St, Raleigh NC", (byte)0);
 		while (true) {
 			int user = Login.getUser();
+			loggedIn = true;
 			int hotelID;
 			switch (selectOption()) {
 			case 1:
@@ -36,40 +38,41 @@ public class TeamT {
 			case 4:
 				reports(user);
 				break;
+			case 5:
+				loggedIn = false;
+				break;
 			default:
-				System.out.println("Exiting!");
-				System.exit(0);
+				System.out.println("Enter valid Input.");
 			}
 		}
 	}
 
 	public static void reports(int user) {
-		while (true) {
+		while (loggedIn) {
 			System.out.println(
-					"Make changes into:\n1. hotelOccupancy\n2. roomOccupancy\n3. date range occupancy\n4. city occupancy\n5. group staff by role\n6. staff serving customer\n7. Revenue Report\n");
+					"Make changes into:\n1. Hotel Occupancy\n2. Room Occupancy\n3. Occupancy between a Date Range\n4. City Occupancy\n5. Staff by Role\n6. Staff Serving Customer\n7. Revenue Report\n8. Logout");
 			int option = readInt();
+			ResultSet rs = null;
 			switch (option) {
-			case 1: {
+			case 1:
 				// get hotel occupancy details
 				if (user == 3 || user == 4) {
 					System.out.println("You are not authorised to perform this operation.");
 					break;
 				}
-				ResultSet rs = Report.hotelOccupancy();
+				rs = Report.hotelOccupancy();
 				outputResult(rs);
 				break;
-			}
-			case 2: {
+			case 2:
 				// get room occupancy
 				if (user == 3 || user == 4) {
 					System.out.println("You are not authorised to perform this operation.");
 					break;
 				}
-				ResultSet rs = Report.roomOccupancy();
+				rs = Report.roomOccupancy();
 				outputResult(rs);
 				break;
-			}
-			case 3: {
+			case 3:
 				if (user == 3 || user == 4) {
 					System.out.println("You are not authorised to perform this operation.");
 					break;
@@ -78,40 +81,36 @@ public class TeamT {
 				String dateStart = readInput();
 				System.out.print("enter the end date:");
 				String dateEnd = readInput();
-				ResultSet rs = Report.dateRangeOccupancy(dateStart, dateEnd);
+				rs = Report.dateRangeOccupancy(dateStart, dateEnd);
 				outputResult(rs);
 				break;
-			}
-			case 4: {
+			case 4:
 				if (user == 3 || user == 4) {
 					System.out.println("You are not authorised to perform this operation.");
 					break;
 				}
-				ResultSet rs = Report.cityOccupancy();
+				rs = Report.cityOccupancy();
 				outputResult(rs);
 				break;
-			}
-			case 5: {
+			case 5:
 				if (user == 3 || user == 4) {
 					System.out.println("You are not authorised to perform this operation.");
 					break;
 				}
-				ResultSet rs = Report.groupStaffByRole();
+				rs = Report.groupStaffByRole();
 				outputResult(rs);
 				break;
-			}
-			case 6: {
+			case 6:
 				if (user == 4) {
 					System.out.println("You are not authorised to perform this operation.");
 					break;
 				}
 				System.out.print("enter the customer id for whom staff info is needed: ");
 				int customerId = readInt();
-				ResultSet rs = Report.staffServingCustomer(customerId);
+				rs = Report.staffServingCustomer(customerId);
 				outputResult(rs);
 				break;
-			}
-			case 7: {
+			case 7:
 				if (user == 3 || user == 4) {
 					System.out.println("You are not authorised to perform this operation.");
 					break;
@@ -121,23 +120,23 @@ public class TeamT {
 				String checkInTime = readInput();
 				System.out.print("Enter the end date: ");
 				String checkOutTime = readInput();
-				ResultSet rs = Report.revenueReport(hotelId, checkInTime, checkOutTime);
+				rs = Report.revenueReport(hotelId, checkInTime, checkOutTime);
 				outputResult(rs);
 				break;
-			}
-			default: {
+			case 8:
+				loggedIn = false;
+				break;
+			default:
 				System.out.println("enter the correct option!");
-			}
 			}
 		}
 	}
 
 	public static void billingAccounts(int user) {
-		while (true) {
-			System.out.println("Operations to perform:\n1. Calculate  Bill\n2. Generate Receipt\n");
+		while (loggedIn) {
+			System.out.println("Operations to perform:\n1. Calculate  Bill\n2. Generate Receipt\n3. Logout");
 			int option = readInt();
-			System.out.print("Enter Customer ID: ");
-			int id = readInt();
+			int id = 0;
 			ResultSet rs = null;
 			switch (option) {
 			case 1:
@@ -145,6 +144,8 @@ public class TeamT {
 					System.out.println("You are not authorised to perform this operation.");
 					break;
 				}
+				System.out.print("Enter Customer ID: ");
+				id = readInt();
 				System.out.println("Enter Mode of payment:\n1. Hotel Card\n2. Credit/Debit Card\n3. Cash");
 				int op = readInt();
 				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -171,6 +172,8 @@ public class TeamT {
 					System.out.println("You are not authorised to perform this operation.");
 					break;
 				}
+				System.out.print("Enter Customer ID: ");
+				id = readInt();
 				System.out.print("Enter Checkout Date: ");
 				String date1 = readInput();
 				rs = Bill.getAmount(id, date1);
@@ -179,13 +182,19 @@ public class TeamT {
 				rs = Bill.generateReceipt(id, date1);
 				outputResult(rs);
 				break;
+			case 3:
+				loggedIn = false;
+				break;
+			default:
+				System.out.println("Enter valid input.");
+
 			}
 		}
 	}
 
 	public static void serviceRecords(int user) {
-		while (true) {
-			System.out.println("\n1. assign room to customer\n2. assign staff to room");
+		while (loggedIn) {
+			System.out.println("\n1. Assign room to customer\n2. Assign staff to room\n3. Logout");
 			int option = readInt();
 			switch (option) {
 			case 1: {
@@ -259,6 +268,10 @@ public class TeamT {
 				}
 				break;
 			}
+			case 3: {
+				loggedIn = false;
+				break;
+			}
 			default: {
 				System.out.println("enter the correct option");
 			}
@@ -268,7 +281,7 @@ public class TeamT {
 	}
 
 	public static void informationProcessing(int user, int hotelID) {
-		while (true) {
+		while (loggedIn) {
 			System.out.println("Make changes into:\n1. Customer\n2. Staff\n3. Room\n4. Hotel\n5. Service\n6. Logout\n");
 			int option = readInt();
 			int op = 0;
@@ -625,6 +638,7 @@ public class TeamT {
 				}
 				break;
 			case 6: // Logout
+				loggedIn = false;
 				break;
 			default:
 				System.out.println("\n ENTER CORRECT CHOICE! \n");
@@ -672,8 +686,7 @@ public class TeamT {
 		// Enter user choice
 		System.out.println("Select Operation:");
 		System.out.println("1. Information Processing \n" + "2. Maintaining Service Records \n"
-				+ "3. Maintaining Billing Accounts \n" + "4. Reports \n" + "5. Exit");
-		System.out.println("Enter the number of your choice:");
+				+ "3. Maintaining Billing Accounts \n" + "4. Reports \n" + "5. Logout");
 		option = readInt();
 		return option;
 	}
