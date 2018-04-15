@@ -96,9 +96,13 @@ public class Room {
 	}
 
 	
-	static void releaseRoom(int hotelId, int number) {
+	static void releaseRoom(int hotelId, int number, int custId) {
 		try {
 			Connection conn = DBConnection.getConnection();
+		    PreparedStatement pstmt1 = conn.prepareStatement("UPDATE CHECKIN SET CHECKOUTDATE = CURDATE(), CHECKOUTTIME=CURTIME() WHERE CUSTOMERID =? AND CHECKOUTDATE=NULL");
+		    pstmt1.setInt(1, custId);
+		    pstmt1.executeUpdate();
+
 		    PreparedStatement pstmt = conn.prepareStatement("UPDATE ROOM SET availability=1 WHERE hotelid=? AND number=?");
 		    pstmt.setInt(1, hotelId);
 		    pstmt.setInt(2, number);

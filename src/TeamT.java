@@ -163,6 +163,9 @@ public class TeamT {
 				break;
 			case 3: // Room
 				crud();
+				System.out.println("5. Check rooms available in the hotel");
+				System.out.println("6. Check rooms available of a category in the hotel");
+				System.out.println("7. Assign room to customer");
 				op = Integer.parseInt(readInput());
 				if (op == 1) { // Create
 					String[] params = { "HotelID", "Number", "Category", "Rate", "Availability", "MaxOccupancy" };
@@ -206,8 +209,30 @@ public class TeamT {
 					int id = Integer.parseInt(readInput());
 					Room.deleteRoom(hotelID, id);
 					System.out.println("Room number " + id + " of hotel with ID " + hotelID + " deleted");
-				} else {
-
+				} else if(op == 5 ) {
+					ResultSet rs = Room.checkRoomAvailability(hotelID);
+					outputResult(rs);
+				} else if(op == 6 ) {
+					System.out.println("Enter the room category:");
+					String category = readInput();
+					ResultSet rs = Room.checkRoomAvailability(hotelID, category);
+					outputResult(rs);
+				} else if(op == 7 ) {
+					System.out.println("Enter Customer's ID: ");
+					int customerId = Integer.parseInt(readInput());
+					System.out.println("Enter the number of guests: ");
+					int noOfGuests = Integer.parseInt(readInput());
+					System.out.println("Enter the roomId");
+					int roomId = Integer.parseInt(readInput());
+					Customer.assignRoom(customerId, hotelID, roomId, noOfGuests);
+					System.out.println("Room has been assigned!");
+				} else if(op == 8){
+					System.out.println("Enter Customer ID: ");
+					int custId = Integer.parseInt(readInput());
+					System.out.println("Enter the Room Numer: ");
+					int number = Integer.parseInt(readInput());
+					Room.releaseRoom(hotelID, number, custId);
+				} else {	
 				}
 				break;
 			case 4: // Hotel
@@ -367,13 +392,15 @@ public class TeamT {
 			ResultSetMetaData rsmd = rs.getMetaData();
 			// System.out.println("querying SELECT * FROM XXX");
 			int columnsNumber = rsmd.getColumnCount();
-			System.out.println("\n**************************************************************************************************");
-			for(int i=1; i<= columnsNumber; i++) {
+			System.out.println(
+					"\n**************************************************************************************************");
+			for (int i = 1; i <= columnsNumber; i++) {
 				if (i > 1)
 					System.out.print(",  ");
 				System.out.print(rsmd.getColumnName(i));
 			}
-			System.out.println("\n**************************************************************************************************");
+			System.out.println(
+					"\n**************************************************************************************************");
 			while (rs.next()) {
 				for (int i = 1; i <= columnsNumber; i++) {
 					if (i > 1)
@@ -383,7 +410,8 @@ public class TeamT {
 				}
 				System.out.println();
 			}
-			System.out.println("**************************************************************************************************\n");
+			System.out.println(
+					"**************************************************************************************************\n");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
