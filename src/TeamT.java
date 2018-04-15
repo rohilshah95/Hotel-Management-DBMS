@@ -117,6 +117,7 @@ public class TeamT {
 			int id = Integer.parseInt(readInput());
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			Date date = new Date();
+			ResultSet rs = null;
 			switch (option) {
 			case 1:
 				System.out.println("Enter Mode of payment:\n1. Hotel Card\n2. Credit/Debit Card\n3. Cash");
@@ -135,10 +136,12 @@ public class TeamT {
 				default:
 
 				}
-				Bill.calcBill(id, dateFormat.format(date), modeOfPayment);
+				rs = Bill.calcBill(id, dateFormat.format(date), modeOfPayment);
+				outputResult(rs);
 				break;
 			case 2:
-				Bill.generateReceipt(id, dateFormat.format(date));
+				rs = Bill.generateReceipt(id, dateFormat.format(date));
+				outputResult(rs);
 				break;
 			}
 		}
