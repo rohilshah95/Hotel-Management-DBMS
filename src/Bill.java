@@ -23,24 +23,26 @@ public class Bill {
 		    pstmt2.executeUpdate();
 		    
 		    PreparedStatement pstmt3= conn.prepareStatement("UPDATE BILL SET AMOUNT = (100-discount)/100*" + 
-		    		"(SELECT SUM(COST) from(" + 
-		    		"(SELECT SERVICE.Cost AS Cost" + 
-		    		"FROM CHECKIN JOIN PROVIDES JOIN SERVICE" + 
-		    		"WHERE (CHECKIN.CustomerId=? AND" + 
-		    		"CHECKIN.CheckOutDate=?))" + 
-		    		"UNION" + 
-		    		"(SELECT (DATEDIFF(Checkoutdate,checkindate))*Rate AS Cost" + 
-		    		"FROM ROOM JOIN CHECKIN" + 
-		    		"WHERE (CHECKIN.CUSTOMERID = ? AND" + 
-		    		"CHECKIN.CHECKOUTDATE=?) )) as n)" +  
-		    		"WHERE BILL.ID = (SELECT BILLID" + 
-		    		"FROM CHECKIN" + 
-		    		"WHERE CUSTOMERID = ?);");
+    		"(SELECT SUM(COST) from( " + 
+    		"(SELECT SERVICE.Cost AS Cost " + 
+    		"FROM (CHECKIN NATURAL JOIN PROVIDES) JOIN SERVICE ON (SERVICE.ID=PROVIDES.SERVICEID) " + 
+    		"WHERE (CHECKIN.CustomerId=? AND PROVIDES.TIMESTAMP<=CHECKIN.CHECKOUTDATE AND PROVIDES.TIMESTAMP>=CHECKIN.CHECKINDATE AND " + 
+    		"CHECKIN.CheckOutDate=?)) " + 
+    		"UNION " + 
+    		"(SELECT (DATEDIFF(Checkoutdate,checkindate))*Rate AS Cost " + 
+    		"FROM ROOM JOIN CHECKIN ON (ROOM.NUMBER=CHECKIN.NUMBER AND ROOM.HOTELID=CHECKIN.HOTELID) " + 
+    		"WHERE (CHECKIN.CUSTOMERID = ? AND " + 
+    		"CHECKIN.CHECKOUTDATE=?) )) as n) " +  
+    		"WHERE BILL.ID = (SELECT BILLID " + 
+    		"FROM CHECKIN " + 
+    		"WHERE CUSTOMERID = ? AND CHECKIN.CHECKOUTDATE=?);");
+//		    PreparedStatement pstmt3= conn.prepareStatement("UPDATE BILL SET AMOUNT = (100-discount)/100* (SELECT SUM(COST) from((SELECT SERVICE.Cost AS Cost FROM (CHECKIN NATURAL JOIN PROVIDES) JOIN SERVICE ON (SERVICE.ID=PROVIDES.SERVICEID) WHERE (CHECKIN.CustomerId=? AND PROVIDES.TIMESTAMP<=CHECKIN.CHECKOUTDATE AND PROVIDES.TIMESTAMP>=CHECKIN.CHECKINDATE AND CHECKIN.CHECKOUTDATE=CURDATE())) UNION (SELECT (DATEDIFF(Checkoutdate,checkindate))*Rate AS Cost FROM ROOM JOIN CHECKIN ON (ROOM.NUMBER=CHECKIN.NUMBER AND ROOM.HOTELID=CHECKIN.HOTELID WHERE (CHECKIN.CUSTOMERID = ? AND CHECKIN.CHECKOUTDATE=CURDATE()) )) as n) WHERE BILL.ID = (SELECT BILLID FROM CHECKIN WHERE CUSTOMERID = ? AND CHECKOUTDATE=CURDATE())");
 		    pstmt3.setInt(1, custId);
 		    pstmt3.setString(2, checkOutDate);
 		    pstmt3.setInt(3, custId);
 		    pstmt3.setString(4, checkOutDate);
 		    pstmt3.setInt(5, custId);
+		    pstmt3.setString(6, checkOutDate);
 		    pstmt3.executeUpdate();
 		    
 		    PreparedStatement pstmt4= conn.prepareStatement("SELECT * from BILL JOIN CHECKIN WHERE CHECKIN.BILLID=BILL.ID AND CHECKIN.CUSTOMERID=? AND CHECKIN.CHECKOUTDATE=?");
@@ -65,13 +67,13 @@ public class Bill {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    
-		    PreparedStatement pstmt = conn.prepareStatement("(SELECT SERVICE.Cost AS Cost, SERVICE.name as Name" + 
-		    		"FROM CHECKIN JOIN PROVIDES JOIN SERVICE" + 
-		    		"WHERE (CHECKIN.CustomerId=? AND CHECKIN.CheckOutdate=?))" + 
-		    		"UNION" + 
+		    PreparedStatement pstmt = conn.prepareStatement("(SELECT SERVICE.Cost AS Cost, SERVICE.name as Name " + 
+		    		"FROM (CHECKIN NATURAL JOIN PROVIDES) JOIN SERVICE ON (SERVICE.ID=PROVIDES.SERVICEID) " + 
+		    		"WHERE (CHECKIN.CustomerId=? AND CHECKIN.CheckOutdate=? AND PROVIDES.TIMESTAMP<=CHECKIN.CHECKOUTDATE AND PROVIDES.TIMESTAMP>=CHECKIN.CHECKINDATE)) " + 
+		    		"UNION " + 
 		    		"(SELECT (DATEDIFF(Checkoutdate,checkindate))*Rate AS Cost, 'Room' " + 
-		    		"as name" + 
-		    		"FROM ROOM JOIN CHECKIN" + 
+		    		"as name " + 
+		    		"FROM ROOM JOIN CHECKIN " + 
 		    		"Where (CHECKIN.CUSTOMERID = ? AND CHECKIN.CHECKOUTDATE = ?) );");
 		    pstmt.setInt(1, custId);
 		    pstmt.setString(2, checkOutDate);

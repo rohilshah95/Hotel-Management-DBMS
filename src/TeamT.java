@@ -113,10 +113,12 @@ public class TeamT {
 		while (true) {
 			System.out.println("Operations to perform:\n1. Calculate  Bill\n2. Generate Receipt\n");
 			int option = Integer.parseInt(readInput());
+			System.out.print("Enter Customer ID:");
+			int id = Integer.parseInt(readInput());
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
 			switch (option) {
 			case 1:
-				System.out.print("Enter Customer ID:");
-				int id = Integer.parseInt(readInput());
 				System.out.println("Enter Mode of payment:\n1. Hotel Card\n2. Credit/Debit Card\n3. Cash");
 				int op = Integer.parseInt(readInput());
 				String modeOfPayment = "cash";
@@ -133,11 +135,10 @@ public class TeamT {
 				default:
 
 				}
-				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-				Date date = new Date();
 				Bill.calcBill(id, dateFormat.format(date), modeOfPayment);
 				break;
 			case 2:
+				Bill.generateReceipt(id, dateFormat.format(date));
 				break;
 			}
 		}
@@ -170,18 +171,15 @@ public class TeamT {
 
 				// check if the room is presidential
 				rs = Room.getRoom(hotelId, roomId);
-				String category="";
-				try
-				{
+				String category = "";
+				try {
 					while (rs.next()) {
 						category = rs.getString(3);
 					}
-				}
-				catch(Exception e)
-				{
+				} catch (Exception e) {
 					System.out.println(e);
 				}
-				
+
 				if (category.equals("Presidential")) {
 					rs = Staff.getAvailableStaff(hotelId);
 					outputResult(rs);
@@ -195,7 +193,7 @@ public class TeamT {
 				int hotelId = Login.getHotelID();
 				System.out.print("enter the room you want to assign staff to: ");
 				int roomId = sc.nextInt();
-				
+
 				ResultSet rs = Room.getRoom(hotelId, roomId);
 				String category="";
 				try
