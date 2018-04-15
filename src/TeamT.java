@@ -219,9 +219,35 @@ public class TeamT {
 					Hotel.createHotel(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3), send.get(4),
 							Integer.parseInt(send.get(5)));
 				} else if (op == 2) { // Read
-
+					System.out.println("1. All hotels\n2. By Hotel ID");
+					int query = Integer.parseInt(readInput());
+					if (query == 2) {
+						System.out.println("Enter Hotel ID");
+						int id = Integer.parseInt(readInput());
+						ResultSet rs = Hotel.getHotel(id);
+						outputResult(rs);
+					} else {
+						ResultSet rs = Hotel.getAllHotels();
+						outputResult(rs);
+					}
 				} else if (op == 3) { // Update
-
+					System.out.println("Enter Hotel ID");
+					int id = Integer.parseInt(readInput());
+					ResultSet rs = Hotel.getHotel(id);
+					List<String> check = new LinkedList<String>();
+					try {
+						while (rs.next()) {
+							for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+								check.add(rs.getString(i));
+							}
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+					String[] params = { "ID", "Name", "Address", "City", "Phone Number", "ManagerID" };
+					List<String> send = update(params, check);
+					Hotel.updateHotel(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3), send.get(4),
+							Integer.parseInt(send.get(5)));
 				} else if (op == 4) { // Delete
 					System.out.println("Enter Hotel ID");
 					int id = Integer.parseInt(readInput());
