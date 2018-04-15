@@ -61,6 +61,22 @@ public class Bill {
 		
 		return rs;
 	}
+	
+	public static ResultSet getAmount(int custId, String checkOutDate) {
+		ResultSet rs= null;
+		try {
+			Connection conn = DBConnection.getConnection();
+		    
+			PreparedStatement pstmt4= conn.prepareStatement("SELECT * from BILL JOIN CHECKIN WHERE CHECKIN.BILLID=BILL.ID AND CHECKIN.CUSTOMERID=? AND CHECKIN.CHECKOUTDATE=?");
+		    pstmt4.setInt(1, custId);
+		    pstmt4.setString(2, checkOutDate);
+		    rs = pstmt4.executeQuery();
+			// create entry
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return rs;
+	}
 
 	public static ResultSet generateReceipt(int custId, String checkOutDate) {
 	    ResultSet rs = null;
