@@ -146,7 +146,7 @@ public class Room {
 			pstmt.setInt(3, staffId);
 			pstmt.executeUpdate();
 			PreparedStatement pstmt2 = conn
-					.prepareStatement("UPDATE STAFF SET availability=0 WHERE hotelid=? AND staffId=?");
+					.prepareStatement("UPDATE STAFF SET availability=0 WHERE hotelId=? AND staffId=?");
 			pstmt2.setInt(1, hotelId);
 			pstmt2.setInt(2, staffId);
 			pstmt2.executeUpdate();

@@ -171,18 +171,39 @@ public class TeamT {
 
 				// check if the room is presidential
 				rs = Room.getRoom(hotelId, roomId);
-				String category;
-//				while (rs.next()) {
-//					category = rs.getString(3);
-//				}
-//				if (category == "Presidential") {
-//					//getAvailableStaff();
-//					Room.addStaffToPresidential(hotelId, roomId, staffId);
-//				}
-
+				String category="";
+				try
+				{
+					while (rs.next()) {
+						category = rs.getString(3);
+					}
+				}
+				catch(Exception e)
+				{
+					System.out.println(e);
+				}
+				
+				if (category == "Presidential") {
+					rs = Staff.getAvailableStaff();
+					outputResult(rs);
+					System.out.print("enter the staff to assign to room: ");
+					int staffId = sc.nextInt();
+					Room.addStaffToPresidential(hotelId, roomId, staffId);
+				}
+				break;
 			}
 			case 2: {
+				int hotelId = Login.getHotelID();
+				System.out.print("enter the room you want to assign staff to: ");
+				int roomId = sc.nextInt();
+				
+				ResultSet rs = Staff.getAvailableStaff();
+				outputResult(rs);
+				System.out.print("enter the staff to assign to room: ");
+				int staffId = sc.nextInt();
+				Room.addStaffToPresidential(hotelId, roomId, staffId);
 
+				break;
 			}
 			default: {
 
