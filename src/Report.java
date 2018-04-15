@@ -20,7 +20,7 @@ public class Report {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
-		    rs = stmt.executeQuery("SELECT HotelID, COUNT(*) FROM ROOM WHERE Availability=0 GROUP BY HotelID");
+		    rs = stmt.executeQuery(" SELECT SUM(AVAILABILITY=0) AS OCCUPANCY, COUNT(*) AS TOTAL, (100*SUM(AVAILABILITY=0)/COUNT(*)) AS PERCENTAGE, HOTELID  FROM ROOM GROUP BY  HOTELID");
 			// query
 		} catch (Exception e) {
 			System.out.println(e);
@@ -33,7 +33,7 @@ public class Report {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
-		    rs = stmt.executeQuery("SELECT HotelID, COUNT(*) FROM ROOM WHERE Availability=0 GROUP BY Category");
+		    rs = stmt.executeQuery("SELECT HotelID, COUNT(*) AS OCCUPIED, CATEGORY FROM ROOM WHERE Availability=0 GROUP BY Category ORDER BY HOTELID");
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -98,7 +98,7 @@ public class Report {
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
-		    PreparedStatement pstmt = conn.prepareStatement("SELECT SUM(BILL.Amount) FROM BILL JOIN CHECKIN WHERE (CHECKIN.CheckOutdate >= ? AND CHECKIN.CheckOutdate <= ? AND CHECKIN.HotelID=?)");
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT SUM(BILL.Amount) AS REVENUE FROM BILL JOIN CHECKIN ON (BILL.ID=CHECKIN.BILLID) WHERE (CHECKIN.CheckOutdate >= ? AND CHECKIN.CheckOutdate <= ? AND CHECKIN.HotelID=?)");
 		    pstmt.setString(1, checkInTime);
 		    pstmt.setString(2, checkOutTime);
 		    pstmt.setInt(3, hotelId);
