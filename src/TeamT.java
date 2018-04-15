@@ -68,11 +68,11 @@ public class TeamT {
 				crud();
 				op = Integer.parseInt(readInput());
 				if (op == 1) { // Create
-					String[] params = { "ID", "Name", "DOB", "Phone Number", "Email", "SSN", "Address",
+					String[] params = { "Name", "DOB", "Phone Number", "Email", "SSN", "Address",
 							"Has Hotel Card?" };
 					List<String> send = create(params);
-					Customer.createCustomer(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3),
-							send.get(4), send.get(5), send.get(6), Byte.valueOf(send.get(7)));
+					Customer.createCustomer(send.get(0), send.get(1), send.get(2),
+							send.get(3), send.get(4), send.get(5), Byte.valueOf(send.get(6)));
 				} else if (op == 2) { // Read
 					System.out.println("1. All customers\n2. By customer ID");
 					int query = Integer.parseInt(readInput());
@@ -117,10 +117,10 @@ public class TeamT {
 				crud();
 				op = Integer.parseInt(readInput());
 				if (op == 1) { // Create
-					String[] params = { "ID", "Name", "Title", "Department", "Address", "Phone", "Availability" };
+					String[] params = { "Name", "Title", "Department", "Address", "Phone", "Availability" };
 					List<String> send = create(params);
-					Staff.createStaff(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3), send.get(4),
-							send.get(5), Byte.valueOf(send.get(6)));
+					Staff.createStaff(send.get(0), send.get(1), send.get(2), send.get(3),
+							send.get(4), Byte.valueOf(send.get(5)));
 				} else if (op == 2) { // Read
 					System.out.println("1. All staff\n2. By staff ID");
 					int query = Integer.parseInt(readInput());
@@ -239,10 +239,10 @@ public class TeamT {
 				crud();
 				op = Integer.parseInt(readInput());
 				if (op == 1) { // Create
-					String[] params = { "ID", "Name", "Address", "City", "Phone Number", "ManagerID" };
+					String[] params = { "Name", "Address", "City", "Phone Number", "ManagerID" };
 					List<String> send = create(params);
-					Hotel.createHotel(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3), send.get(4),
-							Integer.parseInt(send.get(5)));
+					Hotel.createHotel(send.get(0), send.get(1), send.get(2), send.get(3),
+							Integer.parseInt(send.get(4)));
 				} else if (op == 2) { // Read
 					System.out.println("1. All hotels\n2. By Hotel ID");
 					int query = Integer.parseInt(readInput());
@@ -286,9 +286,9 @@ public class TeamT {
 				crud();
 				op = Integer.parseInt(readInput());
 				if (op == 1) { // Create
-					String[] params = { "Service ID", "Name", "Cost" };
+					String[] params = { "Name", "Cost" };
 					List<String> send = create(params);
-					Service.createService(Integer.parseInt(send.get(0)), send.get(1), Integer.parseInt(send.get(2)));
+					Service.createService(send.get(0), Integer.parseInt(send.get(1)));
 				} else if (op == 2) { // Read
 					System.out.println("1. All services\n2. By service ID");
 					int query = Integer.parseInt(readInput());

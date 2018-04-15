@@ -3,7 +3,9 @@ package src;
 import java.sql.*;
 
 public class Customer {
-	static int billId = 4; // because demo data already has 4 entries
+	static int billId = 4; 
+	static int id=1004;
+	// because demo data already has 4 entries
 	// int id;
 	// String name;
 	// String dob;
@@ -13,9 +15,10 @@ public class Customer {
 	// String address;
 	// byte hasHotelCard;
 
-	public static void createCustomer(int id, String name, String dob, String phoneNumber, String email, String ssn,
+	public static void createCustomer(String name, String dob, String phoneNumber, String email, String ssn,
 			String address, Byte hasHotelCard) {
 		try {
+			id++;
 			Connection conn = DBConnection.getConnection();
 		    PreparedStatement pstmt = conn.prepareStatement("INSERT INTO CUSTOMER (ID, NAME, DOB, PHONE, EMAIL,SSN, ADDRESS, HASHOTELCARD) VALUES (?,?,?,?,?,?,?,?)");
 		    pstmt.setInt(1, id);

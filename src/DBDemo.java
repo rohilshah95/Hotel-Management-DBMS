@@ -3,7 +3,7 @@ package src;
 import java.sql.*;
 
 public class DBDemo {
-	static final String jdbcURL = "jdbc:mariadb://classdb2.csc.ncsu.edu:3306/rshah8";
+//	static final String jdbcURL = "jdbc:mariadb://classdb2.csc.ncsu.edu:3306/rshah8";
 
 	public static void initializeDB() {
 //		try {
