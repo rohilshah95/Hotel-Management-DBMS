@@ -44,7 +44,74 @@ public class TeamT {
 
 	public static void reports(int user) {
 		// TODO Auto-generated method stub
-
+		Scanner sc = new Scanner(System.in);
+		while (true) {
+			System.out.println(
+					"Make changes into:\n1. hotelOccupancy\n2. roomOccupancy\n3. date range occupancy\n4. city occupancy\n5. group staff by role\n6. staff serving customer\n7. Revenue Report\n");
+			int option = Integer.parseInt(readInput());
+			switch (option) {
+				case 1:
+				{
+					// get hotel occupancy details
+					ResultSet rs = Report.hotelOccupancy();
+					outputResult(rs);
+					break;
+				}
+				case 2:
+				{
+					//get room occupancy
+					ResultSet rs = Report.roomOccupancy();
+					outputResult(rs);
+					break;
+				}
+				case 3:
+				{
+					System.out.print("enter the start date:\t");
+					String dateStart = sc.next();
+					System.out.print("enter the end date:\t");
+					String dateEnd = sc.next();
+					ResultSet rs = Report.dateRangeOccupancy(dateStart,dateEnd);
+					outputResult(rs);
+					break;
+				}
+				case 4:
+				{
+					ResultSet rs = Report.cityOccupancy();
+					outputResult(rs);
+					break;
+				}
+				case 5:
+				{
+					ResultSet rs = Report.groupStaffByRole();
+					outputResult(rs);
+					break;
+				}
+				case 6:
+				{
+					System.out.print("enter the customer id for whom staff info is needed: ");
+					int customerId = sc.nextInt();
+					ResultSet rs = Report.staffServingCustomer(customerId);
+					outputResult(rs);
+					break;
+				}
+				case 7:
+				{
+					int hotelId = Login.getHotelID();
+					System.out.print("Enter the checkin time: ");
+					String checkInTime = sc.next();
+					System.out.print("Enter the checkout time: ");
+					String checkOutTime = sc.next();
+					
+					ResultSet rs = Report.revenueReport(hotelId, checkInTime, checkOutTime);
+					outputResult(rs);
+					break;
+				}
+				default:
+				{
+					System.out.println("enter the correct option!");
+				}
+			}
+		}
 	}
 
 	public static void billingAccounts(int user) {
