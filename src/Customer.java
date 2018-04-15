@@ -114,6 +114,8 @@ public class Customer {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		
+		System.out.println("Room assigned");
 	}
 
 	public static ResultSet getCustomer(int id)
