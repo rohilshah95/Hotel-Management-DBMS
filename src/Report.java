@@ -44,7 +44,7 @@ public class Report {
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
-		    PreparedStatement pstmt = conn.prepareStatement("SELECT HotelID, COUNT(*) FROM CHECKIN WHERE (CheckIndate >= ? OR CheckOutdate <= ?) AND NOT (CheckIndate >= ? OR CheckOutdate <= ?) GROUP BY HotelID;");
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT HotelID, COUNT(*) FROM CHECKIN WHERE (CheckIndate >= ? OR CheckOutdate <= ?) AND NOT (CheckIndate <= ? OR CheckOutdate >= ?) GROUP BY HotelID");
 		    pstmt.setString(1, dateStart);
 		    pstmt.setString(2, dateEnd);
 		    pstmt.setString(3, dateStart);
