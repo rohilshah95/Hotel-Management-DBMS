@@ -13,7 +13,7 @@ public class TeamT {
 
 	public static void main(String[] args) {
 		DBConnection.initialize();
-//		DBDemo.initializeDB();
+		// DBDemo.initializeDB();
 		// Customer.createCustomer(1008, "David", "1980-01-30", "123",
 		// "david@gmail.com", "593-9846", "980 TRT St, Raleigh NC", (byte)0);
 		while (true) {
@@ -60,7 +60,7 @@ public class TeamT {
 	public static void informationProcessing(int user, int hotelID) {
 		while (true) {
 			System.out.println(
-					"Make changes into:\n1. Customer\n2. Staff\n3. Room\n4. Hotel\n5. Service\n6. Bill\n7. Logout\n");
+					"Make changes into:\n1. Customer\n2. Staff\n3. Room\n4. Hotel\n5. Service\n6. Logout\n");
 			int option = Integer.parseInt(readInput());
 			int op = 0;
 			switch (option) {
@@ -302,30 +302,7 @@ public class TeamT {
 
 				}
 				break;
-			case 6: // Bill
-				crud();
-				op = Integer.parseInt(readInput());
-				if (op == 1) { // Create
-					String[] params = { "ID", "Name", "DOB", "Phone Number", "Email", "SSN", "Address",
-							"Has Hotel Card?" };
-					List<String> send = create(params);
-					Customer.createCustomer(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3),
-							send.get(4), send.get(5), send.get(6), Byte.valueOf(send.get(7)));
-				} else if (op == 2) { // Read
-
-				} else if (op == 3) { // Update
-
-				} else if (op == 4) { // Delete
-					System.out.println("Enter Customer ID");
-					int id = Integer.parseInt(readInput());
-					Customer.deleteCustomer(id);
-					System.out.println("Customer with ID " + id + " deleted");
-				} else {
-
-				}
-				break;
-			case 7: // Logout
-
+			case 6: // Logout
 				break;
 			default:
 				System.out.println("\n ENTER CORRECT CHOICE! \n");
