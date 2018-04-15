@@ -390,15 +390,23 @@ public class TeamT {
 			ResultSetMetaData rsmd = rs.getMetaData();
 			// System.out.println("querying SELECT * FROM XXX");
 			int columnsNumber = rsmd.getColumnCount();
+			System.out.println("\n**************************************************************************************************");
+			for(int i=1; i<= columnsNumber; i++) {
+				if (i > 1)
+					System.out.print(",  ");
+				System.out.print(rsmd.getColumnName(i));
+			}
+			System.out.println("\n**************************************************************************************************");
 			while (rs.next()) {
 				for (int i = 1; i <= columnsNumber; i++) {
 					if (i > 1)
 						System.out.print(",  ");
 					String columnValue = rs.getString(i);
-					System.out.print(columnValue + " " + rsmd.getColumnName(i));
+					System.out.print(columnValue);
 				}
 				System.out.println();
 			}
+			System.out.println("**************************************************************************************************\n");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
