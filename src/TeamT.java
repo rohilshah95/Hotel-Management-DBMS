@@ -35,12 +35,9 @@ public class TeamT {
 			case 4:
 				reports(user);
 				break;
-			case 5:
+			default:
 				System.out.println("Exiting!");
 				System.exit(0);
-				break;
-			default:
-				System.out.println("\n ENTER CORRECT CHOICE! \n");
 			}
 		}
 	}
