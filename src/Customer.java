@@ -79,10 +79,13 @@ public class Customer {
 		    pstmt.setInt(2, hotelId);
 		    pstmt.executeUpdate();
 		    
+		    billId++;
+		    
 		    PreparedStatement pstmt1= conn.prepareStatement("INSERT INTO BILL (ID, AMOUNT, MODEOFPAYMENT, DISCOUNT) VALUES (?, 0, NULL, 0)");
 		    pstmt1.setInt(1, billId);
 		    pstmt1.executeUpdate();
-		    billId++;
+		    
+//		    billId++;
 		    
 //		    DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
 //		    DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
