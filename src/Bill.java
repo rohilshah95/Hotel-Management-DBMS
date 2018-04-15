@@ -73,7 +73,7 @@ public class Bill {
 		    		"UNION " + 
 		    		"(SELECT (DATEDIFF(Checkoutdate,checkindate))*Rate AS Cost, 'Room' " + 
 		    		"as name " + 
-		    		"FROM ROOM JOIN CHECKIN " + 
+		    		"FROM ROOM NATURAL JOIN CHECKIN " + 
 		    		"Where (CHECKIN.CUSTOMERID = ? AND CHECKIN.CHECKOUTDATE = ?) );");
 		    pstmt.setInt(1, custId);
 		    pstmt.setString(2, checkOutDate);
