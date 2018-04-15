@@ -152,6 +152,12 @@ public class DBDemo {
 						"INSERT INTO CHECKIN VALUES (1004, 0003, 02, 4, '2018-05-10', '14:30:00', '2018-05-12', '10:00:00' ,2)");
 
 				stmt.executeUpdate("INSERT INTO PRESIDENTIAL VALUES (01, 0004)");
+				
+				Bill.calcBill(1001, "2017-05-13", "credit");
+				Bill.calcBill(1002, "2017-05-13", "hotel credit");
+				Bill.calcBill(1003, "2016-05-14", "credit");
+				Bill.calcBill(1004, "2018-05-12", "cash");
+				
 		} catch (Exception e) {
 			System.out.println(e);
 		}

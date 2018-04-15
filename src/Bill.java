@@ -67,13 +67,13 @@ public class Bill {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    
-		    PreparedStatement pstmt = conn.prepareStatement("(SELECT SERVICE.Cost AS Cost, SERVICE.name as Name" + 
-		    		"FROM CHECKIN JOIN PROVIDES JOIN SERVICE" + 
-		    		"WHERE (CHECKIN.CustomerId=? AND CHECKIN.CheckOutdate=?))" + 
-		    		"UNION" + 
+		    PreparedStatement pstmt = conn.prepareStatement("(SELECT SERVICE.Cost AS Cost, SERVICE.name as Name " + 
+		    		"FROM (CHECKIN NATURAL JOIN PROVIDES) JOIN SERVICE ON (SERVICE.ID=PROVIDES.SERVICEID) " + 
+		    		"WHERE (CHECKIN.CustomerId=? AND CHECKIN.CheckOutdate=? AND PROVIDES.TIMESTAMP<=CHECKIN.CHECKOUTDATE AND PROVIDES.TIMESTAMP>=CHECKIN.CHECKINDATE)) " + 
+		    		"UNION " + 
 		    		"(SELECT (DATEDIFF(Checkoutdate,checkindate))*Rate AS Cost, 'Room' " + 
-		    		"as name" + 
-		    		"FROM ROOM JOIN CHECKIN" + 
+		    		"as name " + 
+		    		"FROM ROOM JOIN CHECKIN " + 
 		    		"Where (CHECKIN.CUSTOMERID = ? AND CHECKIN.CHECKOUTDATE = ?) );");
 		    pstmt.setInt(1, custId);
 		    pstmt.setString(2, checkOutDate);
