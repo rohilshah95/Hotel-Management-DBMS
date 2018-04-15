@@ -96,7 +96,6 @@ public class Staff {
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
-		    Statement stmt = conn.createStatement();
 		    PreparedStatement pstmt = conn.prepareCall("SELECT STAFF.ID, STAFF.NAME, STAFF.TITLE, STAFF.DEPARTMENT, STAFF.ADDRESS, STAFF.PHONE, STAFF.AVAILABILITY, HIRES.HOTELID FROM STAFF JOIN HIRES WHERE STAFF.ID=HIRES.STAFFID and HIRES.HOTELID=?");
 		    pstmt.setInt(1, hotelId);
 			// query
