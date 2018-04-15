@@ -61,7 +61,7 @@ public class Report {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
-		    rs = stmt.executeQuery("SELECT HotelID, COUNT(*), City FROM ROOM JOIN HOTEL Where Availability=0 GROUP BY City");
+		    rs = stmt.executeQuery("SELECT  SUM(AVAILABILITY=0) AS OCCUPIED, COUNT(*) AS TOTAL, City FROM ROOM JOIN HOTEL ON (ROOM.HOTELID=HOTEL.ID) GROUP BY City");
 		} catch (Exception e) {
 			System.out.println(e);
 		}
