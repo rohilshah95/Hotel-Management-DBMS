@@ -289,7 +289,8 @@ public class TeamT {
 					System.out.println("Enter the Room Numer: ");
 					int number = Integer.parseInt(readInput());
 					Room.releaseRoom(hotelID, number, custId);
-				} else {
+					System.out.println("Room released!");
+				} else {	
 				}
 				break;
 			case 4: // Hotel
