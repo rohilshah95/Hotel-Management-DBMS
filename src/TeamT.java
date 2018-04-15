@@ -140,7 +140,7 @@ public class TeamT {
 			case 2:
 				System.out.print("Enter Checkout Date: ");
 				String date1 = readInput();
-				rs = Bill.getAmount(id,date1);
+				rs = Bill.getAmount(id, date1);
 				outputResult(rs);
 				System.out.println("----Itemized Receipt----");
 				rs = Bill.generateReceipt(id, date1);
