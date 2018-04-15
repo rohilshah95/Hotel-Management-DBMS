@@ -551,6 +551,12 @@ public class TeamT {
 		s = stdin.nextLine();
 		return s;
 	}
+	
+	public static int readInt() {
+		int s = 0;
+		s = stdin.nextInt();
+		return s;
+	}
 
 	public static void outputResult(ResultSet rs) {
 		try {
