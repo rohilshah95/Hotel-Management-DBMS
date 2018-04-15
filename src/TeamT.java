@@ -46,8 +46,6 @@ public class TeamT {
 	}
 
 	public static void reports(int user) {
-		// TODO Auto-generated method stub
-		Scanner sc = new Scanner(System.in);
 		while (true) {
 			System.out.println(
 					"Make changes into:\n1. hotelOccupancy\n2. roomOccupancy\n3. date range occupancy\n4. city occupancy\n5. group staff by role\n6. staff serving customer\n7. Revenue Report\n");
@@ -67,9 +65,9 @@ public class TeamT {
 			}
 			case 3: {
 				System.out.print("enter the start date:\t");
-				String dateStart = sc.next();
+				String dateStart = readInput();
 				System.out.print("enter the end date:\t");
-				String dateEnd = sc.next();
+				String dateEnd = readInput();
 				ResultSet rs = Report.dateRangeOccupancy(dateStart, dateEnd);
 				outputResult(rs);
 				break;
@@ -86,7 +84,7 @@ public class TeamT {
 			}
 			case 6: {
 				System.out.print("enter the customer id for whom staff info is needed: ");
-				int customerId = sc.nextInt();
+				int customerId = Integer.parseInt(readInput());
 				ResultSet rs = Report.staffServingCustomer(customerId);
 				outputResult(rs);
 				break;
@@ -94,9 +92,9 @@ public class TeamT {
 			case 7: {
 				int hotelId = Login.getHotelID();
 				System.out.print("Enter the checkin time: ");
-				String checkInTime = sc.next();
+				String checkInTime = readInput();
 				System.out.print("Enter the checkout time: ");
-				String checkOutTime = sc.next();
+				String checkOutTime = readInput();
 
 				ResultSet rs = Report.revenueReport(hotelId, checkInTime, checkOutTime);
 				outputResult(rs);
@@ -152,8 +150,6 @@ public class TeamT {
 	}
 
 	public static void serviceRecords(int user) {
-
-		Scanner sc = new Scanner(System.in);
 		while (true) {
 			System.out.println("\n1. assign room to customer\n2. assign staff to room");
 			int option = Integer.parseInt(readInput());
@@ -161,9 +157,9 @@ public class TeamT {
 			case 1: {
 				int hotelId = Login.getHotelID();
 				System.out.print("Enter the customer ID: ");
-				int customerId = sc.nextInt();
+				int customerId = Integer.parseInt(readInput());
 				System.out.print("Enter the number of guests: ");
-				int noOfGuests = sc.nextInt();
+				int noOfGuests = Integer.parseInt(readInput());
 
 				// get a list of the available
 				System.out.println("The available rooms are: ");
@@ -171,7 +167,7 @@ public class TeamT {
 				outputResult(rs);
 
 				System.out.print("Enter room from the above list: ");
-				int roomId = sc.nextInt();
+				int roomId = Integer.parseInt(readInput());
 
 				// assign room to the customer
 				Customer.assignRoom(customerId, hotelId, roomId, noOfGuests);
@@ -191,7 +187,7 @@ public class TeamT {
 					rs = Staff.getAvailableStaff(hotelId);
 					outputResult(rs);
 					System.out.print("enter the staff to assign to room: ");
-					int staffId = sc.nextInt();
+					int staffId = Integer.parseInt(readInput());
 					Room.addStaffToPresidential(hotelId, roomId, staffId);
 				}
 				break;
@@ -199,7 +195,7 @@ public class TeamT {
 			case 2: {
 				int hotelId = Login.getHotelID();
 				System.out.print("enter the room you want to assign staff to: ");
-				int roomId = sc.nextInt();
+				int roomId = Integer.parseInt(readInput());
 
 				ResultSet rs = Room.getRoom(hotelId, roomId);
 				String category = "";
@@ -214,7 +210,7 @@ public class TeamT {
 					rs = Staff.getAvailableStaff(hotelId);
 					outputResult(rs);
 					System.out.print("enter the staff to assign to room: ");
-					int staffId = sc.nextInt();
+					int staffId = Integer.parseInt(readInput());
 					Room.addStaffToPresidential(hotelId, roomId, staffId);
 				} else {
 					System.out.println("this room is not presidential suite");
