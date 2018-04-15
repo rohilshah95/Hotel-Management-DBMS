@@ -16,7 +16,7 @@ public class TeamT {
 
 	public static void main(String[] args) {
 		DBConnection.initialize();
-		// DBDemo.initializeDB();
+		//DBDemo.initializeDB();
 		// Customer.createCustomer(1008, "David", "1980-01-30", "123",
 		// "david@gmail.com", "593-9846", "980 TRT St, Raleigh NC", (byte)0);
 		while (true) {
@@ -182,8 +182,8 @@ public class TeamT {
 					System.out.println(e);
 				}
 				
-				if (category == "Presidential") {
-					rs = Staff.getAvailableStaff();
+				if (category.equals("Presidential")) {
+					rs = Staff.getAvailableStaff(hotelId);
 					outputResult(rs);
 					System.out.print("enter the staff to assign to room: ");
 					int staffId = sc.nextInt();
@@ -196,16 +196,33 @@ public class TeamT {
 				System.out.print("enter the room you want to assign staff to: ");
 				int roomId = sc.nextInt();
 				
-				ResultSet rs = Staff.getAvailableStaff();
+				ResultSet rs = Room.getRoom(hotelId, roomId);
+				String category="";
+				try
+				{
+					while (rs.next()) {
+						category = rs.getString(3);
+					}
+				}
+				catch(Exception e)
+				{
+					System.out.println(e);
+				}
+				if (category.equals("Presidential")) {
+				rs = Staff.getAvailableStaff(hotelId);
 				outputResult(rs);
 				System.out.print("enter the staff to assign to room: ");
 				int staffId = sc.nextInt();
 				Room.addStaffToPresidential(hotelId, roomId, staffId);
-
+				}
+				else
+				{
+					System.out.println("this room is not presidential suite");
+				}
 				break;
 			}
 			default: {
-
+				System.out.println("enter the correct option");
 			}
 			}
 		}

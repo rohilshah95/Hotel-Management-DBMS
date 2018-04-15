@@ -106,12 +106,12 @@ public class Staff {
 		return rs;
 	}
 	
-	public static ResultSet getAvailableStaff()
+	public static ResultSet getAvailableStaff(int HotelId)
 	{
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
-		    PreparedStatement pstmt = conn.prepareStatement("SELECT * from STAFF WHERE availability=1");
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT * from STAFF, HIRES WHERE availability=1 AND HIRES.HOTELID="+HotelId+" AND HIRES.STAFFID = STAFF.ID");
 		    rs= pstmt.executeQuery();
 		    // query
 		} catch (Exception e) {
