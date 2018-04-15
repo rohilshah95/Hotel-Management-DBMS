@@ -12,10 +12,10 @@ public class Login {
 			int user = sc.nextInt();
 			if (user < 1 || user > 4) {
 				System.out.println("Enter correct user... Exiting");
-				sc.close();
+				//sc.close();
 				break;
 			} else
-				sc.close();
+				//sc.close();
 				return user;
 		}
 		
@@ -26,7 +26,7 @@ public class Login {
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Enter HotelID: ");
 		int hotelID = sc.nextInt();
-		sc.close();
+		// sc.close();
 		return hotelID;
 	}
 }
