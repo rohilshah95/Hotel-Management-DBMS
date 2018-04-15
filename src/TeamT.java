@@ -141,10 +141,11 @@ public class TeamT {
 				break;
 			case 2:
 				System.out.print("Enter Checkout Date: ");
-				String date = readInput();
-				rs = Bill.getAmount(id,date);
+				String date1 = readInput();
+				rs = Bill.getAmount(id,date1);
 				outputResult(rs);
-				rs = Bill.generateReceipt(id, date);
+				System.out.println("----Itemized Receipt----");
+				rs = Bill.generateReceipt(id, date1);
 				outputResult(rs);
 				break;
 			}
