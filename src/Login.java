@@ -7,11 +7,7 @@ public class Login {
 		while (true) {
 			System.out.println("Login as:\n1. Admin\n2. Manager\n3. Front Desk Staff\n4. Service Staff\n");
 			int user = Integer.parseInt(TeamT.readInput());
-			if (user < 1 || user > 4) {
-				System.out.println("Enter correct user");
-			} else {
-				return user;
-			}
+			return user;
 		}
 	}
 
