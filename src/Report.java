@@ -44,7 +44,7 @@ public class Report {
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
-		    PreparedStatement pstmt = conn.prepareStatement("SELECT HotelID, COUNT(*) FROM CHECKIN WHERE (CheckInTime >= ? OR CheckOutTime <= ?) AND NOT (CheckInTime >= ? OR CheckOutTime <= ?) GROUP BY HotelID;");
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT HotelID, COUNT(*) FROM CHECKIN WHERE (CheckIndate >= ? OR CheckOutdate <= ?) AND NOT (CheckIndate >= ? OR CheckOutdate <= ?) GROUP BY HotelID;");
 		    pstmt.setString(1, dateStart);
 		    pstmt.setString(2, dateEnd);
 		    pstmt.setString(3, dateStart);
@@ -98,7 +98,7 @@ public class Report {
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
-		    PreparedStatement pstmt = conn.prepareStatement("SELECT SUM(BILL.Amount) FROM BILL JOIN CHECKIN WHERE (CHECKIN.CheckOutTime >= ? AND CHECKIN.CheckOutTime <= ? AND CHECKIN.HotelID=?)");
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT SUM(BILL.Amount) FROM BILL JOIN CHECKIN WHERE (CHECKIN.CheckOutdate >= ? AND CHECKIN.CheckOutdate <= ? AND CHECKIN.HotelID=?)");
 		    pstmt.setString(1, checkInTime);
 		    pstmt.setString(2, checkOutTime);
 		    pstmt.setInt(3, hotelId);
