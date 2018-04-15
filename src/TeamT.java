@@ -142,6 +142,7 @@ public class TeamT {
 				String date1 = readInput();
 				rs = Bill.getAmount(id,date1);
 				outputResult(rs);
+				System.out.println("----Itemized Receipt----");
 				rs = Bill.generateReceipt(id, date1);
 				outputResult(rs);
 				break;
