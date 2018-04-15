@@ -46,7 +46,7 @@ public class TeamT {
 		while (true) {
 			System.out.println(
 					"Make changes into:\n1. hotelOccupancy\n2. roomOccupancy\n3. date range occupancy\n4. city occupancy\n5. group staff by role\n6. staff serving customer\n7. Revenue Report\n");
-			int option = Integer.parseInt(readInput());
+			int option = readInt();
 			switch (option) {
 			case 1: {
 				// get hotel occupancy details
@@ -81,7 +81,7 @@ public class TeamT {
 			}
 			case 6: {
 				System.out.print("enter the customer id for whom staff info is needed: ");
-				int customerId = Integer.parseInt(readInput());
+				int customerId = readInt();
 				ResultSet rs = Report.staffServingCustomer(customerId);
 				outputResult(rs);
 				break;
@@ -107,14 +107,14 @@ public class TeamT {
 	public static void billingAccounts(int user) {
 		while (true) {
 			System.out.println("Operations to perform:\n1. Calculate  Bill\n2. Generate Receipt\n");
-			int option = Integer.parseInt(readInput());
+			int option = readInt();
 			System.out.print("Enter Customer ID: ");
-			int id = Integer.parseInt(readInput());
+			int id = readInt();
 			ResultSet rs = null;
 			switch (option) {
 			case 1:
 				System.out.println("Enter Mode of payment:\n1. Hotel Card\n2. Credit/Debit Card\n3. Cash");
-				int op = Integer.parseInt(readInput());
+				int op = readInt();
 				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 				Date date = new Date();
 				String modeOfPayment = "cash";
@@ -150,14 +150,14 @@ public class TeamT {
 	public static void serviceRecords(int user) {
 		while (true) {
 			System.out.println("\n1. assign room to customer\n2. assign staff to room");
-			int option = Integer.parseInt(readInput());
+			int option = readInt();
 			switch (option) {
 			case 1: {
 				int hotelId = Login.getHotelID();
 				System.out.print("Enter the customer ID: ");
-				int customerId = Integer.parseInt(readInput());
+				int customerId = readInt();
 				System.out.print("Enter the number of guests: ");
-				int noOfGuests = Integer.parseInt(readInput());
+				int noOfGuests = readInt();
 
 				// get a list of the available
 				System.out.println("The available rooms are: ");
@@ -165,7 +165,7 @@ public class TeamT {
 				outputResult(rs);
 
 				System.out.print("Enter room from the above list: ");
-				int roomId = Integer.parseInt(readInput());
+				int roomId = readInt();
 
 				// assign room to the customer
 				Customer.assignRoom(customerId, hotelId, roomId, noOfGuests);
@@ -185,7 +185,7 @@ public class TeamT {
 					rs = Staff.getAvailableStaff(hotelId);
 					outputResult(rs);
 					System.out.print("enter the staff to assign to room: ");
-					int staffId = Integer.parseInt(readInput());
+					int staffId = readInt();
 					Room.addStaffToPresidential(hotelId, roomId, staffId);
 				}
 				break;
@@ -193,7 +193,7 @@ public class TeamT {
 			case 2: {
 				int hotelId = Login.getHotelID();
 				System.out.print("enter the room you want to assign staff to: ");
-				int roomId = Integer.parseInt(readInput());
+				int roomId = readInt();
 
 				ResultSet rs = Room.getRoom(hotelId, roomId);
 				String category = "";
@@ -208,7 +208,7 @@ public class TeamT {
 					rs = Staff.getAvailableStaff(hotelId);
 					outputResult(rs);
 					System.out.print("enter the staff to assign to room: ");
-					int staffId = Integer.parseInt(readInput());
+					int staffId = readInt();
 					Room.addStaffToPresidential(hotelId, roomId, staffId);
 				} else {
 					System.out.println("this room is not presidential suite");
@@ -226,12 +226,12 @@ public class TeamT {
 	public static void informationProcessing(int user, int hotelID) {
 		while (true) {
 			System.out.println("Make changes into:\n1. Customer\n2. Staff\n3. Room\n4. Hotel\n5. Service\n6. Logout\n");
-			int option = Integer.parseInt(readInput());
+			int option = readInt();
 			int op = 0;
 			switch (option) {
 			case 1: // Customer
 				crud();
-				op = Integer.parseInt(readInput());
+				op = readInt();
 				if (op == 1) { // Create
 					String[] params = { "Name", "DOB", "Phone Number", "Email", "SSN", "Address", "Has Hotel Card?" };
 					List<String> send = create(params);
@@ -239,10 +239,10 @@ public class TeamT {
 							send.get(5), Byte.valueOf(send.get(6)));
 				} else if (op == 2) { // Read
 					System.out.println("1. All customers\n2. By customer ID");
-					int query = Integer.parseInt(readInput());
+					int query = readInt();
 					if (query == 2) {
 						System.out.println("Enter Customer ID");
-						int id = Integer.parseInt(readInput());
+						int id = readInt();
 						ResultSet rs = Customer.getCustomer(id);
 						outputResult(rs);
 					} else {
@@ -251,7 +251,7 @@ public class TeamT {
 					}
 				} else if (op == 3) { // Update
 					System.out.println("Enter Customer ID");
-					int id = Integer.parseInt(readInput());
+					int id = readInt();
 					ResultSet rs = Customer.getCustomer(id);
 					List<String> check = new LinkedList<String>();
 					try {
@@ -270,7 +270,7 @@ public class TeamT {
 							send.get(4), send.get(5), send.get(6), Byte.valueOf(send.get(7)));
 				} else if (op == 4) { // Delete
 					System.out.println("Enter Customer ID");
-					int id = Integer.parseInt(readInput());
+					int id = readInt();
 					Customer.deleteCustomer(id);
 					System.out.println("Customer with ID " + id + " deleted");
 				} else {
@@ -279,7 +279,7 @@ public class TeamT {
 				break;
 			case 2: // Staff
 				crud();
-				op = Integer.parseInt(readInput());
+				op = readInt();
 				if (op == 1) { // Create
 					String[] params = { "Name", "Title", "Department", "Address", "Phone", "Availability" };
 					List<String> send = create(params);
@@ -287,10 +287,10 @@ public class TeamT {
 							Byte.valueOf(send.get(5)));
 				} else if (op == 2) { // Read
 					System.out.println("1. All staff\n2. By staff ID");
-					int query = Integer.parseInt(readInput());
+					int query = readInt();
 					if (query == 2) {
 						System.out.println("Enter Staff ID");
-						int id = Integer.parseInt(readInput());
+						int id = readInt();
 						ResultSet rs = Staff.getStaff(id);
 						outputResult(rs);
 					} else {
@@ -299,7 +299,7 @@ public class TeamT {
 					}
 				} else if (op == 3) { // Update
 					System.out.println("Enter Staff ID");
-					int id = Integer.parseInt(readInput());
+					int id = readInt();
 					ResultSet rs = Staff.getStaff(id);
 					List<String> check = new LinkedList<String>();
 					try {
@@ -318,7 +318,7 @@ public class TeamT {
 
 				} else if (op == 4) { // Delete
 					System.out.println("Enter Staff ID");
-					int id = Integer.parseInt(readInput());
+					int id = readInt();
 					Staff.deleteStaff(id);
 					System.out.println("Staff with ID " + id + " deleted");
 				} else {
@@ -330,7 +330,7 @@ public class TeamT {
 				System.out.println("5. Check rooms available in the hotel");
 				System.out.println("6. Check rooms available of a category in the hotel");
 				System.out.println("7. Assign room to customer");
-				op = Integer.parseInt(readInput());
+				op = readInt();
 				if (op == 1) { // Create
 					String[] params = { "HotelID", "Number", "Category", "Rate", "Availability", "MaxOccupancy" };
 					List<String> send = create(params);
@@ -339,10 +339,10 @@ public class TeamT {
 							Integer.parseInt(send.get(5)));
 				} else if (op == 2) { // Read
 					System.out.println("1. All rooms\n2. By Room Number");
-					int query = Integer.parseInt(readInput());
+					int query = readInt();
 					if (query == 2) {
 						System.out.println("Enter Room Number");
-						int id = Integer.parseInt(readInput());
+						int id = readInt();
 						ResultSet rs = Room.getRoom(hotelID, id);
 						outputResult(rs);
 					} else {
@@ -351,7 +351,7 @@ public class TeamT {
 					}
 				} else if (op == 3) { // Update
 					System.out.println("Enter Room Number");
-					int id = Integer.parseInt(readInput());
+					int id = readInt();
 					ResultSet rs = Room.getRoom(hotelID, id);
 					List<String> check = new LinkedList<String>();
 					try {
@@ -370,7 +370,7 @@ public class TeamT {
 							Integer.parseInt(send.get(5)));
 				} else if (op == 4) { // Delete
 					System.out.println("Enter Room Number");
-					int id = Integer.parseInt(readInput());
+					int id = readInt();
 					Room.deleteRoom(hotelID, id);
 					System.out.println("Room number " + id + " of hotel with ID " + hotelID + " deleted");
 				} else if (op == 5) {
@@ -383,18 +383,18 @@ public class TeamT {
 					outputResult(rs);
 				} else if (op == 7) {
 					System.out.println("Enter Customer's ID: ");
-					int customerId = Integer.parseInt(readInput());
+					int customerId = readInt();
 					System.out.println("Enter the number of guests: ");
-					int noOfGuests = Integer.parseInt(readInput());
+					int noOfGuests = readInt();
 					System.out.println("Enter the roomId");
-					int roomId = Integer.parseInt(readInput());
+					int roomId = readInt();
 					Customer.assignRoom(customerId, hotelID, roomId, noOfGuests);
 					System.out.println("Room has been assigned!");
 				} else if (op == 8) {
 					System.out.println("Enter Customer ID: ");
-					int custId = Integer.parseInt(readInput());
+					int custId = readInt();
 					System.out.println("Enter the Room Numer: ");
-					int number = Integer.parseInt(readInput());
+					int number = readInt();
 					Room.releaseRoom(hotelID, number, custId);
 					System.out.println("Room released!");
 				} else {
@@ -402,7 +402,7 @@ public class TeamT {
 				break;
 			case 4: // Hotel
 				crud();
-				op = Integer.parseInt(readInput());
+				op = readInt();
 				if (op == 1) { // Create
 					String[] params = { "Name", "Address", "City", "Phone Number", "ManagerID" };
 					List<String> send = create(params);
@@ -410,10 +410,10 @@ public class TeamT {
 							Integer.parseInt(send.get(4)));
 				} else if (op == 2) { // Read
 					System.out.println("1. All hotels\n2. By Hotel ID");
-					int query = Integer.parseInt(readInput());
+					int query = readInt();
 					if (query == 2) {
 						System.out.println("Enter Hotel ID");
-						int id = Integer.parseInt(readInput());
+						int id = readInt();
 						ResultSet rs = Hotel.getHotel(id);
 						outputResult(rs);
 					} else {
@@ -422,7 +422,7 @@ public class TeamT {
 					}
 				} else if (op == 3) { // Update
 					System.out.println("Enter Hotel ID");
-					int id = Integer.parseInt(readInput());
+					int id = readInt();
 					ResultSet rs = Hotel.getHotel(id);
 					List<String> check = new LinkedList<String>();
 					try {
@@ -440,7 +440,7 @@ public class TeamT {
 							Integer.parseInt(send.get(5)));
 				} else if (op == 4) { // Delete
 					System.out.println("Enter Hotel ID");
-					int id = Integer.parseInt(readInput());
+					int id = readInt();
 					Hotel.deleteHotel(id);
 					System.out.println("Hotel with ID " + id + " deleted");
 				} else {
@@ -449,17 +449,17 @@ public class TeamT {
 				break;
 			case 5: // Service
 				crud();
-				op = Integer.parseInt(readInput());
+				op = readInt();
 				if (op == 1) { // Create
 					String[] params = { "Name", "Cost" };
 					List<String> send = create(params);
 					Service.createService(send.get(0), Integer.parseInt(send.get(1)));
 				} else if (op == 2) { // Read
 					System.out.println("1. All services\n2. By service ID");
-					int query = Integer.parseInt(readInput());
+					int query = readInt();
 					if (query == 2) {
 						System.out.println("Enter Service ID");
-						int id = Integer.parseInt(readInput());
+						int id = readInt();
 						ResultSet rs = Service.getService(id);
 						outputResult(rs);
 					} else {
@@ -468,7 +468,7 @@ public class TeamT {
 					}
 				} else if (op == 3) { // Update
 					System.out.println("Enter Service ID");
-					int id = Integer.parseInt(readInput());
+					int id = readInt();
 					ResultSet rs = Service.getService(id);
 					List<String> check = new LinkedList<String>();
 					try {
@@ -485,7 +485,7 @@ public class TeamT {
 					Service.updateService(Integer.parseInt(send.get(0)), send.get(1), Integer.parseInt(send.get(2)));
 				} else if (op == 4) { // Delete
 					System.out.println("Enter Service ID");
-					int id = Integer.parseInt(readInput());
+					int id = readInt();
 					Service.deleteService(id);
 					System.out.println("Service with ID " + id + " deleted");
 				} else {
@@ -506,7 +506,7 @@ public class TeamT {
 			System.out.print(i + ". " + params[i] + "\n");
 		}
 		while (true) {
-			int change = Integer.parseInt(readInput());
+			int change = readInt();
 			if (change >= 1 && change < params.length) {
 				System.out.println(params[change] + ": ");
 				check.set(change, readInput());
@@ -542,7 +542,7 @@ public class TeamT {
 		System.out.println("1. Information Processing \n" + "2. Maintaining Service Records \n"
 				+ "3. Maintaining Billing Accounts \n" + "4. Reports \n" + "5. Exit");
 		System.out.println("Enter the number of your choice:");
-		user = Integer.parseInt(readInput());
+		user = readInt();
 		return user;
 	}
 
