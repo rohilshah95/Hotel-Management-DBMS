@@ -3,21 +3,18 @@ package src;
 import java.sql.*;
 
 public class Hotel {
-	static int id=4;
 	/*
 	 * Data - id, managerId, long phoneNumber, address, city;
 	 */
 	public static void createHotel(String name, String address, String city, String phoneNumber, int managerId) {
 		try {
 			Connection conn = DBConnection.getConnection();
-		    id++;
-		    PreparedStatement pstmt= conn.prepareStatement("INSERT INTO HOTEL(ID, NAME, ADDRESS, CITY, PHONE, MANAGERID) VALUES (?,?,?,?,?,?)");
-		    pstmt.setInt(1, id);
-		    pstmt.setString(2, name);
-		    pstmt.setString(3,  address);
-		    pstmt.setString(4,  city);
-		    pstmt.setString(5, phoneNumber);
-		    pstmt.setInt(6, managerId);
+		    PreparedStatement pstmt= conn.prepareStatement("INSERT INTO HOTEL(NAME, ADDRESS, CITY, PHONE, MANAGERID) VALUES (?,?,?,?,?)");
+		    pstmt.setString(1, name);
+		    pstmt.setString(2,  address);
+		    pstmt.setString(3,  city);
+		    pstmt.setString(4, phoneNumber);
+		    pstmt.setInt(5, managerId);
 		    pstmt.executeUpdate();
 		    
 		    // query

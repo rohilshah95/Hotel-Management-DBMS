@@ -9,7 +9,7 @@ public class Bill {
 		try {
 			Connection conn = DBConnection.getConnection();
 		 
-		    PreparedStatement pstmt = conn.prepareStatement("UPDATE Bill SET Discount=5 WHERE ID IN (SELECT CheckIn.BillID FROM CheckIn JOIN Customer WHERE Customer.hasHotelCard=1 AND Customer.ID=?)");
+		    PreparedStatement pstmt = conn.prepareStatement("UPDATE Bill SET Discount=5 WHERE ID IN (SELECT CheckIn.BillID FROM CheckIn JOIN Customer WHERE Customer.hasHotelCard=1 AND Customer.ID=? AND CheckIn.CHECKOUTDATE IS NULL)");
 		    pstmt.setInt(1, custId);
 		    pstmt.executeUpdate();
 		    

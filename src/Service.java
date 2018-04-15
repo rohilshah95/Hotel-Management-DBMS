@@ -3,15 +3,12 @@ package src;
 import java.sql.*;
 
 public class Service {
-	static int serviceId=5;
 	public static void createService( String name, int cost) {
 		try {
 			Connection conn = DBConnection.getConnection();
-		    serviceId++;
-		    PreparedStatement pstmt = conn.prepareStatement("INSERT INTO SERVICE(ID, NAME, COST) VALUES(?,?,?)");
-		    pstmt.setInt(1,  serviceId);
-		    pstmt.setString(2, name);
-		    pstmt.setInt(3, cost);
+		    PreparedStatement pstmt = conn.prepareStatement("INSERT INTO SERVICE( NAME, COST) VALUES(?,?)");
+		    pstmt.setString(1, name);
+		    pstmt.setInt(2, cost);
 		    
 			// query
 		} catch (Exception e) {

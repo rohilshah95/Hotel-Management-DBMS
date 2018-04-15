@@ -34,17 +34,17 @@ public class DBDemo {
 				// create tables
 
 				stmt.executeUpdate(
-						"CREATE TABLE CUSTOMER (ID INT(4) PRIMARY KEY, NAME VARCHAR(32) NOT NULL, DOB DATE, PHONE VARCHAR(32) NOT NULL, EMAIL VARCHAR(32), SSN VARCHAR (32) NOT NULL, ADDRESS VARCHAR(64), HASHOTELCARD TINYINT NOT NULL)");
+						"CREATE TABLE CUSTOMER (ID INT(4) PRIMARY KEY AUTO_INCREMENT, NAME VARCHAR(32) NOT NULL, DOB DATE, PHONE VARCHAR(32) NOT NULL, EMAIL VARCHAR(32), SSN VARCHAR (32) NOT NULL, ADDRESS VARCHAR(64), HASHOTELCARD TINYINT NOT NULL)");
 				stmt.executeUpdate(
-						"CREATE TABLE STAFF (ID INT(3) PRIMARY KEY, NAME VARCHAR(32) NOT NULL, TITLE VARCHAR(32) NOT NULL, DEPARTMENT VARCHAR(32), ADDRESS VARCHAR(64) NOT NULL, PHONE VARCHAR(32) NOT NULL, AVAILABILITY TINYINT NOT NULL)");
+						"CREATE TABLE STAFF (ID INT(3) PRIMARY KEY AUTO_INCREMENT, NAME VARCHAR(32) NOT NULL, TITLE VARCHAR(32) NOT NULL, DEPARTMENT VARCHAR(32), ADDRESS VARCHAR(64) NOT NULL, PHONE VARCHAR(32) NOT NULL, AVAILABILITY TINYINT NOT NULL)");
 				stmt.executeUpdate(
-						"CREATE TABLE SERVICE (ID INT PRIMARY KEY, NAME VARCHAR(32) NOT NULL, COST FLOAT NOT NULL)");
+						"CREATE TABLE SERVICE (ID INT PRIMARY KEY AUTO_INCREMENT, NAME VARCHAR(32) NOT NULL, COST FLOAT NOT NULL)");
 				stmt.executeUpdate(
-						"CREATE TABLE HOTEL (ID INT(4) ZEROFILL PRIMARY KEY, NAME VARCHAR(32) NOT NULL, ADDRESS VARCHAR(64) NOT NULL, CITY VARCHAR(64) NOT NULL, PHONE VARCHAR(32) NOT NULL, MANAGERID INT(3), CONSTRAINT FOREIGN KEY(MANAGERID) REFERENCES STAFF(ID) ON DELETE CASCADE ON UPDATE CASCADE)");
+						"CREATE TABLE HOTEL (ID INT(4) ZEROFILL PRIMARY KEY AUTO_INCREMENT, NAME VARCHAR(32) NOT NULL, ADDRESS VARCHAR(64) NOT NULL, CITY VARCHAR(64) NOT NULL, PHONE VARCHAR(32) NOT NULL, MANAGERID INT(3), CONSTRAINT FOREIGN KEY(MANAGERID) REFERENCES STAFF(ID) ON DELETE CASCADE ON UPDATE CASCADE)");
 				stmt.executeUpdate(
 						"CREATE TABLE ROOM (NUMBER INT(2) ZEROFILL, HOTELID INT(4) ZEROFILL, CONSTRAINT FOREIGN KEY(HOTELID) REFERENCES HOTEL(ID) ON DELETE CASCADE ON UPDATE CASCADE, PRIMARY KEY(NUMBER, HOTELID), CATEGORY VARCHAR(32) NOT NULL, RATE FLOAT NOT NULL, AVAILABILITY TINYINT NOT NULL, MAXOCCUPANCY INT NOT NULL)");
 				stmt.executeUpdate(
-						"CREATE TABLE BILL (ID INT PRIMARY KEY, AMOUNT FLOAT NOT NULL, MODEOFPAYMENT VARCHAR(32) NULL, DISCOUNT FLOAT NOT NULL)");
+						"CREATE TABLE BILL (ID INT PRIMARY KEY AUTO_INCREMENT, AMOUNT FLOAT NOT NULL, MODEOFPAYMENT VARCHAR(32) NULL, DISCOUNT FLOAT NOT NULL)");
 				stmt.executeUpdate(
 						"CREATE TABLE HIRES (HOTELID INT(4) ZEROFILL, STAFFID INT(3), CONSTRAINT FOREIGN KEY(HOTELID) REFERENCES HOTEL(ID) ON DELETE CASCADE ON UPDATE CASCADE, CONSTRAINT FOREIGN KEY(STAFFID) REFERENCES STAFF(ID) ON DELETE CASCADE ON UPDATE CASCADE, PRIMARY KEY(HOTELID, STAFFID))");
 				stmt.executeUpdate(
@@ -56,6 +56,11 @@ public class DBDemo {
 				stmt.executeUpdate(
 						"CREATE TABLE PRESIDENTIAL (NUMBER INT(2) ZEROFILL, HOTELID INT(4) ZEROFILL, CONSTRAINT FOREIGN KEY(NUMBER) REFERENCES ROOM(NUMBER) ON DELETE CASCADE ON UPDATE CASCADE, CONSTRAINT FOREIGN KEY(HOTELID) REFERENCES HOTEL(ID) ON DELETE CASCADE ON UPDATE CASCADE, PRIMARY KEY(NUMBER, HOTELID))");
 
+				stmt.executeUpdate("ALTER TABLE CUSTOMER AUTO_INCREMENT=1001");
+				stmt.executeUpdate("ALTER TABLE STAFF AUTO_INCREMENT=100");
+				stmt.executeUpdate("ALTER TABLE HOTEL AUTO_INCREMENT=0001");
+				
+				//customer, staff, service, bill, hotel
 				//create trigger for presidential suite
 				
 //				stmt.executeUpdate("CREATE TRIGGER addpresidential AFTER INSERT ON ROOM REFERENCING NEW ROW AS newRoom FOR EACH ROW WHEN(newRoom.category='Presidential') INSERT INTO PRESIDENTIAL (number, HotelID) VALUES (newRoom.number, newRoom.hotelId)");
@@ -64,43 +69,43 @@ public class DBDemo {
 				
 				
 				stmt.executeUpdate(
-						"INSERT INTO CUSTOMER VALUES (1001, 'David', '1980-01-30', '123', 'david@gmail.com', '593-9846', '980 TRT St , Raleigh NC', 0)");
+						"INSERT INTO CUSTOMER (NAME, DOB, PHONE, EMAIL, SSN, ADDRESS, HASHOTELCARD) VALUES ( 'David', '1980-01-30', '123', 'david@gmail.com', '593-9846', '980 TRT St , Raleigh NC', 0)");
 				stmt.executeUpdate(
-						"INSERT INTO CUSTOMER VALUES (1002, 'Sarah', '1971-01-30', '465', 'sarah@gmail.com', '777-8352', '7720 MHT St , Greensboro NC', 1)");
+						"INSERT INTO CUSTOMER (NAME, DOB, PHONE, EMAIL, SSN, ADDRESS, HASHOTELCARD) VALUES ('Sarah', '1971-01-30', '465', 'sarah@gmail.com', '777-8352', '7720 MHT St , Greensboro NC', 1)");
 				stmt.executeUpdate(
-						"INSERT INTO CUSTOMER VALUES (1003, 'Joseph', '1987-01-30', '789', 'joseph@gmail.com', '858-9430', '231 DRY St , Rochester NY 78', 0)");
+						"INSERT INTO CUSTOMER (NAME, DOB, PHONE, EMAIL, SSN, ADDRESS, HASHOTELCARD) VALUES ('Joseph', '1987-01-30', '789', 'joseph@gmail.com', '858-9430', '231 DRY St , Rochester NY 78', 0)");
 				stmt.executeUpdate(
-						"INSERT INTO CUSTOMER VALUES (1004, 'Lucy', '1985-01-30', '213', 'lucy@gmail.com', '440-9328', '24 BST Dr , Dallas TX 14', 0)");
+						"INSERT INTO CUSTOMER (NAME, DOB, PHONE, EMAIL, SSN, ADDRESS, HASHOTELCARD) VALUES ('Lucy', '1985-01-30', '213', 'lucy@gmail.com', '440-9328', '24 BST Dr , Dallas TX 14', 0)");
 
 				stmt.executeUpdate(
-						"INSERT INTO STAFF VALUES (100, 'Mary', 'Manager', 'Management', '90 ABC St , Raleigh NC 27', '654', 1)");
+						"INSERT INTO STAFF (NAME, TITLE, DEPARTMENT, ADDRESS, PHONE, AVAILABILITY) VALUES ( 'Mary', 'Manager', 'Management', '90 ABC St , Raleigh NC 27', '654', 1)");
 				stmt.executeUpdate(
-						"INSERT INTO STAFF VALUES (101, 'John', 'Manager', 'Management', '798 XYZ St , Rochester NY 54', '564', 1)");
+						"INSERT INTO STAFF (NAME, TITLE, DEPARTMENT, ADDRESS, PHONE, AVAILABILITY) VALUES ( 'John', 'Manager', 'Management', '798 XYZ St , Rochester NY 54', '564', 1)");
 				stmt.executeUpdate(
-						"INSERT INTO STAFF VALUES (102, 'Carol', 'Manager', 'Management', '351 MH St , Greensboro NC 27', '546', 1)");
+						"INSERT INTO STAFF (NAME, TITLE, DEPARTMENT, ADDRESS, PHONE, AVAILABILITY) VALUES ( 'Carol', 'Manager', 'Management', '351 MH St , Greensboro NC 27', '546', 1)");
 				stmt.executeUpdate(
-						"INSERT INTO STAFF VALUES (103, 'Emma', 'Front Desk Staff', 'Management', '49 ABC St , Raleigh NC 27', '546', 1)");
+						"INSERT INTO STAFF (NAME, TITLE, DEPARTMENT, ADDRESS, PHONE, AVAILABILITY) VALUES ( 'Emma', 'Front Desk Staff', 'Management', '49 ABC St , Raleigh NC 27', '546', 1)");
 				stmt.executeUpdate(
-						"INSERT INTO STAFF VALUES (104, 'Ava', 'Catering Staff', 'Catering', '425 RG St , Raleigh NC 27', '777', 1)");
+						"INSERT INTO STAFF (NAME, TITLE, DEPARTMENT, ADDRESS, PHONE, AVAILABILITY) VALUES ( 'Ava', 'Catering Staff', 'Catering', '425 RG St , Raleigh NC 27', '777', 1)");
 				stmt.executeUpdate(
-						"INSERT INTO STAFF VALUES (105, 'Peter', 'Manager', 'Management', '475 RG St , Raleigh NC 27', '724', 1)");
+						"INSERT INTO STAFF (NAME, TITLE, DEPARTMENT, ADDRESS, PHONE, AVAILABILITY) VALUES ( 'Peter', 'Manager', 'Management', '475 RG St , Raleigh NC 27', '724', 1)");
 				stmt.executeUpdate(
-						"INSERT INTO STAFF VALUES (106, 'Olivia', 'Front Desk Staff', 'Management', '325 PD St , Raleigh NC 27', '799', 1)");
+						"INSERT INTO STAFF (NAME, TITLE, DEPARTMENT, ADDRESS, PHONE, AVAILABILITY) VALUES ( 'Olivia', 'Front Desk Staff', 'Management', '325 PD St , Raleigh NC 27', '799', 1)");
 
-				stmt.executeUpdate("INSERT INTO SERVICE VALUES (1, 'Phone bills', 5)");
-				stmt.executeUpdate("INSERT INTO SERVICE VALUES (2, 'Dry Cleaning', 16)");
-				stmt.executeUpdate("INSERT INTO SERVICE VALUES (3, 'Gyms', 15)");
-				stmt.executeUpdate("INSERT INTO SERVICE VALUES (4, 'Room service', 10)");
-				stmt.executeUpdate("INSERT INTO SERVICE VALUES (5, 'Special requests', 20)");
+				stmt.executeUpdate("INSERT INTO SERVICE (NAME, COST) VALUES ( 'Phone bills', 5)");
+				stmt.executeUpdate("INSERT INTO SERVICE (NAME, COST) VALUES ('Dry Cleaning', 16)");
+				stmt.executeUpdate("INSERT INTO SERVICE (NAME, COST) VALUES ('Gyms', 15)");
+				stmt.executeUpdate("INSERT INTO SERVICE (NAME, COST) VALUES ('Room service', 10)");
+				stmt.executeUpdate("INSERT INTO SERVICE (NAME, COST) VALUES ('Special requests', 20)");
 
 				stmt.executeUpdate(
-						"INSERT INTO HOTEL VALUES (0001, 'Hotel A', '21 ABC St , Raleigh NC 27', 'Raleigh','919', 100)");
+						"INSERT INTO HOTEL (NAME, ADDRESS, CITY, PHONE, MANAGERID) VALUES  ( 'Hotel A', '21 ABC St , Raleigh NC 27', 'Raleigh','919', 100)");
 				stmt.executeUpdate(
-						"INSERT INTO HOTEL VALUES (0002, 'Hotel B', 'Boston25 XYZ St , Rochester NY 54', 'Rochester','718', 101)");
+						"INSERT INTO HOTEL (NAME, ADDRESS, CITY, PHONE, MANAGERID) VALUES  ( 'Hotel B', 'Boston25 XYZ St , Rochester NY 54', 'Rochester','718', 101)");
 				stmt.executeUpdate(
-						"INSERT INTO HOTEL VALUES (0003, 'Hotel C', '29 PQR St , Greensboro NC 27', 'Greensboro', '984', 102)");
+						"INSERT INTO HOTEL (NAME, ADDRESS, CITY, PHONE, MANAGERID) VALUES  ('Hotel C', '29 PQR St , Greensboro NC 27', 'Greensboro', '984', 102)");
 				stmt.executeUpdate(
-						"INSERT INTO HOTEL VALUES (0004, 'Hotel D', '28 GHW St , Raleigh NC 32', 'Raleigh', '920', 105)");
+						"INSERT INTO HOTEL (NAME, ADDRESS, CITY, PHONE, MANAGERID) VALUES  ( 'Hotel D', '28 GHW St , Raleigh NC 32', 'Raleigh', '920', 105)");
 
 				stmt.executeUpdate("INSERT INTO ROOM VALUES (01, 0001, 'Economy', 100, 1, 1)");
 				stmt.executeUpdate("INSERT INTO ROOM VALUES (02, 0001, 'Deluxe', 200, 1, 2)");
@@ -111,10 +116,10 @@ public class DBDemo {
 
 				// card number needs to be taken for CUSTOMER
 
-				stmt.executeUpdate("INSERT INTO BILL VALUES (1, 0, 'credit', 0)");
-				stmt.executeUpdate("INSERT INTO BILL VALUES (2, 0, 'hotel credit', 5)");
-				stmt.executeUpdate("INSERT INTO BILL VALUES (3, 0, 'credit', 0)");
-				stmt.executeUpdate("INSERT INTO BILL VALUES (4, 0, 'cash', 0)");
+				stmt.executeUpdate("INSERT INTO BILL (AMOUNT, MODEOFPAYMENT, DISCOUNT) VALUES (0, 'credit', 0)");
+				stmt.executeUpdate("INSERT INTO BILL (AMOUNT, MODEOFPAYMENT, DISCOUNT) VALUES (0, 'hotel credit', 5)");
+				stmt.executeUpdate("INSERT INTO BILL (AMOUNT, MODEOFPAYMENT, DISCOUNT) VALUES (0, 'credit', 0)");
+				stmt.executeUpdate("INSERT INTO BILL (AMOUNT, MODEOFPAYMENT, DISCOUNT) VALUES (0, 'cash', 0)");
 
 				stmt.executeUpdate("INSERT INTO HIRES VALUES (0001, 100)");
 				stmt.executeUpdate("INSERT INTO HIRES VALUES (0002, 101)");
