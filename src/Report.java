@@ -61,7 +61,7 @@ public class Report {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
-		    rs = stmt.executeQuery("SELECT HotelID, COUNT(*), Address FROM ROOM JOIN HOTEL Where Availability=0 GROUP BY Address");
+		    rs = stmt.executeQuery("SELECT HotelID, COUNT(*), City FROM ROOM JOIN HOTEL Where Availability=0 GROUP BY City");
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -73,7 +73,7 @@ public class Report {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
-		    rs = stmt.executeQuery("SELECT * FROM STAFF GROUP BY Title");
+		    rs = stmt.executeQuery("SELECT HIRES.HOTELID, COUNT(*), STAFF.Title FROM STAFF JOIN HIRES ON (STAFF.ID=HIRES.STAFFID) GROUP BY STAFF.TITLE, HIRES.HOTELID ORDER BY HIRES.HOTELID");
 		} catch (Exception e) {
 			System.out.println(e);
 		}
