@@ -3,6 +3,9 @@ package src;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -107,8 +110,37 @@ public class TeamT {
 	}
 
 	public static void billingAccounts(int user) {
-		// TODO Auto-generated method stub
+		while (true) {
+			System.out.println("Operations to perform:\n1. Calculate  Bill\n2. Generate Receipt\n");
+			int option = Integer.parseInt(readInput());
+			switch (option) {
+			case 1:
+				System.out.print("Enter Customer ID:");
+				int id = Integer.parseInt(readInput());
+				System.out.println("Enter Mode of payment:\n1. Hotel Card\n2. Credit/Debit Card\n3. Cash");
+				int op = Integer.parseInt(readInput());
+				String modeOfPayment = "cash";
+				switch (op) {
+				case 1:
+					modeOfPayment = "hotel credit";
+					break;
+				case 2:
+					modeOfPayment = "credit";
+					break;
+				case 3:
+					modeOfPayment = "cash";
+					break;
+				default:
 
+				}
+				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				Date date = new Date();
+				Bill.calcBill(id, dateFormat.format(date), modeOfPayment);
+				break;
+			case 2:
+				break;
+			}
+		}
 	}
 
 	public static void serviceRecords(int user) {
@@ -290,7 +322,7 @@ public class TeamT {
 					int number = Integer.parseInt(readInput());
 					Room.releaseRoom(hotelID, number, custId);
 					System.out.println("Room released!");
-				} else {	
+				} else {
 				}
 				break;
 			case 4: // Hotel
