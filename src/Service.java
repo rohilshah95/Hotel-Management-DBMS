@@ -6,8 +6,6 @@ public class Service {
 	public static void createService( String name, int cost) {
 		try {
 			Connection conn = DBConnection.getConnection();
-		    Statement stmt = conn.createStatement();
-		    ResultSet rs = null;
 		    PreparedStatement pstmt = conn.prepareStatement("INSERT INTO SERVICE( NAME, COST) VALUES(?,?)");
 		    pstmt.setString(1, name);
 		    pstmt.setInt(2, cost);
@@ -21,9 +19,6 @@ public class Service {
 	public static void deleteService(int id) {
 		try {
 			Connection conn = DBConnection.getConnection();
-		    Statement stmt = conn.createStatement();
-		    ResultSet rs = null;
-		    
 		    PreparedStatement pstmt=conn.prepareStatement("DELETE FROM SERVICE WHERE ID=?");
 		    pstmt.setInt(1, id);
 		    pstmt.executeUpdate();
@@ -37,8 +32,6 @@ public class Service {
 	public static void updateService(int serviceId, String name, int cost) {
 		try {
 			Connection conn = DBConnection.getConnection();
-		    Statement stmt = conn.createStatement();
-		    ResultSet rs = null;
 		    PreparedStatement pstmt = conn.prepareStatement("UPDATE SERVICE SET NAME=?, COST=? WHERE ID=?");
 		    pstmt.setString(1, name);
 		    pstmt.setInt(2, cost);
@@ -55,7 +48,6 @@ public class Service {
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
-		    Statement stmt = conn.createStatement();
 		    PreparedStatement pstmt = conn.prepareStatement("SELECT * from SERVICE WHERE ID=?");
 		    pstmt.setInt(1, serviceId);
 		    rs= pstmt.executeQuery();

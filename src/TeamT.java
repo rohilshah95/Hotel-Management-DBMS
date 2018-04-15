@@ -3,6 +3,9 @@ package src;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -115,6 +118,35 @@ public class TeamT {
 	}
 
 	public static void billingAccounts(int user) {
+		while (true) {
+			System.out.println("Operations to perform:\n1. Calculate  Bill\n2. Generate Receipt\n");
+			int option = Integer.parseInt(readInput());
+			switch (option) {
+			case 1:
+				System.out.print("Enter Customer ID:");
+				int id = Integer.parseInt(readInput());
+				System.out.println("Enter Mode of payment:\n1. Hotel Card\n2. Credit/Debit Card\n3. Cash");
+				int op = Integer.parseInt(readInput());
+				String modeOfPayment = "cash";
+				switch (op) {
+				case 1:
+					modeOfPayment = "hotel credit";
+					break;
+				case 2:
+					modeOfPayment = "credit";
+					break;
+				case 3:
+					modeOfPayment = "cash";
+					break;
+				default:
+
+				}
+				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				Date date = new Date();
+				Bill.calcBill(id, dateFormat.format(date), modeOfPayment);
+				break;
+			case 2:
+				break;
 		Scanner sc = new Scanner(System.in);
 		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
@@ -150,7 +182,9 @@ public class TeamT {
 						}
 					if(category == "Presidential")
 					{
-						getAvailableStaff();
+						System.out.println("available staff is: ");
+						rs = Staff.getAvailableStaff();
+						outputResult(rs);
 						Room.addStaffToPresidential(hotelId, roomId, staffId);
 					}
 					
@@ -348,7 +382,8 @@ public class TeamT {
 					System.out.println("Enter the Room Numer: ");
 					int number = Integer.parseInt(readInput());
 					Room.releaseRoom(hotelID, number, custId);
-				} else {	
+					System.out.println("Room released!");
+				} else {
 				}
 				break;
 			case 4: // Hotel

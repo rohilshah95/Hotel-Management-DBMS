@@ -9,7 +9,6 @@ public class Hotel {
 	public static void createHotel(String name, String address, String city, String phoneNumber, int managerId) {
 		try {
 			Connection conn = DBConnection.getConnection();
-		    Statement stmt = conn.createStatement();
 		    PreparedStatement pstmt= conn.prepareStatement("INSERT INTO HOTEL(NAME, ADDRESS, CITY, PHONE, MANAGERID) VALUES (?,?,?,?,?)");
 		    pstmt.setString(1, name);
 		    pstmt.setString(2,  address);
@@ -27,7 +26,6 @@ public class Hotel {
 	public static void updateHotel(int id,String name, String address, String city, String phoneNumber, int managerId) {
 		try {
 			Connection conn = DBConnection.getConnection();
-		    Statement stmt = conn.createStatement();
 		    PreparedStatement pstmt= conn.prepareStatement("UPDATE HOTEL SET NAME=?, ADDRESS=?, CITY=?, PHONE=?, MANAGERID=? WHERE ID=?");
 		    pstmt.setString(1, name);
 		    pstmt.setString(2,  address);
@@ -46,7 +44,6 @@ public class Hotel {
 	public static void deleteHotel(int id) {
 		try {
 			Connection conn = DBConnection.getConnection();
-		    Statement stmt = conn.createStatement();
 		    PreparedStatement pstmt=conn.prepareStatement("DELETE FROM HOTEL WHERE ID=?");
 		    pstmt.setInt(1, id);
 		    pstmt.executeUpdate();
@@ -60,7 +57,6 @@ public class Hotel {
 		ResultSet rs= null;
 		try {
 			Connection conn = DBConnection.getConnection();
-		    Statement stmt = conn.createStatement();
 		    PreparedStatement pstmt=conn.prepareStatement("SELECT * FROM HOTEL WHERE ID=?");
 		    pstmt.setInt(1, id);
 		    rs= pstmt.executeQuery();
@@ -75,7 +71,6 @@ public class Hotel {
 		ResultSet rs= null;
 		try {
 			Connection conn = DBConnection.getConnection();
-		    Statement stmt = conn.createStatement();
 		    PreparedStatement pstmt=conn.prepareStatement("SELECT * FROM HOTEL");
 		    rs= pstmt.executeQuery();
 		    // query
