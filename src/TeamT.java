@@ -51,17 +51,29 @@ public class TeamT {
 			switch (option) {
 			case 1: {
 				// get hotel occupancy details
+				if(user==3 || user==4){
+					System.out.println("You are not authorised to perform this operation.");
+					break;
+				}
 				ResultSet rs = Report.hotelOccupancy();
 				outputResult(rs);
 				break;
 			}
 			case 2: {
 				// get room occupancy
+				if(user==3 || user==4){
+					System.out.println("You are not authorised to perform this operation.");
+					break;
+				}
 				ResultSet rs = Report.roomOccupancy();
 				outputResult(rs);
 				break;
 			}
 			case 3: {
+				if(user==3 || user==4){
+					System.out.println("You are not authorised to perform this operation.");
+					break;
+				}
 				System.out.print("enter the start date:");
 				String dateStart = readInput();
 				System.out.print("enter the end date:");
@@ -71,16 +83,28 @@ public class TeamT {
 				break;
 			}
 			case 4: {
+				if(user==3 || user==4){
+					System.out.println("You are not authorised to perform this operation.");
+					break;
+				}
 				ResultSet rs = Report.cityOccupancy();
 				outputResult(rs);
 				break;
 			}
 			case 5: {
+				if(user==3 || user==4){
+					System.out.println("You are not authorised to perform this operation.");
+					break;
+				}
 				ResultSet rs = Report.groupStaffByRole();
 				outputResult(rs);
 				break;
 			}
 			case 6: {
+				if(user==4){
+					System.out.println("You are not authorised to perform this operation.");
+					break;
+				}
 				System.out.print("enter the customer id for whom staff info is needed: ");
 				int customerId = readInt();
 				ResultSet rs = Report.staffServingCustomer(customerId);
@@ -88,12 +112,15 @@ public class TeamT {
 				break;
 			}
 			case 7: {
+				if(user==3 || user==4){
+					System.out.println("You are not authorised to perform this operation.");
+					break;
+				}
 				int hotelId = Login.getHotelID();
 				System.out.print("Enter the start date: ");
 				String checkInTime = readInput();
 				System.out.print("Enter the end date: ");
 				String checkOutTime = readInput();
-
 				ResultSet rs = Report.revenueReport(hotelId, checkInTime, checkOutTime);
 				outputResult(rs);
 				break;
@@ -114,6 +141,10 @@ public class TeamT {
 			ResultSet rs = null;
 			switch (option) {
 			case 1:
+				if(user==4){
+					System.out.println("You are not authorised to perform this operation.");
+					break;
+				}
 				System.out.println("Enter Mode of payment:\n1. Hotel Card\n2. Credit/Debit Card\n3. Cash");
 				int op = readInt();
 				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -136,6 +167,10 @@ public class TeamT {
 				outputResult(rs);
 				break;
 			case 2:
+				if(user==4){
+					System.out.println("You are not authorised to perform this operation.");
+					break;
+				}
 				System.out.print("Enter Checkout Date: ");
 				String date1 = readInput();
 				rs = Bill.getAmount(id, date1);
@@ -154,6 +189,10 @@ public class TeamT {
 			int option = readInt();
 			switch (option) {
 			case 1: {
+				if(user==4){
+					System.out.println("You are not authorised to perform this operation.");
+					break;
+				}
 				int hotelId = Login.getHotelID();
 				System.out.print("Enter the customer ID: ");
 				int customerId = readInt();
@@ -192,6 +231,10 @@ public class TeamT {
 				break;
 			}
 			case 2: {
+				if(user==4){
+					System.out.println("You are not authorised to perform this operation.");
+					break;
+				}
 				int hotelId = Login.getHotelID();
 				System.out.print("enter the room you want to assign staff to: ");
 				int roomId = readInt();
