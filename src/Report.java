@@ -44,7 +44,7 @@ public class Report {
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
-		    PreparedStatement pstmt = conn.prepareStatement("SELECT HotelID, COUNT(*) FROM CHECKIN WHERE (CheckInTime >= ? OR CheckOutTime <= ?) AND NOT (CheckInTime >= ? OR CheckOutTime <= ?) GROUP BY HotelID;");
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT HotelID, COUNT(*) FROM CHECKIN WHERE (CheckIndate >= ? OR CheckOutdate <= ?) AND NOT (CheckIndate <= ? OR CheckOutdate >= ?) GROUP BY HotelID");
 		    pstmt.setString(1, dateStart);
 		    pstmt.setString(2, dateEnd);
 		    pstmt.setString(3, dateStart);
@@ -61,7 +61,7 @@ public class Report {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
-		    rs = stmt.executeQuery("SELECT HotelID, COUNT(*), Address FROM ROOM JOIN HOTEL Where Availability=0 GROUP BY Address");
+		    rs = stmt.executeQuery("SELECT HotelID, COUNT(*), City FROM ROOM JOIN HOTEL Where Availability=0 GROUP BY City");
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -73,7 +73,7 @@ public class Report {
 		try {
 			Connection conn = DBConnection.getConnection();
 		    Statement stmt = conn.createStatement();
-		    rs = stmt.executeQuery("SELECT * FROM STAFF GROUP BY Title");
+		    rs = stmt.executeQuery("SELECT HIRES.HOTELID, COUNT(*), STAFF.Title FROM STAFF JOIN HIRES ON (STAFF.ID=HIRES.STAFFID) GROUP BY STAFF.TITLE, HIRES.HOTELID ORDER BY HIRES.HOTELID");
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -84,8 +84,9 @@ public class Report {
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
-		    PreparedStatement pstmt = conn.prepareStatement("SELECT STAFF.ID, STAFF.Name, Timestamp FROM STAFF JOIN PROVIDES ON STAFF.ID=PROVIDES.staffID WHERE ID IN (SELECT DISTINCT StaffID FROM PROVIDES JOIN CHECKIN WHERE CustomerID = ?)");
+		    PreparedStatement pstmt = conn.prepareStatement(" SELECT STAFF.ID, STAFF.Name, CHECKIN.CHECKINDATE, CHECKIN.CHECKOUTDATE FROM (CHECKIN NATURAL JOIN PROVIDES) JOIN STAFF ON STAFF.ID=PROVIDES.staffID WHERE ID IN (SELECT DISTINCT StaffID FROM PROVIDES NATURAL JOIN CHECKIN WHERE CustomerID = ?) AND CHECKIN.CUSTOMERID=? GROUP BY CHECKIN.CHECKOUTDATE");
 		    pstmt.setInt(1, customerId);
+		    pstmt.setInt(2, customerId);
 		    rs = pstmt.executeQuery();
 		} catch (Exception e) {
 			System.out.println(e);
@@ -97,7 +98,7 @@ public class Report {
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
-		    PreparedStatement pstmt = conn.prepareStatement("SELECT SUM(BILL.Amount) FROM BILL JOIN CHECKIN WHERE (CHECKIN.CheckOutTime >= ? AND CHECKIN.CheckOutTime <= ? AND CHECKIN.HotelID=?)");
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT SUM(BILL.Amount) FROM BILL JOIN CHECKIN WHERE (CHECKIN.CheckOutdate >= ? AND CHECKIN.CheckOutdate <= ? AND CHECKIN.HotelID=?)");
 		    pstmt.setString(1, checkInTime);
 		    pstmt.setString(2, checkOutTime);
 		    pstmt.setInt(3, hotelId);

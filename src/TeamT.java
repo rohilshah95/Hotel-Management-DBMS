@@ -62,9 +62,9 @@ public class TeamT {
 				break;
 			}
 			case 3: {
-				System.out.print("enter the start date:\t");
+				System.out.print("enter the start date:");
 				String dateStart = readInput();
-				System.out.print("enter the end date:\t");
+				System.out.print("enter the end date:");
 				String dateEnd = readInput();
 				ResultSet rs = Report.dateRangeOccupancy(dateStart, dateEnd);
 				outputResult(rs);
@@ -644,6 +644,7 @@ public class TeamT {
 	public static int readInt() {
 		int s = 0;
 		s = stdin.nextInt();
+		stdin.nextLine();
 		return s;
 	}
 
