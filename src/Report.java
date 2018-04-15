@@ -84,8 +84,9 @@ public class Report {
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
-		    PreparedStatement pstmt = conn.prepareStatement("SELECT STAFF.ID, STAFF.Name, Timestamp FROM STAFF JOIN PROVIDES ON STAFF.ID=PROVIDES.staffID WHERE ID IN (SELECT DISTINCT StaffID FROM PROVIDES JOIN CHECKIN WHERE CustomerID = ?)");
+		    PreparedStatement pstmt = conn.prepareStatement(" SELECT STAFF.ID, STAFF.Name, CHECKIN.CHECKINDATE, CHECKIN.CHECKOUTDATE FROM (CHECKIN NATURAL JOIN PROVIDES) JOIN STAFF ON STAFF.ID=PROVIDES.staffID WHERE ID IN (SELECT DISTINCT StaffID FROM PROVIDES NATURAL JOIN CHECKIN WHERE CustomerID = ?) AND CHECKIN.CUSTOMERID=? GROUP BY CHECKIN.CHECKOUTDATE");
 		    pstmt.setInt(1, customerId);
+		    pstmt.setInt(2, customerId);
 		    rs = pstmt.executeQuery();
 		} catch (Exception e) {
 			System.out.println(e);
