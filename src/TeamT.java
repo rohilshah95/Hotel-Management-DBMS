@@ -50,66 +50,58 @@ public class TeamT {
 					"Make changes into:\n1. hotelOccupancy\n2. roomOccupancy\n3. date range occupancy\n4. city occupancy\n5. group staff by role\n6. staff serving customer\n7. Revenue Report\n");
 			int option = Integer.parseInt(readInput());
 			switch (option) {
-				case 1:
-				{
-					// get hotel occupancy details
-					ResultSet rs = Report.hotelOccupancy();
-					outputResult(rs);
-					break;
-				}
-				case 2:
-				{
-					//get room occupancy
-					ResultSet rs = Report.roomOccupancy();
-					outputResult(rs);
-					break;
-				}
-				case 3:
-				{
-					System.out.print("enter the start date:\t");
-					String dateStart = sc.next();
-					System.out.print("enter the end date:\t");
-					String dateEnd = sc.next();
-					ResultSet rs = Report.dateRangeOccupancy(dateStart,dateEnd);
-					outputResult(rs);
-					break;
-				}
-				case 4:
-				{
-					ResultSet rs = Report.cityOccupancy();
-					outputResult(rs);
-					break;
-				}
-				case 5:
-				{
-					ResultSet rs = Report.groupStaffByRole();
-					outputResult(rs);
-					break;
-				}
-				case 6:
-				{
-					System.out.print("enter the customer id for whom staff info is needed: ");
-					int customerId = sc.nextInt();
-					ResultSet rs = Report.staffServingCustomer(customerId);
-					outputResult(rs);
-					break;
-				}
-				case 7:
-				{
-					int hotelId = Login.getHotelID();
-					System.out.print("Enter the checkin time: ");
-					String checkInTime = sc.next();
-					System.out.print("Enter the checkout time: ");
-					String checkOutTime = sc.next();
-					
-					ResultSet rs = Report.revenueReport(hotelId, checkInTime, checkOutTime);
-					outputResult(rs);
-					break;
-				}
-				default:
-				{
-					System.out.println("enter the correct option!");
-				}
+			case 1: {
+				// get hotel occupancy details
+				ResultSet rs = Report.hotelOccupancy();
+				outputResult(rs);
+				break;
+			}
+			case 2: {
+				// get room occupancy
+				ResultSet rs = Report.roomOccupancy();
+				outputResult(rs);
+				break;
+			}
+			case 3: {
+				System.out.print("enter the start date:\t");
+				String dateStart = sc.next();
+				System.out.print("enter the end date:\t");
+				String dateEnd = sc.next();
+				ResultSet rs = Report.dateRangeOccupancy(dateStart, dateEnd);
+				outputResult(rs);
+				break;
+			}
+			case 4: {
+				ResultSet rs = Report.cityOccupancy();
+				outputResult(rs);
+				break;
+			}
+			case 5: {
+				ResultSet rs = Report.groupStaffByRole();
+				outputResult(rs);
+				break;
+			}
+			case 6: {
+				System.out.print("enter the customer id for whom staff info is needed: ");
+				int customerId = sc.nextInt();
+				ResultSet rs = Report.staffServingCustomer(customerId);
+				outputResult(rs);
+				break;
+			}
+			case 7: {
+				int hotelId = Login.getHotelID();
+				System.out.print("Enter the checkin time: ");
+				String checkInTime = sc.next();
+				System.out.print("Enter the checkout time: ");
+				String checkOutTime = sc.next();
+
+				ResultSet rs = Report.revenueReport(hotelId, checkInTime, checkOutTime);
+				outputResult(rs);
+				break;
+			}
+			default: {
+				System.out.println("enter the correct option!");
+			}
 			}
 		}
 	}
@@ -126,8 +118,7 @@ public class TeamT {
 
 	public static void informationProcessing(int user, int hotelID) {
 		while (true) {
-			System.out.println(
-					"Make changes into:\n1. Customer\n2. Staff\n3. Room\n4. Hotel\n5. Service\n6. Logout\n");
+			System.out.println("Make changes into:\n1. Customer\n2. Staff\n3. Room\n4. Hotel\n5. Service\n6. Logout\n");
 			int option = Integer.parseInt(readInput());
 			int op = 0;
 			switch (option) {
@@ -135,11 +126,10 @@ public class TeamT {
 				crud();
 				op = Integer.parseInt(readInput());
 				if (op == 1) { // Create
-					String[] params = { "Name", "DOB", "Phone Number", "Email", "SSN", "Address",
-							"Has Hotel Card?" };
+					String[] params = { "Name", "DOB", "Phone Number", "Email", "SSN", "Address", "Has Hotel Card?" };
 					List<String> send = create(params);
-					Customer.createCustomer(send.get(0), send.get(1), send.get(2),
-							send.get(3), send.get(4), send.get(5), Byte.valueOf(send.get(6)));
+					Customer.createCustomer(send.get(0), send.get(1), send.get(2), send.get(3), send.get(4),
+							send.get(5), Byte.valueOf(send.get(6)));
 				} else if (op == 2) { // Read
 					System.out.println("1. All customers\n2. By customer ID");
 					int query = Integer.parseInt(readInput());
@@ -186,8 +176,8 @@ public class TeamT {
 				if (op == 1) { // Create
 					String[] params = { "Name", "Title", "Department", "Address", "Phone", "Availability" };
 					List<String> send = create(params);
-					Staff.createStaff(send.get(0), send.get(1), send.get(2), send.get(3),
-							send.get(4), Byte.valueOf(send.get(5)));
+					Staff.createStaff(send.get(0), send.get(1), send.get(2), send.get(3), send.get(4),
+							Byte.valueOf(send.get(5)));
 				} else if (op == 2) { // Read
 					System.out.println("1. All staff\n2. By staff ID");
 					int query = Integer.parseInt(readInput());
@@ -276,15 +266,15 @@ public class TeamT {
 					int id = Integer.parseInt(readInput());
 					Room.deleteRoom(hotelID, id);
 					System.out.println("Room number " + id + " of hotel with ID " + hotelID + " deleted");
-				} else if(op == 5 ) {
+				} else if (op == 5) {
 					ResultSet rs = Room.checkRoomAvailability(hotelID);
 					outputResult(rs);
-				} else if(op == 6 ) {
+				} else if (op == 6) {
 					System.out.println("Enter the room category:");
 					String category = readInput();
 					ResultSet rs = Room.checkRoomAvailability(hotelID, category);
 					outputResult(rs);
-				} else if(op == 7 ) {
+				} else if (op == 7) {
 					System.out.println("Enter Customer's ID: ");
 					int customerId = Integer.parseInt(readInput());
 					System.out.println("Enter the number of guests: ");
@@ -293,13 +283,13 @@ public class TeamT {
 					int roomId = Integer.parseInt(readInput());
 					Customer.assignRoom(customerId, hotelID, roomId, noOfGuests);
 					System.out.println("Room has been assigned!");
-				} else if(op == 8){
+				} else if (op == 8) {
 					System.out.println("Enter Customer ID: ");
 					int custId = Integer.parseInt(readInput());
 					System.out.println("Enter the Room Numer: ");
 					int number = Integer.parseInt(readInput());
 					Room.releaseRoom(hotelID, number, custId);
-				} else {	
+				} else {
 				}
 				break;
 			case 4: // Hotel
