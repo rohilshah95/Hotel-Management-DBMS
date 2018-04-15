@@ -150,7 +150,9 @@ public class TeamT {
 						}
 					if(category == "Presidential")
 					{
-						getAvailableStaff();
+						System.out.println("available staff is: ");
+						rs = Staff.getAvailableStaff();
+						outputResult(rs);
 						Room.addStaffToPresidential(hotelId, roomId, staffId);
 					}
 					
