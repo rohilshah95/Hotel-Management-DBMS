@@ -21,9 +21,10 @@ public class TeamT {
 		// "david@gmail.com", "593-9846", "980 TRT St, Raleigh NC", (byte)0);
 		while (true) {
 			int user = Login.getUser();
-			int hotelID = Login.getHotelID();
+			int hotelID;
 			switch (selectOption()) {
 			case 1:
+				hotelID = Login.getHotelID();
 				informationProcessing(user, hotelID);
 				break;
 			case 2:
@@ -50,17 +51,29 @@ public class TeamT {
 			switch (option) {
 			case 1: {
 				// get hotel occupancy details
+				if (user == 3 || user == 4) {
+					System.out.println("You are not authorised to perform this operation.");
+					break;
+				}
 				ResultSet rs = Report.hotelOccupancy();
 				outputResult(rs);
 				break;
 			}
 			case 2: {
 				// get room occupancy
+				if (user == 3 || user == 4) {
+					System.out.println("You are not authorised to perform this operation.");
+					break;
+				}
 				ResultSet rs = Report.roomOccupancy();
 				outputResult(rs);
 				break;
 			}
 			case 3: {
+				if (user == 3 || user == 4) {
+					System.out.println("You are not authorised to perform this operation.");
+					break;
+				}
 				System.out.print("enter the start date:");
 				String dateStart = readInput();
 				System.out.print("enter the end date:");
@@ -70,16 +83,28 @@ public class TeamT {
 				break;
 			}
 			case 4: {
+				if (user == 3 || user == 4) {
+					System.out.println("You are not authorised to perform this operation.");
+					break;
+				}
 				ResultSet rs = Report.cityOccupancy();
 				outputResult(rs);
 				break;
 			}
 			case 5: {
+				if (user == 3 || user == 4) {
+					System.out.println("You are not authorised to perform this operation.");
+					break;
+				}
 				ResultSet rs = Report.groupStaffByRole();
 				outputResult(rs);
 				break;
 			}
 			case 6: {
+				if (user == 4) {
+					System.out.println("You are not authorised to perform this operation.");
+					break;
+				}
 				System.out.print("enter the customer id for whom staff info is needed: ");
 				int customerId = readInt();
 				ResultSet rs = Report.staffServingCustomer(customerId);
@@ -87,12 +112,15 @@ public class TeamT {
 				break;
 			}
 			case 7: {
+				if (user == 3 || user == 4) {
+					System.out.println("You are not authorised to perform this operation.");
+					break;
+				}
 				int hotelId = Login.getHotelID();
-				System.out.print("Enter the checkin time: ");
+				System.out.print("Enter the start date: ");
 				String checkInTime = readInput();
-				System.out.print("Enter the checkout time: ");
+				System.out.print("Enter the end date: ");
 				String checkOutTime = readInput();
-
 				ResultSet rs = Report.revenueReport(hotelId, checkInTime, checkOutTime);
 				outputResult(rs);
 				break;
@@ -113,6 +141,10 @@ public class TeamT {
 			ResultSet rs = null;
 			switch (option) {
 			case 1:
+				if (user == 4) {
+					System.out.println("You are not authorised to perform this operation.");
+					break;
+				}
 				System.out.println("Enter Mode of payment:\n1. Hotel Card\n2. Credit/Debit Card\n3. Cash");
 				int op = readInt();
 				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -135,6 +167,10 @@ public class TeamT {
 				outputResult(rs);
 				break;
 			case 2:
+				if (user == 4) {
+					System.out.println("You are not authorised to perform this operation.");
+					break;
+				}
 				System.out.print("Enter Checkout Date: ");
 				String date1 = readInput();
 				rs = Bill.getAmount(id, date1);
@@ -153,6 +189,10 @@ public class TeamT {
 			int option = readInt();
 			switch (option) {
 			case 1: {
+				if (user == 4) {
+					System.out.println("You are not authorised to perform this operation.");
+					break;
+				}
 				int hotelId = Login.getHotelID();
 				System.out.print("Enter the customer ID: ");
 				int customerId = readInt();
@@ -191,6 +231,10 @@ public class TeamT {
 				break;
 			}
 			case 2: {
+				if (user == 4) {
+					System.out.println("You are not authorised to perform this operation.");
+					break;
+				}
 				int hotelId = Login.getHotelID();
 				System.out.print("enter the room you want to assign staff to: ");
 				int roomId = readInt();
@@ -233,11 +277,19 @@ public class TeamT {
 				crud();
 				op = readInt();
 				if (op == 1) { // Create
+					if (user == 4) {
+						System.out.println("You are not authorised to perform this operation.");
+						break;
+					}
 					String[] params = { "Name", "DOB", "Phone Number", "Email", "SSN", "Address", "Has Hotel Card?" };
 					List<String> send = create(params);
 					Customer.createCustomer(send.get(0), send.get(1), send.get(2), send.get(3), send.get(4),
 							send.get(5), Byte.valueOf(send.get(6)));
 				} else if (op == 2) { // Read
+					if (user == 4) {
+						System.out.println("You are not authorised to perform this operation.");
+						break;
+					}
 					System.out.println("1. All customers\n2. By customer ID");
 					int query = readInt();
 					if (query == 2) {
@@ -250,6 +302,10 @@ public class TeamT {
 						outputResult(rs);
 					}
 				} else if (op == 3) { // Update
+					if (user == 4) {
+						System.out.println("You are not authorised to perform this operation.");
+						break;
+					}
 					System.out.println("Enter Customer ID");
 					int id = readInt();
 					ResultSet rs = Customer.getCustomer(id);
@@ -269,6 +325,10 @@ public class TeamT {
 					Customer.updateCustomer(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3),
 							send.get(4), send.get(5), send.get(6), Byte.valueOf(send.get(7)));
 				} else if (op == 4) { // Delete
+					if (user == 4) {
+						System.out.println("You are not authorised to perform this operation.");
+						break;
+					}
 					System.out.println("Enter Customer ID");
 					int id = readInt();
 					Customer.deleteCustomer(id);
@@ -281,11 +341,19 @@ public class TeamT {
 				crud();
 				op = readInt();
 				if (op == 1) { // Create
+					if (user == 3 || user == 4) {
+						System.out.println("You are not authorised to perform this operation.");
+						break;
+					}
 					String[] params = { "Name", "Title", "Department", "Address", "Phone", "Availability" };
 					List<String> send = create(params);
 					Staff.createStaff(send.get(0), send.get(1), send.get(2), send.get(3), send.get(4),
 							Byte.valueOf(send.get(5)));
 				} else if (op == 2) { // Read
+					if (user == 3 || user == 4) {
+						System.out.println("You are not authorised to perform this operation.");
+						break;
+					}
 					System.out.println("1. All staff\n2. By staff ID");
 					int query = readInt();
 					if (query == 2) {
@@ -298,6 +366,10 @@ public class TeamT {
 						outputResult(rs);
 					}
 				} else if (op == 3) { // Update
+					if (user == 3 || user == 4) {
+						System.out.println("You are not authorised to perform this operation.");
+						break;
+					}
 					System.out.println("Enter Staff ID");
 					int id = readInt();
 					ResultSet rs = Staff.getStaff(id);
@@ -317,6 +389,10 @@ public class TeamT {
 							send.get(5), Byte.valueOf(send.get(6)));
 
 				} else if (op == 4) { // Delete
+					if (user == 3 || user == 4) {
+						System.out.println("You are not authorised to perform this operation.");
+						break;
+					}
 					System.out.println("Enter Staff ID");
 					int id = readInt();
 					Staff.deleteStaff(id);
@@ -332,6 +408,10 @@ public class TeamT {
 				System.out.println("7. Assign room to customer");
 				op = readInt();
 				if (op == 1) { // Create
+					if (user == 3 || user == 4) {
+						System.out.println("You are not authorised to perform this operation.");
+						break;
+					}
 					String[] params = { "HotelID", "Number", "Category", "Rate", "Availability", "MaxOccupancy" };
 					List<String> send = create(params);
 					Room.createRoom(Integer.parseInt(send.get(0)), Integer.parseInt(send.get(1)), send.get(2),
@@ -350,6 +430,10 @@ public class TeamT {
 						outputResult(rs);
 					}
 				} else if (op == 3) { // Update
+					if (user == 3 || user == 4) {
+						System.out.println("You are not authorised to perform this operation.");
+						break;
+					}
 					System.out.println("Enter Room Number");
 					int id = readInt();
 					ResultSet rs = Room.getRoom(hotelID, id);
@@ -369,19 +453,35 @@ public class TeamT {
 							Integer.parseInt(send.get(3)), Integer.parseInt(send.get(4)),
 							Integer.parseInt(send.get(5)));
 				} else if (op == 4) { // Delete
+					if (user == 3 || user == 4) {
+						System.out.println("You are not authorised to perform this operation.");
+						break;
+					}
 					System.out.println("Enter Room Number");
 					int id = readInt();
 					Room.deleteRoom(hotelID, id);
 					System.out.println("Room number " + id + " of hotel with ID " + hotelID + " deleted");
 				} else if (op == 5) {
+					if (user == 4) {
+						System.out.println("You are not authorised to perform this operation.");
+						break;
+					}
 					ResultSet rs = Room.checkRoomAvailability(hotelID);
 					outputResult(rs);
 				} else if (op == 6) {
+					if (user == 4) {
+						System.out.println("You are not authorised to perform this operation.");
+						break;
+					}
 					System.out.println("Enter the room category:");
 					String category = readInput();
 					ResultSet rs = Room.checkRoomAvailability(hotelID, category);
 					outputResult(rs);
 				} else if (op == 7) {
+					if (user == 4) {
+						System.out.println("You are not authorised to perform this operation.");
+						break;
+					}
 					System.out.println("Enter Customer's ID: ");
 					int customerId = readInt();
 					System.out.println("Enter the number of guests: ");
@@ -391,6 +491,10 @@ public class TeamT {
 					Customer.assignRoom(customerId, hotelID, roomId, noOfGuests);
 					System.out.println("Room has been assigned!");
 				} else if (op == 8) {
+					if (user == 4) {
+						System.out.println("You are not authorised to perform this operation.");
+						break;
+					}
 					System.out.println("Enter Customer ID: ");
 					int custId = readInt();
 					System.out.println("Enter the Room Numer: ");
@@ -404,11 +508,19 @@ public class TeamT {
 				crud();
 				op = readInt();
 				if (op == 1) { // Create
+					if (user == 2 || user == 3 || user == 4) {
+						System.out.println("You are not authorised to perform this operation.");
+						break;
+					}
 					String[] params = { "Name", "Address", "City", "Phone Number", "ManagerID" };
 					List<String> send = create(params);
 					Hotel.createHotel(send.get(0), send.get(1), send.get(2), send.get(3),
 							Integer.parseInt(send.get(4)));
 				} else if (op == 2) { // Read
+					if (user == 3 || user == 4) {
+						System.out.println("You are not authorised to perform this operation.");
+						break;
+					}
 					System.out.println("1. All hotels\n2. By Hotel ID");
 					int query = readInt();
 					if (query == 2) {
@@ -421,6 +533,10 @@ public class TeamT {
 						outputResult(rs);
 					}
 				} else if (op == 3) { // Update
+					if (user == 2 || user == 3 || user == 4) {
+						System.out.println("You are not authorised to perform this operation.");
+						break;
+					}
 					System.out.println("Enter Hotel ID");
 					int id = readInt();
 					ResultSet rs = Hotel.getHotel(id);
@@ -439,6 +555,10 @@ public class TeamT {
 					Hotel.updateHotel(Integer.parseInt(send.get(0)), send.get(1), send.get(2), send.get(3), send.get(4),
 							Integer.parseInt(send.get(5)));
 				} else if (op == 4) { // Delete
+					if (user == 2 || user == 3 || user == 4) {
+						System.out.println("You are not authorised to perform this operation.");
+						break;
+					}
 					System.out.println("Enter Hotel ID");
 					int id = readInt();
 					Hotel.deleteHotel(id);
@@ -451,6 +571,10 @@ public class TeamT {
 				crud();
 				op = readInt();
 				if (op == 1) { // Create
+					if (user == 3 || user == 4) {
+						System.out.println("You are not authorised to perform this operation.");
+						break;
+					}
 					String[] params = { "Name", "Cost" };
 					List<String> send = create(params);
 					Service.createService(send.get(0), Integer.parseInt(send.get(1)));
@@ -467,6 +591,10 @@ public class TeamT {
 						outputResult(rs);
 					}
 				} else if (op == 3) { // Update
+					if (user == 3 || user == 4) {
+						System.out.println("You are not authorised to perform this operation.");
+						break;
+					}
 					System.out.println("Enter Service ID");
 					int id = readInt();
 					ResultSet rs = Service.getService(id);
@@ -484,6 +612,10 @@ public class TeamT {
 					List<String> send = update(params, check);
 					Service.updateService(Integer.parseInt(send.get(0)), send.get(1), Integer.parseInt(send.get(2)));
 				} else if (op == 4) { // Delete
+					if (user == 3 || user == 4) {
+						System.out.println("You are not authorised to perform this operation.");
+						break;
+					}
 					System.out.println("Enter Service ID");
 					int id = readInt();
 					Service.deleteService(id);
@@ -535,15 +667,15 @@ public class TeamT {
 	}
 
 	public static int selectOption() {
-		int user = 0;
+		int option = 0;
 		System.out.println("\n\n******************************************************************\n\n");
 		// Enter user choice
 		System.out.println("Select Operation:");
 		System.out.println("1. Information Processing \n" + "2. Maintaining Service Records \n"
 				+ "3. Maintaining Billing Accounts \n" + "4. Reports \n" + "5. Exit");
 		System.out.println("Enter the number of your choice:");
-		user = readInt();
-		return user;
+		option = readInt();
+		return option;
 	}
 
 	public static String readInput() {
@@ -551,7 +683,7 @@ public class TeamT {
 		s = stdin.nextLine();
 		return s;
 	}
-	
+
 	public static int readInt() {
 		int s = 0;
 		s = stdin.nextInt();
