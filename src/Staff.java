@@ -74,7 +74,7 @@ public class Staff {
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
-		    PreparedStatement pstmt = conn.prepareStatement("SELECT * from STAFF WHERE ID=?");
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT * from STAFF JOIN HIRES ON (STAFF.ID=HIRES.HOTELID) WHERE HIRES.HOTELID=?");
 		    pstmt.setInt(1, id);
 		    rs= pstmt.executeQuery();
 
