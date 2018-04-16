@@ -69,6 +69,10 @@ public class TeamT {
 
 	}
 
+	
+	/*
+	 * This function contains report functionality.
+	 */
 	public static void reports(int user, int hotelID) {
 		boolean previous = false;
 		while (loggedIn && !previous) {
@@ -157,6 +161,10 @@ public class TeamT {
 		}
 	}
 
+	
+	/*
+	 * This function contains billing account functionality.
+	 */
 	public static void billingAccounts(int user, int hotelID) {
 		boolean previous = false;
 		while (loggedIn && !previous) {
@@ -272,6 +280,10 @@ public class TeamT {
 		}
 	}
 
+	
+	/*
+	 * This function contains service records functionality.
+	 */
 	public static void serviceRecords(int user, int hotelID) {
 		boolean previous = false;
 		while (loggedIn && !previous) {
@@ -349,6 +361,10 @@ public class TeamT {
 
 	}
 
+	
+	/*
+	 * This function contains information processing functionality.
+	 */
 	public static void informationProcessing(int user, int hotelID) {
 		boolean previous = false;
 		while (loggedIn && !previous) {
@@ -749,6 +765,12 @@ public class TeamT {
 		}
 	}
 
+	
+	/*
+	 * This function takes input parameters from the user for update queries.
+	 * Input Parameters: Input Parameters array for given query, List of original parameters.
+	 * Return Value: Changed List of parameters to update
+	 */
 	private static List<String> update(String[] params, List<String> check) {
 		System.out.println("Enter fields to update: (Enter any other value to execute update)");
 		for (int i = 1; i < params.length; i++) {
@@ -766,7 +788,13 @@ public class TeamT {
 		}
 		return check;
 	}
+	
 
+	/*
+	 * This function takes input parameters from the user for create queries.
+	 * Input Parameters: Input Parameters array for given query.
+	 * Return Value: N/A (Prints Result Set on Console)
+	 */
 	private static List<String> create(String[] params) {
 		System.out.println("Enter the following details:");
 		List<String> send = new LinkedList<String>();
@@ -807,6 +835,11 @@ public class TeamT {
 		return s;
 	}
 
+	/*
+	 * This function takes in a result set and prints it out on the console.
+	 * Input Parameters: Result Set
+	 * Return Value: N/A (Prints Result Set on Console)
+	 */
 	public static void outputResult(ResultSet rs) {
 		try {
 			if (rs == null) {
