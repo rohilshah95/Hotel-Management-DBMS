@@ -10,6 +10,7 @@ public class Login {
 			if (user < 1 || user > 5) {
 				System.out.println("Enter valid input");
 			} else if (user == 5) {
+				System.out.println("Thanks for using WolfIns - Team T");
 				System.exit(0);
 			} else {
 				return user;
