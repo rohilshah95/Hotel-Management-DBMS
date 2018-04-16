@@ -6,16 +6,13 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class Report {
+	
 	/*
-	 * hotel occupancy
-	 * room occupancy
-	 * date range occupancy
-	 * city occupancy
-	 * groupStaff by role
-	 * staff servicing customer
-	 * revenue report
+	 * This function is used for generating the report for hotel occupancy.
+	 * Input Parameters: N/A
+	 * Return Value: Hotel ID, Number of Rooms occupied, Total Rooms in Hotel and Percentage of Rooms occupied in the hotel.
 	 */
-	static ResultSet hotelOccupancy() {
+	public static ResultSet hotelOccupancy() {
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
@@ -28,7 +25,12 @@ public class Report {
 		return rs;
 	}
 	
-	static ResultSet roomOccupancy() {
+	/*
+	 * This function is used for generating the report for room occupancy.
+	 * Input Parameters: N/A
+	 * Return Value: Hotel ID, Number of Rooms occupied and Category of Rooms occupied in the hotel.
+	 */
+	public static ResultSet roomOccupancy() {
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
@@ -40,7 +42,12 @@ public class Report {
 		return rs;
 	}
 	
-	static ResultSet dateRangeOccupancy(String dateStart, String dateEnd) {
+	/*
+	 * This function is used for generating the report for hotel by date range occupancy.
+	 * Input Parameters: Start date, End Date
+	 * Return Value: Hotel ID, Number of Rooms occupied occupied in the hotel during that period.
+	 */
+	public static ResultSet dateRangeOccupancy(String dateStart, String dateEnd) {
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
@@ -56,7 +63,12 @@ public class Report {
 		return rs;
 	}
 	
-	static ResultSet cityOccupancy() {
+	/*
+	 * This function is used for generating the report for city occupancy.
+	 * Input Parameters: N/A
+	 * Return Value: Number of Rooms occupied, Total Rooms, City in Hotel in each City.
+	 */
+	public static ResultSet cityOccupancy() {
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
@@ -68,7 +80,12 @@ public class Report {
 		return rs;
 	}
 	
-	static ResultSet groupStaffByRole() {
+	/*
+	 * This function is used for generating the report for Staff by Role.
+	 * Input Parameters: N/A
+	 * Return Value: Hotel ID, Number of Staff of a particular Role and Staff Title ordered by Hotel.
+	 */
+	public static ResultSet groupStaffByRole() {
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
@@ -80,7 +97,12 @@ public class Report {
 		return rs;
 	}
 	
-	static ResultSet staffServingCustomer(int customerId) {
+	/*
+	 * This function is used for generating the report for Staff service a particular Customer.
+	 * Input Parameters: Customer ID
+	 * Return Value: Staff ID, Staff Name, Customer Checkin Date, Customer Checkout Date of a Particular Customer Stay
+	 */
+	public static ResultSet staffServingCustomer(int customerId) {
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
@@ -94,7 +116,12 @@ public class Report {
 		return rs;
 	}
 	
-	static ResultSet revenueReport(int hotelId, String checkInTime, String checkOutTime) {
+	/*
+	 * This function is used for generating the report for revenue of a particular hotel given a date range.
+	 * Input Parameters: HotelID, Start Date, End Date.
+	 * Return Value: Revenue made by hotel during that particular period.
+	 */
+	public static ResultSet revenueReport(int hotelId, String checkInTime, String checkOutTime) {
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();

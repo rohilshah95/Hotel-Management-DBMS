@@ -4,6 +4,12 @@ import java.sql.*;
 
 public class Bill {
 
+	/*
+	 * This function is responsible for calculating the Bill for a given Customer Stay.
+	 * It adds the charges for Room and Services for the given customer stay.
+	 * Input Parameters: Customer ID, Check Out Date, Mode of Payment, CreditDebit/Hotel Card Number
+	 * Return Value: Result Set containing all Bill Information of the Customer for the given stay.
+	 */
 	public static ResultSet calcBill(int custId, String checkOutDate, String modeOfPayment, String cardNumber) {
 		ResultSet rs = null;
 		try {
@@ -16,10 +22,6 @@ public class Bill {
 			    pstmt.setInt(1, custId);
 			    pstmt.executeUpdate();
 
-	//		    PreparedStatement pstmt1 = conn.prepareStatement("UPDATE CHECKIN SET CHECKOUTDATE = CURDATE(), CHECKOUTTIME=CURTIME() WHERE CUSTOMERID =? AND CHECKOUTDATE=NULL");
-	//		    pstmt1.setInt(1, custId);
-	//		    pstmt1.executeUpdate();
-//			    System.out.println(cardNumber);
 			    if (cardNumber.equals("0")) {
 			    	PreparedStatement pstmt2 = conn.prepareStatement("UPDATE BILL SET ModeOfPayment =?, CARDNUMBER=NULL WHERE ID = (SELECT CHECKIN.BillID FROM CHECKIN JOIN CUSTOMER ON (CHECKIN.CUSTOMERID=CUSTOMER.ID) WHERE CUSTOMER.ID=? AND CHECKIN.CHECKOUTDATE=CURDATE()) ");
 				    pstmt2.setString(1, modeOfPayment);
@@ -51,7 +53,6 @@ public class Bill {
 	    		"WHERE BILL.ID = (SELECT BILLID " +
 	    		"FROM CHECKIN " +
 	    		"WHERE CUSTOMERID = ? AND CHECKIN.CHECKOUTDATE=?);");
-	//		    PreparedStatement pstmt3= conn.prepareStatement("UPDATE BILL SET AMOUNT = (100-discount)/100* (SELECT SUM(COST) from((SELECT SERVICE.Cost AS Cost FROM (CHECKIN NATURAL JOIN PROVIDES) JOIN SERVICE ON (SERVICE.ID=PROVIDES.SERVICEID) WHERE (CHECKIN.CustomerId=? AND PROVIDES.TIMESTAMP<=CHECKIN.CHECKOUTDATE AND PROVIDES.TIMESTAMP>=CHECKIN.CHECKINDATE AND CHECKIN.CHECKOUTDATE=CURDATE())) UNION (SELECT (DATEDIFF(Checkoutdate,checkindate))*Rate AS Cost FROM ROOM JOIN CHECKIN ON (ROOM.NUMBER=CHECKIN.NUMBER AND ROOM.HOTELID=CHECKIN.HOTELID WHERE (CHECKIN.CUSTOMERID = ? AND CHECKIN.CHECKOUTDATE=CURDATE()) )) as n) WHERE BILL.ID = (SELECT BILLID FROM CHECKIN WHERE CUSTOMERID = ? AND CHECKOUTDATE=CURDATE())");
 			    pstmt3.setInt(1, custId);
 			    pstmt3.setString(2, checkOutDate);
 			    pstmt3.setInt(3, custId);
@@ -84,6 +85,11 @@ public class Bill {
 		return rs;
 	}
 
+	/*
+	 * This function is responsible for getting Bill Amount for a given customer stay.
+	 * Input Parameters: Customer ID, Check Out Date
+	 * Return Value: Result Set containing Bill Amount for a given customer stay.
+	 */
 	public static ResultSet getAmount(int custId, String checkOutDate) {
 		ResultSet rs= null;
 		try {
@@ -100,6 +106,11 @@ public class Bill {
 		return rs;
 	}
 
+	/*
+	 * This function is responsible for generating itemised receipt for a given customer stay.
+	 * Input Parameters: Customer ID, Check Out Date
+	 * Return Value: Result Set containing itemised receipt for a given customer stay.
+	 */
 	public static ResultSet generateReceipt(int custId, String checkOutDate) {
 	    ResultSet rs = null;
 		try {

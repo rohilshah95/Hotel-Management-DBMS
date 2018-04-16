@@ -10,6 +10,9 @@ public class DBConnection {
 	private static String passwd = "200204305";
 	private static Connection conn = null;
 
+	/*
+	 * Initialize the connection with the database
+	 */
 	public static void initialize() {
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
@@ -24,6 +27,9 @@ public class DBConnection {
 		}
 	}
 
+	/*
+	 * Close the connection
+	 */
 	public static void close() {
 		if (conn != null) {
 			try {
@@ -33,6 +39,9 @@ public class DBConnection {
 		}
 	}
 
+	/*
+	 * Get the connection to be used in all classes
+	 */
 	public static Connection getConnection() {
 		return conn;
 	}
