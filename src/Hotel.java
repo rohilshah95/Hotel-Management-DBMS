@@ -4,10 +4,10 @@ import java.sql.*;
 
 public class Hotel {
 	/*
-	 * Data - name, id, managerId, phoneNumber, address, city;
-	 */
-	/*
-	 * This functions is responsible for creating a new entry in the Hotel Table and returns the ID it just created. 
+	 * This function is responsible for creating the entries in the Hotel table when new Hotel is added.
+	 * It takes the parameters required and inserts into the database.
+	 * Input Parameters: Name, Address, City, PhoneNumber, ManagerID
+	 * Return Value: Hotel ID
 	 */
 	public static ResultSet createHotel(String name, String address, String city, String phoneNumber, int managerId) {
 		ResultSet rs=null;
@@ -32,6 +32,8 @@ public class Hotel {
 	
 	/*
 	 * This function is responsible for updating everything in the hotel other than the Hotel ID. It uses the Hotel ID in the where clause to update the row.
+	 * Input Parameters: Name, Address, City, PhoneNumber, ManagerID, HotelID
+	 * Return Value: N/A
 	 */
 	public static void updateHotel(int id,String name, String address, String city, String phoneNumber, int managerId) {
 		try {
@@ -53,6 +55,8 @@ public class Hotel {
 
 	/*
 	 * This function deletes the hotel with the specified ID. The ID is taken at login.
+	 * Input Parameters: Hotel ID
+	 * Return Value: N/A
 	 */
 	public static void deleteHotel(int id) {
 		try {
@@ -68,6 +72,8 @@ public class Hotel {
 	
 	/*
 	 * This function returns all the information of a particular Hotel when the Hotel ID is specified.
+	 * Input Parameters: Hotel ID
+	 * Return Value: All information about hotel
 	 */
 	public static ResultSet getHotel(int id) {
 		ResultSet rs= null;
@@ -85,6 +91,8 @@ public class Hotel {
 	
 	/*
 	 * This function returns a list of all hotels and all their information.
+	 * Input parameters: N/A
+	 * Return Value: All information about all Hotels.
 	 */
 	public static ResultSet getAllHotels() {
 		ResultSet rs= null;
