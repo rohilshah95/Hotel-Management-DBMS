@@ -39,36 +39,37 @@ public class TeamT {
 			int user = Login.getUser();
 			loggedIn = true;
 			int hotelID = Login.getHotelID();
-			switch (selectOption()) {
-			case 1:
-				informationProcessing(user, hotelID);
-				break;
-			case 2:
-				serviceRecords(user, hotelID);
-				break;
-			case 3:
-				hotelID = Login.getHotelID();
-
-				billingAccounts(user);
-				break;
-			case 4:
-				reports(user, hotelID);
-				break;
-			case 5:
-				loggedIn = false;
-				System.out.println("Goodbye!");
-				break;
-			default:
-				System.out.println("Enter valid Input.");
+			while (loggedIn) {
+				switch (selectOption()) {
+				case 1:
+					informationProcessing(user, hotelID);
+					break;
+				case 2:
+					serviceRecords(user, hotelID);
+					break;
+				case 3:
+					billingAccounts(user, hotelID);
+					break;
+				case 4:
+					reports(user, hotelID);
+					break;
+				case 5:
+					loggedIn = false;
+					System.out.println("Goodbye!");
+					break;
+				default:
+					System.out.println("Enter valid Input.");
+				}
 			}
 		}
 
 	}
 
 	public static void reports(int user, int hotelID) {
-		while (loggedIn) {
+		boolean previous = false;
+		while (loggedIn && !previous) {
 			System.out.println(
-					"Make changes into:\n1. Hotel Occupancy\n2. Room Occupancy\n3. Occupancy between a Date Range\n4. City Occupancy\n5. Staff by Role\n6. Staff Serving Customer\n7. Revenue Report\n8. Logout");
+					"Make changes into:\n1. Hotel Occupancy\n2. Room Occupancy\n3. Occupancy between a Date Range\n4. City Occupancy\n5. Staff by Role\n6. Staff Serving Customer\n7. Revenue Report\n8. Previous Menu\n9. Logout");
 			int option = readInt();
 			ResultSet rs = null;
 			switch (option) {
@@ -140,7 +141,10 @@ public class TeamT {
 				rs = Report.revenueReport(hotelID, checkInTime, checkOutTime);
 				outputResult(rs);
 				break;
-			case 8:
+			case 8: // Previous Menu
+				previous = true;
+				break;	
+			case 9:
 				loggedIn = false;
 				break;
 			default:
@@ -149,9 +153,10 @@ public class TeamT {
 		}
 	}
 
-	public static void billingAccounts(int user) {
-		while (loggedIn) {
-			System.out.println("1. Bill\n2. Generate Receipt\n3. Logout");
+	public static void billingAccounts(int user, int hotelID) {
+		boolean previous = false;
+		while (loggedIn && !previous) {
+			System.out.println("1. Bill\n2. Generate Receipt\n3. Previous  Menu\n4. Logout");
 			int option = readInt();
 			int id = 0;
 			ResultSet rs = null;
@@ -204,7 +209,10 @@ public class TeamT {
 				rs = Bill.generateReceipt(id, date1);
 				outputResult(rs);
 				break;
-			case 3:
+			case 3: // Previous Menu
+				previous = true;
+				break;
+			case 4:
 				loggedIn = false;
 				break;
 			default:
@@ -215,11 +223,12 @@ public class TeamT {
 	}
 
 	public static void serviceRecords(int user, int hotelID) {
-		while (loggedIn) {
-			System.out.println("\n1. Assign room to customer\n2. Assign staff to room\n3. Logout");
+		boolean previous = false;
+		while (loggedIn && !previous) {
+			System.out.println("\n1. Assign room to customer\n2. Assign staff to room\n3. Previous  Menu\n4. Logout");
 			int option = readInt();
 			switch (option) {
-			case 1: {
+			case 1:
 				if (user == 4) {
 					System.out.println("You are not authorised to perform this operation.");
 					break;
@@ -260,17 +269,16 @@ public class TeamT {
 				}
 				System.out.println("Room assigned!\n\n");
 				break;
-			}
-			case 2: {
+			case 2: 
 				if (user == 4) {
 					System.out.println("You are not authorised to perform this operation.");
 					break;
 				}
 				System.out.print("enter the room you want to assign staff to: ");
-				int roomId = readInt();
+				roomId = readInt();
 
-				ResultSet rs = Room.getRoom(hotelID, roomId);
-				String category = "";
+				rs = Room.getRoom(hotelID, roomId);
+				category = "";
 				try {
 					while (rs.next()) {
 						category = rs.getString(3);
@@ -288,22 +296,24 @@ public class TeamT {
 					System.out.println("this room is not presidential suite");
 				}
 				break;
-			}
-			case 3: {
+			case 3: // Previous Menu
+				previous = true;
+				break;
+			case 4:
 				loggedIn = false;
 				break;
-			}
-			default: {
+			default:
 				System.out.println("enter the correct option");
-			}
 			}
 		}
 
 	}
 
 	public static void informationProcessing(int user, int hotelID) {
-		while (loggedIn) {
-			System.out.println("Make changes into:\n1. Customer\n2. Staff\n3. Room\n4. Hotel\n5. Service\n6. Logout\n");
+		boolean previous = false;
+		while (loggedIn && !previous) {
+			System.out.println(
+					"Make changes into:\n1. Customer\n2. Staff\n3. Room\n4. Hotel\n5. Service\n6. Previous Menu\n7. Logout\n");
 			int option = readInt();
 			int op = 0;
 			switch (option) {
@@ -534,7 +544,7 @@ public class TeamT {
 
 					// assign room to the customer
 					Customer.assignRoom(customerId, hotelID, roomId, noOfGuests);
-					
+
 					// check if the room is presidential
 					rs = Room.getRoom(hotelID, roomId);
 					String category = "";
@@ -685,7 +695,10 @@ public class TeamT {
 
 				}
 				break;
-			case 6: // Logout
+			case 6: // Previous Menu
+				previous = true;
+				break;
+			case 7: // Logout
 				loggedIn = false;
 				break;
 			default:
