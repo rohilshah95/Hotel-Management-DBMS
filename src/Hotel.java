@@ -6,7 +6,8 @@ public class Hotel {
 	/*
 	 * Data - id, managerId, long phoneNumber, address, city;
 	 */
-	public static void createHotel(String name, String address, String city, String phoneNumber, int managerId) {
+	public static ResultSet createHotel(String name, String address, String city, String phoneNumber, int managerId) {
+		ResultSet rs=null;
 		try {
 			Connection conn = DBConnection.getConnection();
 		    PreparedStatement pstmt= conn.prepareStatement("INSERT INTO HOTEL(NAME, ADDRESS, CITY, PHONE, MANAGERID) VALUES (?,?,?,?,?)");
@@ -17,10 +18,13 @@ public class Hotel {
 		    pstmt.setInt(5, managerId);
 		    pstmt.executeUpdate();
 		    
+		    rs=conn.createStatement().executeQuery("SELECT MAX(ID) AS NEW_HOTEL_ID FROM HOTEL"); 
+		    
 		    // query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		return rs;
 	}
 
 	public static void updateHotel(int id,String name, String address, String city, String phoneNumber, int managerId) {

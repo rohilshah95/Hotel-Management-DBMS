@@ -3,17 +3,22 @@ package src;
 import java.sql.*;
 
 public class Service {
-	public static void createService( String name, int cost) {
+	public static ResultSet createService( String name, int cost) {
+		ResultSet rs=null;
 		try {
 			Connection conn = DBConnection.getConnection();
 		    PreparedStatement pstmt = conn.prepareStatement("INSERT INTO SERVICE( NAME, COST) VALUES(?,?)");
 		    pstmt.setString(1, name);
 		    pstmt.setInt(2, cost);
 		    
+		    rs=conn.createStatement().executeQuery("SELECT MAX(ID) AS NEW_SERVICE_ID FROM SERVICE"); 
+
+		    
 			// query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		return rs;
 	}
 
 	public static void deleteService(int id) {

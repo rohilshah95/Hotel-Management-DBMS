@@ -8,8 +8,9 @@ import java.sql.Statement;
 public class Staff {
 
 	static int id=106;
-	public static void createStaff(String name, String title, String department, String address, String phone,
+	public static ResultSet createStaff(String name, String title, String department, String address, String phone,
 			Byte availability) {
+		ResultSet rs=null;
 		try {
 			id++;
 			Connection conn = DBConnection.getConnection();
@@ -23,9 +24,13 @@ public class Staff {
 			pstmt.setString(6, phone);
 			pstmt.setByte(7, availability);
 			pstmt.executeUpdate();
+			
+		    rs=conn.createStatement().executeQuery("SELECT MAX(ID) AS NEW_STAFF_ID FROM STAFF"); 
+
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		return rs;
 	}
 
 	public static void updateStaff(int id, String name, String title, String department, String address, String phone,

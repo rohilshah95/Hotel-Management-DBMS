@@ -8,8 +8,9 @@ public class Room {
 	 * Data - hotelID, number, maxOccupancy, nightlyRate, category, availaility;
 	 */
 
-	public static void createRoom(int id, int number, String category, int nightlyRate, int availability,
+	public static ResultSet createRoom(int id, int number, String category, int nightlyRate, int availability,
 			int maxOccupancy) {
+		ResultSet rs=null;
 		try {
 			Connection conn = DBConnection.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(
@@ -21,10 +22,14 @@ public class Room {
 			pstmt.setInt(5, availability);
 			pstmt.setInt(6, maxOccupancy);
 			pstmt.executeUpdate();
+			
+		    rs=conn.createStatement().executeQuery("SELECT MAX(ID) AS NEW_ROOM_NUMBER FROM ROOM"); 
+
 			// // query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		return rs;
 	}
 
 	public static void updateRoom(int hotelID, int number, String category, int nightlyRate, int availability,

@@ -16,7 +16,7 @@ public class Bill {
 //		    PreparedStatement pstmt1 = conn.prepareStatement("UPDATE CHECKIN SET CHECKOUTDATE = CURDATE(), CHECKOUTTIME=CURTIME() WHERE CUSTOMERID =? AND CHECKOUTDATE=NULL");
 //		    pstmt1.setInt(1, custId);
 //		    pstmt1.executeUpdate();
-		    System.out.println(cardNumber);
+//		    System.out.println(cardNumber);
 		    if (cardNumber==0) {
 		    	PreparedStatement pstmt2 = conn.prepareStatement("UPDATE BILL SET ModeOfPayment =?, CARDNUMBER=NULL WHERE ID = (SELECT CHECKIN.BillID FROM CHECKIN JOIN CUSTOMER ON (CHECKIN.CUSTOMERID=CUSTOMER.ID) WHERE CUSTOMER.ID=? AND CHECKIN.CHECKOUTDATE=CURDATE()) ");
 			    pstmt2.setString(1, modeOfPayment);

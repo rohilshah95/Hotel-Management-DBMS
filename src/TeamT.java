@@ -318,8 +318,9 @@ public class TeamT {
 					}
 					String[] params = { "Name", "DOB", "Phone Number", "Email", "SSN", "Address", "Has Hotel Card?" };
 					List<String> send = create(params);
-					Customer.createCustomer(send.get(0), send.get(1), send.get(2), send.get(3), send.get(4),
+					ResultSet rs=Customer.createCustomer(send.get(0), send.get(1), send.get(2), send.get(3), send.get(4),
 							send.get(5), Byte.valueOf(send.get(6)));
+					outputResult(rs);
 				} else if (op == 2) { // Read
 					if (user == 4) {
 						System.out.println("You are not authorised to perform this operation.");
@@ -382,8 +383,9 @@ public class TeamT {
 					}
 					String[] params = { "Name", "Title", "Department", "Address", "Phone", "Availability" };
 					List<String> send = create(params);
-					Staff.createStaff(send.get(0), send.get(1), send.get(2), send.get(3), send.get(4),
+					ResultSet rs= Staff.createStaff(send.get(0), send.get(1), send.get(2), send.get(3), send.get(4),
 							Byte.valueOf(send.get(5)));
+					outputResult(rs);
 				} else if (op == 2) { // Read
 					if (user == 3 || user == 4) {
 						System.out.println("You are not authorised to perform this operation.");
@@ -449,9 +451,10 @@ public class TeamT {
 					}
 					String[] params = { "HotelID", "Number", "Category", "Rate", "Availability", "MaxOccupancy" };
 					List<String> send = create(params);
-					Room.createRoom(Integer.parseInt(send.get(0)), Integer.parseInt(send.get(1)), send.get(2),
+					ResultSet rs= Room.createRoom(Integer.parseInt(send.get(0)), Integer.parseInt(send.get(1)), send.get(2),
 							Integer.parseInt(send.get(3)), Integer.parseInt(send.get(4)),
 							Integer.parseInt(send.get(5)));
+					outputResult(rs);
 				} else if (op == 2) { // Read
 					System.out.println("1. All rooms\n2. By Room Number");
 					int query = readInt();
@@ -549,8 +552,9 @@ public class TeamT {
 					}
 					String[] params = { "Name", "Address", "City", "Phone Number", "ManagerID" };
 					List<String> send = create(params);
-					Hotel.createHotel(send.get(0), send.get(1), send.get(2), send.get(3),
+					ResultSet rs= Hotel.createHotel(send.get(0), send.get(1), send.get(2), send.get(3),
 							Integer.parseInt(send.get(4)));
+					outputResult(rs);
 				} else if (op == 2) { // Read
 					if (user == 3 || user == 4) {
 						System.out.println("You are not authorised to perform this operation.");
@@ -612,7 +616,8 @@ public class TeamT {
 					}
 					String[] params = { "Name", "Cost" };
 					List<String> send = create(params);
-					Service.createService(send.get(0), Integer.parseInt(send.get(1)));
+					ResultSet rs= Service.createService(send.get(0), Integer.parseInt(send.get(1)));
+					outputResult(rs);
 				} else if (op == 2) { // Read
 					System.out.println("1. All services\n2. By service ID");
 					int query = readInt();

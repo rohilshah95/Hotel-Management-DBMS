@@ -14,8 +14,9 @@ public class Customer {
 	// String address;
 	// byte hasHotelCard;
 
-	public static void createCustomer(String name, String dob, String phoneNumber, String email, String ssn,
+	public static ResultSet createCustomer(String name, String dob, String phoneNumber, String email, String ssn,
 			String address, Byte hasHotelCard) {
+		ResultSet rs=null;
 		try {
 //			id++;
 			Connection conn = DBConnection.getConnection();
@@ -29,10 +30,13 @@ public class Customer {
 		    pstmt.setString(6, address);
 		    pstmt.setByte(7, hasHotelCard);
 		    pstmt.executeUpdate();
+		    
+		    rs=conn.createStatement().executeQuery("SELECT MAX(ID) AS NEW_CUST_ID FROM CUSTOMER"); 
 //			// query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		return rs;
 	}
 
 	public static void updateCustomer(int id, String name, String dob, String phoneNumber, String email, String ssn,
