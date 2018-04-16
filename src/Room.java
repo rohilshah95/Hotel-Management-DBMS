@@ -202,7 +202,7 @@ public class Room {
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement("SELECT * from ROOM WHERE number=? AND hotelid=?");
+			PreparedStatement pstmt = conn.prepareStatement("SELECT * from ROOM WHERE hotelid=?");
 			pstmt.setInt(1, hotelId);
 			rs = pstmt.executeQuery();
 
