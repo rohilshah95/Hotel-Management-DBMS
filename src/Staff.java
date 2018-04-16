@@ -11,7 +11,6 @@ public class Staff {
 			Byte availability, int hotelID) {
 		ResultSet rs=null;
 		try {
-			id++;
 			Connection conn = DBConnection.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(
 					"INSERT INTO STAFF (Name, Title, Department, Address, Phone, Availability) VALUES (?,?,?,?,?,?)");
