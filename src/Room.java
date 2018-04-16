@@ -133,7 +133,7 @@ public class Room {
 			Connection conn = DBConnection.getConnection();
 			// query
 			PreparedStatement pstmt = conn.prepareStatement(
-					"INSERT INTO PROVIDES (HotelID, Number, StaffID, ServiceID, Timestamp) VALUES (?,?,?,?,NOW())");
+					"INSERT INTO PROVIDES (HotelID, Number, StaffID, ServiceID, Date, Time) VALUES (?,?,?,?,CURDATE(),CURTIME())");
 			pstmt.setInt(1, hotelId);
 			pstmt.setInt(2, number);
 			pstmt.setInt(3, staffId);
