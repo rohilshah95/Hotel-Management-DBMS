@@ -55,11 +55,13 @@ public class TeamT {
 				break;
 			case 5:
 				loggedIn = false;
+				System.out.println("Goodbye!");
 				break;
 			default:
 				System.out.println("Enter valid Input.");
 			}
 		}
+
 	}
 
 	public static void reports(int user) {
