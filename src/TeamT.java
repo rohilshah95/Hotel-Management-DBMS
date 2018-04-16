@@ -216,7 +216,7 @@ public class TeamT {
 
 	public static void serviceRecords(int user, int hotelID) {
 		while (loggedIn) {
-			System.out.println("\n1. Assign room to customer\n2. Assign staff to room\n3. Logout");
+			System.out.println("\n1. Assign room to customer\n2. Add service to rooms\n3. Logout");
 			int option = readInt();
 			switch (option) {
 			case 1: {
@@ -261,31 +261,21 @@ public class TeamT {
 				break;
 			}
 			case 2: {
-				if (user == 4) {
-					System.out.println("You are not authorised to perform this operation.");
-					break;
-				}
-				System.out.print("enter the room you want to assign staff to: ");
-				int roomId = readInt();
+				System.out.println("Enter staff id: ");
+				int staffId=readInt();
+				
+				System.out.println("The available services are: ");
+				ResultSet rs = Service.getAllServices();
+				outputResult(rs);
+				
+				System.out.print("Enter room number: ");
+				int roomId=readInt();
+				
+				System.out.print("Enter service id: ");
+				int serviceId=readInt();
+				
+				Room.addServiceToRoom(hotelID, roomId, staffId, serviceId);
 
-				ResultSet rs = Room.getRoom(hotelID, roomId);
-				String category = "";
-				try {
-					while (rs.next()) {
-						category = rs.getString(3);
-					}
-				} catch (Exception e) {
-					System.out.println(e);
-				}
-				if (category.equals("Presidential")) {
-					rs = Staff.getAvailableStaff(hotelID);
-					outputResult(rs);
-					System.out.print("enter the staff to assign to room: ");
-					int staffId = readInt();
-					Room.addStaffToPresidential(hotelID, roomId, staffId);
-				} else {
-					System.out.println("this room is not presidential suite");
-				}
 				break;
 			}
 			case 3: {
