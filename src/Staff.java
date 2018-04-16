@@ -7,7 +7,6 @@ import java.sql.Statement;
 
 public class Staff {
 
-	static int id=106;
 	public static ResultSet createStaff(String name, String title, String department, String address, String phone,
 			Byte availability, int hotelID) {
 		ResultSet rs=null;
@@ -15,14 +14,13 @@ public class Staff {
 			id++;
 			Connection conn = DBConnection.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(
-					"INSERT INTO STAFF (ID, Name, Title, Department, Address, Phone, Availability) VALUES (?,?,?,?,?,?,?)");
-			pstmt.setInt(1, id);
-			pstmt.setString(2, name);
-			pstmt.setString(3, title);
-			pstmt.setString(4, department);
-			pstmt.setString(5, address);
-			pstmt.setString(6, phone);
-			pstmt.setByte(7, availability);
+					"INSERT INTO STAFF (Name, Title, Department, Address, Phone, Availability) VALUES (?,?,?,?,?,?)");
+			pstmt.setString(1, name);
+			pstmt.setString(2, title);
+			pstmt.setString(3, department);
+			pstmt.setString(4, address);
+			pstmt.setString(5, phone);
+			pstmt.setByte(6, availability);
 			pstmt.executeUpdate();
 			
 			PreparedStatement pstmt1=conn.prepareStatement("INSERT INTO HIRES(HOTELID, STAFFID) VALUES (?,(SELECT MAX(ID) FROM STAFF))");
