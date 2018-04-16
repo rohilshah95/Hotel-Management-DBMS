@@ -4,7 +4,10 @@ import java.sql.*;
 
 public class Hotel {
 	/*
-	 * Data - id, managerId, long phoneNumber, address, city;
+	 * Data - name, id, managerId, phoneNumber, address, city;
+	 */
+	/*
+	 * This functions is responsible for creating a new entry in the Hotel Table and returns the ID it just created. 
 	 */
 	public static ResultSet createHotel(String name, String address, String city, String phoneNumber, int managerId) {
 		ResultSet rs=null;
@@ -26,7 +29,10 @@ public class Hotel {
 		}
 		return rs;
 	}
-
+	
+	/*
+	 * This function is responsible for updating everything in the hotel other than the Hotel ID. It uses the Hotel ID in the where clause to update the row.
+	 */
 	public static void updateHotel(int id,String name, String address, String city, String phoneNumber, int managerId) {
 		try {
 			Connection conn = DBConnection.getConnection();
@@ -45,6 +51,9 @@ public class Hotel {
 		}
 	}
 
+	/*
+	 * This function deletes the hotel with the specified ID. The ID is taken at login.
+	 */
 	public static void deleteHotel(int id) {
 		try {
 			Connection conn = DBConnection.getConnection();
@@ -57,6 +66,9 @@ public class Hotel {
 		}
 	}
 	
+	/*
+	 * This function returns all the information of a particular Hotel when the Hotel ID is specified.
+	 */
 	public static ResultSet getHotel(int id) {
 		ResultSet rs= null;
 		try {
@@ -71,6 +83,9 @@ public class Hotel {
 		return rs;
 	}
 	
+	/*
+	 * This function returns a list of all hotels and all their information.
+	 */
 	public static ResultSet getAllHotels() {
 		ResultSet rs= null;
 		try {
