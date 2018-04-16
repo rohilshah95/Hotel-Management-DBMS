@@ -17,17 +17,17 @@ public class TeamT {
 
 	public static void main(String[] args) {
 		DBConnection.initialize();
-		
-		while(true) {
+
+		while (true) {
 			System.out.println("1. Populate Database with Demo Data\n2. Continue without populating");
-			int options=readInt();
+			int options = readInt();
 			switch (options) {
-			case 1: 
+			case 1:
 				DBDemo.initializeDB();
 				break;
-			case 2: 
+			case 2:
 				break;
-			default: 
+			default:
 				System.out.println("Enter valid input");
 			}
 			break;
@@ -181,10 +181,10 @@ public class TeamT {
 				default:
 
 				}
-				String card="0";
-				if(!modeOfPayment.equals("cash")){
+				String card = "0";
+				if (!modeOfPayment.equals("cash")) {
 					System.out.print("Enter card number: ");
-					card=readInput();
+					card = readInput();
 				}
 				rs = Bill.calcBill(id, dateFormat.format(date), modeOfPayment, card);
 				outputResult(rs);
@@ -258,6 +258,7 @@ public class TeamT {
 					int staffId = readInt();
 					Room.addStaffToPresidential(hotelID, roomId, staffId);
 				}
+				System.out.println("Room assigned!\n\n");
 				break;
 			}
 			case 2: {
@@ -307,8 +308,8 @@ public class TeamT {
 					}
 					String[] params = { "Name", "DOB", "Phone Number", "Email", "SSN", "Address", "Has Hotel Card?" };
 					List<String> send = create(params);
-					ResultSet rs=Customer.createCustomer(send.get(0), send.get(1), send.get(2), send.get(3), send.get(4),
-							send.get(5), Byte.valueOf(send.get(6)));
+					ResultSet rs = Customer.createCustomer(send.get(0), send.get(1), send.get(2), send.get(3),
+							send.get(4), send.get(5), Byte.valueOf(send.get(6)));
 					outputResult(rs);
 				} else if (op == 2) { // Read
 					if (user == 4) {
@@ -372,7 +373,7 @@ public class TeamT {
 					}
 					String[] params = { "Name", "Title", "Department", "Address", "Phone", "Availability" };
 					List<String> send = create(params);
-					ResultSet rs= Staff.createStaff(send.get(0), send.get(1), send.get(2), send.get(3), send.get(4),
+					ResultSet rs = Staff.createStaff(send.get(0), send.get(1), send.get(2), send.get(3), send.get(4),
 							Byte.valueOf(send.get(5)), hotelID);
 					outputResult(rs);
 				} else if (op == 2) { // Read
@@ -508,14 +509,42 @@ public class TeamT {
 						System.out.println("You are not authorised to perform this operation.");
 						break;
 					}
-					System.out.println("Enter Customer's ID: ");
+					System.out.print("Enter the customer ID: ");
 					int customerId = readInt();
-					System.out.println("Enter the number of guests: ");
+					System.out.print("Enter the number of guests: ");
 					int noOfGuests = readInt();
-					System.out.println("Enter the roomId");
+
+					// get a list of the available
+					System.out.println("The available rooms are: ");
+					ResultSet rs = Room.checkRoomAvailability(hotelID);
+					outputResult(rs);
+
+					System.out.print("Enter room from the above list: ");
 					int roomId = readInt();
+
+					// assign room to the customer
 					Customer.assignRoom(customerId, hotelID, roomId, noOfGuests);
-					System.out.println("Room has been assigned!");
+					
+					// check if the room is presidential
+					rs = Room.getRoom(hotelID, roomId);
+					String category = "";
+					try {
+						while (rs.next()) {
+							category = rs.getString(3);
+						}
+					} catch (Exception e) {
+						System.out.println(e);
+					}
+
+					if (category.equals("Presidential")) {
+						rs = Staff.getAvailableStaff(hotelID);
+						outputResult(rs);
+						System.out.print("enter the staff to assign to room: ");
+						int staffId = readInt();
+						Room.addStaffToPresidential(hotelID, roomId, staffId);
+					}
+					System.out.println("Room assigned!\n\n");
+					break;
 				} else if (op == 8) {
 					if (user == 4) {
 						System.out.println("You are not authorised to perform this operation.");
@@ -540,7 +569,7 @@ public class TeamT {
 					}
 					String[] params = { "Name", "Address", "City", "Phone Number", "ManagerID" };
 					List<String> send = create(params);
-					ResultSet rs= Hotel.createHotel(send.get(0), send.get(1), send.get(2), send.get(3),
+					ResultSet rs = Hotel.createHotel(send.get(0), send.get(1), send.get(2), send.get(3),
 							Integer.parseInt(send.get(4)));
 					outputResult(rs);
 				} else if (op == 2) { // Read
@@ -598,7 +627,7 @@ public class TeamT {
 					}
 					String[] params = { "Name", "Cost" };
 					List<String> send = create(params);
-					ResultSet rs= Service.createService(send.get(0), Integer.parseInt(send.get(1)));
+					ResultSet rs = Service.createService(send.get(0), Integer.parseInt(send.get(1)));
 					outputResult(rs);
 				} else if (op == 2) { // Read
 					System.out.println("1. All services\n2. By service ID");
