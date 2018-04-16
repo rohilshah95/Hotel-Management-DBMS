@@ -27,7 +27,7 @@ public class Room {
 			{
 				PreparedStatement pstmt1=conn.prepareStatement("INSERT INTO PRESIDENTIAL(NUMBER, HOTELID) VALUES (?, ?)");
 				pstmt1.setInt(1, number);
-				pstmt1.setInt(1, id);
+				pstmt1.setInt(2, id);
 				pstmt1.executeUpdate();
 			}
 			
