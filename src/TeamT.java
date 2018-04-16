@@ -383,7 +383,7 @@ public class TeamT {
 					String[] params = { "Name", "Title", "Department", "Address", "Phone", "Availability" };
 					List<String> send = create(params);
 					ResultSet rs= Staff.createStaff(send.get(0), send.get(1), send.get(2), send.get(3), send.get(4),
-							Byte.valueOf(send.get(5)));
+							Byte.valueOf(send.get(5)), hotelID);
 					outputResult(rs);
 				} else if (op == 2) { // Read
 					if (user == 3 || user == 4) {
@@ -450,10 +450,9 @@ public class TeamT {
 					}
 					String[] params = { "HotelID", "Number", "Category", "Rate", "Availability", "MaxOccupancy" };
 					List<String> send = create(params);
-					ResultSet rs= Room.createRoom(Integer.parseInt(send.get(0)), Integer.parseInt(send.get(1)), send.get(2),
+					Room.createRoom(Integer.parseInt(send.get(0)), Integer.parseInt(send.get(1)), send.get(2),
 							Integer.parseInt(send.get(3)), Integer.parseInt(send.get(4)),
 							Integer.parseInt(send.get(5)));
-					outputResult(rs);
 				} else if (op == 2) { // Read
 					System.out.println("1. All rooms\n2. By Room Number");
 					int query = readInt();

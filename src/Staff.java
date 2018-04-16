@@ -9,7 +9,7 @@ public class Staff {
 
 	static int id=106;
 	public static ResultSet createStaff(String name, String title, String department, String address, String phone,
-			Byte availability) {
+			Byte availability, int hotelID) {
 		ResultSet rs=null;
 		try {
 			id++;
@@ -24,6 +24,10 @@ public class Staff {
 			pstmt.setString(6, phone);
 			pstmt.setByte(7, availability);
 			pstmt.executeUpdate();
+			
+			PreparedStatement pstmt1=conn.prepareStatement("INSERT INTO HIRES(HOTELID, STAFFID) VALUES (?,(SELECT MAX(ID) FROM STAFF))");
+			pstmt1.setInt(1, hotelID);
+			pstmt1.executeUpdate();
 			
 		    rs=conn.createStatement().executeQuery("SELECT MAX(ID) AS NEW_STAFF_ID FROM STAFF"); 
 
