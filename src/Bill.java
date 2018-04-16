@@ -4,6 +4,12 @@ import java.sql.*;
 
 public class Bill {
 
+	/*
+	 * This function is responsible for calculating the Bill for a given Customer Stay.
+	 * It adds the charges for Room and Services for the given customer stay.
+	 * Input Parameters: Customer ID, Check Out Date, Mode of Payment, CreditDebit/Hotel Card Number
+	 * Return Value: Result Set containing all Bill Information of the Customer for the given stay.
+	 */
 	public static ResultSet calcBill(int custId, String checkOutDate, String modeOfPayment, String cardNumber) {
 		ResultSet rs = null;
 		try {
@@ -84,6 +90,11 @@ public class Bill {
 		return rs;
 	}
 
+	/*
+	 * This function is responsible for getting Bill Amount for a given customer stay.
+	 * Input Parameters: Customer ID, Check Out Date
+	 * Return Value: Result Set containing Bill Amount for a given customer stay.
+	 */
 	public static ResultSet getAmount(int custId, String checkOutDate) {
 		ResultSet rs= null;
 		try {
@@ -100,6 +111,11 @@ public class Bill {
 		return rs;
 	}
 
+	/*
+	 * This function is responsible for generating itemised receipt for a given customer stay.
+	 * Input Parameters: Customer ID, Check Out Date
+	 * Return Value: Result Set containing itemised receipt for a given customer stay.
+	 */
 	public static ResultSet generateReceipt(int custId, String checkOutDate) {
 	    ResultSet rs = null;
 		try {
