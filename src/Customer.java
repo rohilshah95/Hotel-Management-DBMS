@@ -73,7 +73,12 @@ public class Customer {
 	public static void assignRoom(int customerId, int hotelId, int roomId, int noOfGuests) {
 		ResultSet rs=null;
 		try {
-			Connection conn = DBConnection.getConnection();
+			
+		Connection conn = DBConnection.getConnection();
+		try {
+			// disable auto commit
+			conn.setAutoCommit(false);
+								
 		    PreparedStatement pstmt= conn.prepareStatement("UPDATE ROOM SET Availability=0 WHERE number=? and hotelid=? ");
 		    pstmt.setInt(1, roomId);
 		    pstmt.setInt(2, hotelId);
@@ -86,17 +91,13 @@ public class Customer {
 
 		    PreparedStatement pstmt3= conn.prepareStatement("SELECT MAX(id) from BILL");
 		    rs=pstmt3.executeQuery();
+			
+			
+			
 		    int billId=0;
-		    try {
-				while (rs.next()) {
-					billId=rs.getInt(1);
-
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+			while (rs.next()) {
+				billId=rs.getInt(1);
 			}
-
-		    
 
 //		    DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
 //		    DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
@@ -110,11 +111,19 @@ public class Customer {
 		    pstmt2.setInt(5,  noOfGuests);
 		    pstmt2.executeUpdate();
 
-			// query
-		} catch (Exception e) {
+			// commit the changes
+		    conn.commit();
+		} 
+		catch (Exception e) {
+			System.out.println("Exception!! rolling back\n" + e);
+			conn.rollback();
+		}
+		conn.setAutoCommit(true);
+		}
+		catch(Exception e)
+		{
 			System.out.println(e);
 		}
-		
 		System.out.println("Room assigned");
 	}
 
