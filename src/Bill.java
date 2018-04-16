@@ -44,7 +44,7 @@ public class Bill {
 	    		"WHERE (CHECKIN.CustomerId=? AND PROVIDES.DATE>=CHECKIN.CHECKINDATE AND PROVIDES.TIME>=CHECKIN.CHECKINTIME AND PROVIDES.DATE<=CHECKIN.CHECKOUTDATE AND PROVIDES.TIME<=CHECKIN.CHECKOUTTIME AND " +
 	    		"CHECKIN.CheckOutDate=?)) " +
 	    		"UNION " +
-	    		"(SELECT (DATEDIFF(Checkoutdate,checkindate))*Rate AS Cost " +
+	    		"(SELECT (IF (DATEDIFF(Checkoutdate,checkindate)=0, 1, DATEDIFF(Checkoutdate,checkindate)))*Rate AS Cost " +
 	    		"FROM ROOM JOIN CHECKIN ON (ROOM.NUMBER=CHECKIN.NUMBER AND ROOM.HOTELID=CHECKIN.HOTELID) " +
 	    		"WHERE (CHECKIN.CUSTOMERID = ? AND " +
 	    		"CHECKIN.CHECKOUTDATE=?) )) as n) " +
