@@ -17,6 +17,21 @@ public class TeamT {
 
 	public static void main(String[] args) {
 		DBConnection.initialize();
+		
+		while(true) {
+			System.out.println("1. Populate Database with Demo Data\n2. Continue without populating");
+			int options=readInt();
+			switch (options) {
+			case 1: 
+				DBDemo.initializeDB();
+				break;
+			case 2: 
+				break;
+			default: 
+				System.out.println("Enter valid input");
+			}
+			break;
+		}
 		// DBDemo.initializeDB();
 		// Customer.createCustomer(1008, "David", "1980-01-30", "123",
 		// "david@gmail.com", "593-9846", "980 TRT St, Raleigh NC", (byte)0);
@@ -32,6 +47,8 @@ public class TeamT {
 				serviceRecords(user, hotelID);
 				break;
 			case 3:
+				hotelID = Login.getHotelID();
+
 				billingAccounts(user);
 				break;
 			case 4:
@@ -39,11 +56,13 @@ public class TeamT {
 				break;
 			case 5:
 				loggedIn = false;
+				System.out.println("Goodbye!");
 				break;
 			default:
 				System.out.println("Enter valid Input.");
 			}
 		}
+
 	}
 
 	public static void reports(int user, int hotelID) {
@@ -132,7 +151,7 @@ public class TeamT {
 
 	public static void billingAccounts(int user) {
 		while (loggedIn) {
-			System.out.println("Operations to perform:\n1. Calculate  Bill\n2. Generate Receipt\n3. Logout");
+			System.out.println("1. Bill\n2. Generate Receipt\n3. Logout");
 			int option = readInt();
 			int id = 0;
 			ResultSet rs = null;
@@ -162,7 +181,12 @@ public class TeamT {
 				default:
 
 				}
-				rs = Bill.calcBill(id, dateFormat.format(date), modeOfPayment);
+				String card="0";
+				if(!modeOfPayment.equals("cash")){
+					System.out.print("Enter card number: ");
+					card=readInput();
+				}
+				rs = Bill.calcBill(id, dateFormat.format(date), modeOfPayment, card);
 				outputResult(rs);
 				break;
 			case 2:
