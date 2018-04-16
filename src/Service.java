@@ -41,6 +41,7 @@ public class Service {
 		    pstmt.setString(1, name);
 		    pstmt.setInt(2, cost);
 		    pstmt.setInt(3, serviceId);
+		    pstmt.executeUpdate();
 		    
 			// query
 		} catch (Exception e) {

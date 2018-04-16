@@ -323,12 +323,12 @@ public class TeamT {
 				System.out.println("Enter staff id: ");
 				int staffId = readInt();
 
+				System.out.print("Enter room number: ");
+				roomId = readInt();
+
 				System.out.println("The available services are: ");
 				rs = Service.getAllServices();
 				outputResult(rs);
-
-				System.out.print("Enter room number: ");
-				roomId = readInt();
 
 				System.out.print("Enter service id: ");
 				int serviceId = readInt();

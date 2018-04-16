@@ -19,7 +19,7 @@ public class Bill {
 	//		    PreparedStatement pstmt1 = conn.prepareStatement("UPDATE CHECKIN SET CHECKOUTDATE = CURDATE(), CHECKOUTTIME=CURTIME() WHERE CUSTOMERID =? AND CHECKOUTDATE=NULL");
 	//		    pstmt1.setInt(1, custId);
 	//		    pstmt1.executeUpdate();
-			    System.out.println(cardNumber);
+//			    System.out.println(cardNumber);
 			    if (cardNumber.equals("0")) {
 			    	PreparedStatement pstmt2 = conn.prepareStatement("UPDATE BILL SET ModeOfPayment =?, CARDNUMBER=NULL WHERE ID = (SELECT CHECKIN.BillID FROM CHECKIN JOIN CUSTOMER ON (CHECKIN.CUSTOMERID=CUSTOMER.ID) WHERE CUSTOMER.ID=? AND CHECKIN.CHECKOUTDATE=CURDATE()) ");
 				    pstmt2.setString(1, modeOfPayment);
@@ -41,10 +41,10 @@ public class Bill {
 	    		"(SELECT SUM(COST) from( " +
 	    		"(SELECT SERVICE.Cost AS Cost " +
 	    		"FROM (CHECKIN NATURAL JOIN PROVIDES) JOIN SERVICE ON (SERVICE.ID=PROVIDES.SERVICEID) " +
-	    		"WHERE (CHECKIN.CustomerId=? AND PROVIDES.TIMESTAMP>=CHECKIN.CHECKINDATE AND " +
+	    		"WHERE (CHECKIN.CustomerId=? AND (PROVIDES.DATE>=CHECKIN.CHECKINDATE OR (PROVIDES.DATE=CHECKIN.CHECKINDATE AND PROVIDES.TIME>=CHECKIN.CHECKINTIME) AND (PROVIDES.DATE<=CHECKIN.CHECKOUTDATE OR (PROVIDES.DATE=CHECKIN.CHECKOUTDATE AND PROVIDES.TIME<=CHECKIN.CHECKOUTTIME))   ) AND " +
 	    		"CHECKIN.CheckOutDate=?)) " +
 	    		"UNION " +
-	    		"(SELECT (DATEDIFF(Checkoutdate,checkindate))*Rate AS Cost " +
+	    		"(SELECT (IF (DATEDIFF(Checkoutdate,checkindate)=0, 1, DATEDIFF(Checkoutdate,checkindate)))*Rate AS Cost " +
 	    		"FROM ROOM JOIN CHECKIN ON (ROOM.NUMBER=CHECKIN.NUMBER AND ROOM.HOTELID=CHECKIN.HOTELID) " +
 	    		"WHERE (CHECKIN.CUSTOMERID = ? AND " +
 	    		"CHECKIN.CHECKOUTDATE=?) )) as n) " +
@@ -107,9 +107,9 @@ public class Bill {
 
 		    PreparedStatement pstmt = conn.prepareStatement("(SELECT SERVICE.Cost AS Cost, SERVICE.name as Name " +
 		    		"FROM (CHECKIN NATURAL JOIN PROVIDES) JOIN SERVICE ON (SERVICE.ID=PROVIDES.SERVICEID) " +
-		    		"WHERE (CHECKIN.CustomerId=? AND CHECKIN.CheckOutdate=? AND PROVIDES.TIMESTAMP<=CHECKIN.CHECKOUTDATE AND PROVIDES.TIMESTAMP>=CHECKIN.CHECKINDATE)) " +
+		    		"WHERE (CHECKIN.CustomerId=? AND CHECKIN.CheckOutdate=? AND (PROVIDES.DATE>=CHECKIN.CHECKINDATE OR (PROVIDES.DATE=CHECKIN.CHECKINDATE AND PROVIDES.TIME>=CHECKIN.CHECKINTIME) AND (PROVIDES.DATE<=CHECKIN.CHECKOUTDATE OR (PROVIDES.DATE=CHECKIN.CHECKOUTDATE AND PROVIDES.TIME<=CHECKIN.CHECKOUTTIME))   ) )) " +
 		    		"UNION " +
-		    		"(SELECT (DATEDIFF(Checkoutdate,checkindate))*Rate AS Cost, 'Room' " +
+		    		"(SELECT ( IF (DATEDIFF(Checkoutdate,checkindate)=0, 1, DATEDIFF(Checkoutdate,checkindate)))*Rate AS Cost, 'Room' " +
 		    		"as name " +
 		    		"FROM ROOM NATURAL JOIN CHECKIN " +
 		    		"Where (CHECKIN.CUSTOMERID = ? AND CHECKIN.CHECKOUTDATE = ?) );");

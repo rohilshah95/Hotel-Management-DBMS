@@ -27,7 +27,7 @@ public class Room {
 			{
 				PreparedStatement pstmt1=conn.prepareStatement("INSERT INTO PRESIDENTIAL(NUMBER, HOTELID) VALUES (?, ?)");
 				pstmt1.setInt(1, number);
-				pstmt1.setInt(1, id);
+				pstmt1.setInt(2, id);
 				pstmt1.executeUpdate();
 			}
 			
@@ -133,7 +133,7 @@ public class Room {
 			Connection conn = DBConnection.getConnection();
 			// query
 			PreparedStatement pstmt = conn.prepareStatement(
-					"INSERT INTO PROVIDES (HotelID, Number, StaffID, ServiceID, Timestamp) VALUES (?,?,?,?,NOW())");
+					"INSERT INTO PROVIDES (HotelID, Number, StaffID, ServiceID, Date, Time) VALUES (?,?,?,?,CURDATE(),CURTIME())");
 			pstmt.setInt(1, hotelId);
 			pstmt.setInt(2, number);
 			pstmt.setInt(3, staffId);
@@ -202,7 +202,7 @@ public class Room {
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement("SELECT * from ROOM WHERE number=? AND hotelid=?");
+			PreparedStatement pstmt = conn.prepareStatement("SELECT * from ROOM WHERE hotelid=?");
 			pstmt.setInt(1, hotelId);
 			rs = pstmt.executeQuery();
 

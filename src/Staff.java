@@ -48,9 +48,8 @@ public class Staff {
 			pstmt.setString(3, department);
 			pstmt.setString(4, address);
 			pstmt.setString(5, phone);
-			pstmt.setString(6, address);
-			pstmt.setByte(7, availability);
-			pstmt.setInt(8, id);
+			pstmt.setByte(6, availability);
+			pstmt.setInt(7, id);
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			System.out.println(e);
@@ -105,8 +104,9 @@ public class Staff {
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
-		    PreparedStatement pstmt = conn.prepareCall("SELECT STAFF.ID, STAFF.NAME, STAFF.TITLE, STAFF.DEPARTMENT, STAFF.ADDRESS, STAFF.PHONE, STAFF.AVAILABILITY, HIRES.HOTELID FROM STAFF JOIN HIRES WHERE STAFF.ID=HIRES.STAFFID and HIRES.HOTELID=?");
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT STAFF.ID, STAFF.NAME, STAFF.TITLE, STAFF.DEPARTMENT, STAFF.ADDRESS, STAFF.PHONE, STAFF.AVAILABILITY, HIRES.HOTELID FROM STAFF JOIN HIRES ON (STAFF.ID=HIRES.STAFFID) WHERE HIRES.HOTELID=?");
 		    pstmt.setInt(1, hotelId);
+		    rs=pstmt.executeQuery();
 			// query
 		} catch (Exception e) {
 			System.out.println(e);
