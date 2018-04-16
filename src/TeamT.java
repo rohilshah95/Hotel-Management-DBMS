@@ -17,8 +17,8 @@ public class TeamT {
 
 	public static void main(String[] args) {
 		DBConnection.initialize();
-
-		while (true) {
+		int i;
+		for( i=0; i<3; i++) {
 			System.out.println("1. Populate Database with Demo Data\n2. Continue without populating");
 			int options = readInt();
 			switch (options) {
@@ -30,8 +30,12 @@ public class TeamT {
 			default:
 				System.out.println("Enter valid input");
 			}
-			break;
 		}
+		if(i==3){
+			System.out.println("Exiting...");
+			System.exit(0);
+		}
+		
 		// DBDemo.initializeDB();
 		// Customer.createCustomer(1008, "David", "1980-01-30", "123",
 		// "david@gmail.com", "593-9846", "980 TRT St, Raleigh NC", (byte)0);
