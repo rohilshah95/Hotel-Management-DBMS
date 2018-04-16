@@ -157,7 +157,6 @@ public class Customer {
 		    pstmt.setInt(1, id);
 		    rs= pstmt.executeQuery();
 
-		    // query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -178,7 +177,6 @@ public class Customer {
 		    Statement stmt = conn.createStatement();
 
 		    rs= stmt.executeQuery("SELECT * from CUSTOMER");
-			// query
 		} catch (Exception e) {
 			System.out.println(e);
 		}

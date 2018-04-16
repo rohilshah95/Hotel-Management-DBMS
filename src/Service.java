@@ -19,8 +19,6 @@ public class Service {
 		    
 		    rs=conn.createStatement().executeQuery("SELECT MAX(ID) AS NEW_SERVICE_ID FROM SERVICE"); 
 
-		    
-			// query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -59,7 +57,6 @@ public class Service {
 		    pstmt.setInt(3, serviceId);
 		    pstmt.executeUpdate();
 		    
-			// query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -79,7 +76,6 @@ public class Service {
 		    pstmt.setInt(1, serviceId);
 		    rs= pstmt.executeQuery();
 
-		    // query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -99,7 +95,6 @@ public class Service {
 		    Statement stmt = conn.createStatement();
 	
 		    rs= stmt.executeQuery("SELECT * from SERVICE");
-			// query
 		} catch (Exception e) {
 			System.out.println(e);
 		}

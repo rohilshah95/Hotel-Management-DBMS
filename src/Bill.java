@@ -129,7 +129,6 @@ public class Bill {
 		    pstmt.setInt(3, custId);
 		    pstmt.setString(4, checkOutDate);
 		    rs= pstmt.executeQuery();
-			// create entry
 		} catch (Exception e) {
 			System.out.println(e);
 		}

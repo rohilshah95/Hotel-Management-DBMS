@@ -77,7 +77,6 @@ public class Room {
 			pstmt.setInt(1, hotelID);
 			pstmt.setInt(2, number);
 			pstmt.executeUpdate();
-			// query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -93,7 +92,6 @@ public class Room {
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
-			// query
 			PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM ROOM WHERE AVAILABILITY=1 AND HOTELID=?");
 			pstmt.setInt(1, hotelId);
 			rs = pstmt.executeQuery();
@@ -119,7 +117,6 @@ public class Room {
 			pstmt.setInt(1, hotelId);
 			pstmt.setString(2, category);
 			rs = pstmt.executeQuery();
-			// query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -214,7 +211,6 @@ public class Room {
 			pstmt.setInt(2, hotelId);
 			rs = pstmt.executeQuery();
 
-			// query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -234,7 +230,6 @@ public class Room {
 			Statement stmt = conn.createStatement();
 
 			rs = stmt.executeQuery("SELECT * from ROOM");
-			// query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -255,7 +250,6 @@ public class Room {
 			pstmt.setInt(1, hotelId);
 			rs = pstmt.executeQuery();
 
-			// query
 		} catch (Exception e) {
 			System.out.println(e);
 		}

@@ -22,8 +22,7 @@ public class Hotel {
 		    pstmt.executeUpdate();
 		    
 		    rs=conn.createStatement().executeQuery("SELECT MAX(ID) AS NEW_HOTEL_ID FROM HOTEL"); 
-		    
-		    // query
+
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -64,7 +63,6 @@ public class Hotel {
 		    PreparedStatement pstmt=conn.prepareStatement("DELETE FROM HOTEL WHERE ID=?");
 		    pstmt.setInt(1, id);
 		    pstmt.executeUpdate();
-		    // query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -82,7 +80,6 @@ public class Hotel {
 		    PreparedStatement pstmt=conn.prepareStatement("SELECT * FROM HOTEL WHERE ID=?");
 		    pstmt.setInt(1, id);
 		    rs= pstmt.executeQuery();
-		    // query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -100,7 +97,6 @@ public class Hotel {
 			Connection conn = DBConnection.getConnection();
 		    PreparedStatement pstmt=conn.prepareStatement("SELECT * FROM HOTEL");
 		    rs= pstmt.executeQuery();
-		    // query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
