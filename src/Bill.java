@@ -4,23 +4,35 @@ import java.sql.*;
 
 public class Bill {
 
-	public static ResultSet calcBill(int custId, String checkOutDate, String modeOfPayment) {
+	public static ResultSet calcBill(int custId, String checkOutDate, String modeOfPayment, int cardNumber) {
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
 		 
-		    PreparedStatement pstmt = conn.prepareStatement("UPDATE BILL SET Discount=5 WHERE ID = (SELECT CHECKIN.BillID FROM CHECKIN JOIN CUSTOMER WHERE CUSTOMER.hasHotelCard=1 AND CUSTOMER.ID=? AND CHECKIN.CHECKOUTDATE=CURDATE())");
+		    PreparedStatement pstmt = conn.prepareStatement("UPDATE BILL SET Discount=5 WHERE ID = (SELECT CHECKIN.BillID FROM CHECKIN JOIN CUSTOMER ON (CHECKIN.CUSTOMERID=CUSTOMER.ID) WHERE CUSTOMER.hasHotelCard=1 AND CUSTOMER.ID=? AND CHECKIN.CHECKOUTDATE=CURDATE())");
 		    pstmt.setInt(1, custId);
 		    pstmt.executeUpdate();
 		    
 //		    PreparedStatement pstmt1 = conn.prepareStatement("UPDATE CHECKIN SET CHECKOUTDATE = CURDATE(), CHECKOUTTIME=CURTIME() WHERE CUSTOMERID =? AND CHECKOUTDATE=NULL");
 //		    pstmt1.setInt(1, custId);
 //		    pstmt1.executeUpdate();
+		    System.out.println(cardNumber);
+		    if (cardNumber==0) {
+		    	PreparedStatement pstmt2 = conn.prepareStatement("UPDATE BILL SET ModeOfPayment =?, CARDNUMBER=NULL WHERE ID = (SELECT CHECKIN.BillID FROM CHECKIN JOIN CUSTOMER ON (CHECKIN.CUSTOMERID=CUSTOMER.ID) WHERE CUSTOMER.ID=? AND CHECKIN.CHECKOUTDATE=CURDATE()) ");
+			    pstmt2.setString(1, modeOfPayment);
+			    pstmt2.setInt(2, custId);
+			    pstmt2.executeUpdate();
+		    }
 		    
-		    PreparedStatement pstmt2 = conn.prepareStatement("UPDATE BILL SET ModeOfPayment =? WHERE ID = ?;");
-		    pstmt2.setString(1, modeOfPayment);
-		    pstmt2.setInt(2, custId);
-		    pstmt2.executeUpdate();
+		    else
+		    {
+		    	PreparedStatement pstmt2 = conn.prepareStatement("UPDATE BILL SET ModeOfPayment =?, CARDNUMBER=? WHERE ID = (SELECT CHECKIN.BillID FROM CHECKIN JOIN CUSTOMER ON (CHECKIN.CUSTOMERID=CUSTOMER.ID) WHERE CUSTOMER.ID=? AND CHECKIN.CHECKOUTDATE=CURDATE()) ");
+			    pstmt2.setString(1, modeOfPayment);
+			    pstmt2.setInt(2, cardNumber);
+			    pstmt2.setInt(3, custId);
+			    pstmt2.executeUpdate();
+		    }
+		    
 		    
 		    PreparedStatement pstmt3= conn.prepareStatement("UPDATE BILL SET AMOUNT = (100-discount)/100*" + 
     		"(SELECT SUM(COST) from( " + 

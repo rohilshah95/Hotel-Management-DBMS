@@ -17,6 +17,21 @@ public class TeamT {
 
 	public static void main(String[] args) {
 		DBConnection.initialize();
+		
+		while(true) {
+			System.out.println("1. Populate Database with Demo Data\n2. Continue without populating");
+			int options=readInt();
+			switch (options) {
+			case 1: 
+				DBDemo.initializeDB();
+				break;
+			case 2: 
+				break;
+			default: 
+				System.out.println("Enter valid input");
+			}
+			break;
+		}
 		// DBDemo.initializeDB();
 		// Customer.createCustomer(1008, "David", "1980-01-30", "123",
 		// "david@gmail.com", "593-9846", "980 TRT St, Raleigh NC", (byte)0);
@@ -164,7 +179,12 @@ public class TeamT {
 				default:
 
 				}
-				rs = Bill.calcBill(id, dateFormat.format(date), modeOfPayment);
+				int card=0;
+				if(!modeOfPayment.equals("cash")){
+					System.out.print("Enter card number: ");
+					card=readInt();
+				}
+				rs = Bill.calcBill(id, dateFormat.format(date), modeOfPayment, card);
 				outputResult(rs);
 				break;
 			case 2:
