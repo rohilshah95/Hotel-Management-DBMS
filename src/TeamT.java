@@ -45,12 +45,19 @@ public class TeamT {
 				informationProcessing(user, hotelID);
 				break;
 			case 2:
+				hotelID = Login.getHotelID();
+
 				serviceRecords(user);
+
 				break;
 			case 3:
+				hotelID = Login.getHotelID();
+
 				billingAccounts(user);
 				break;
 			case 4:
+				hotelID = Login.getHotelID();
+
 				reports(user);
 				break;
 			case 5:
@@ -149,7 +156,7 @@ public class TeamT {
 
 	public static void billingAccounts(int user) {
 		while (loggedIn) {
-			System.out.println("Operations to perform:\n1. Calculate  Bill\n2. Generate Receipt\n3. Logout");
+			System.out.println("1. Bill\n2. Generate Receipt\n3. Logout");
 			int option = readInt();
 			int id = 0;
 			ResultSet rs = null;
@@ -179,10 +186,10 @@ public class TeamT {
 				default:
 
 				}
-				int card=0;
+				String card="0";
 				if(!modeOfPayment.equals("cash")){
 					System.out.print("Enter card number: ");
-					card=readInt();
+					card=readInput();
 				}
 				rs = Bill.calcBill(id, dateFormat.format(date), modeOfPayment, card);
 				outputResult(rs);
