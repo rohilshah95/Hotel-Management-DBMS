@@ -24,8 +24,10 @@ public class TeamT {
 			switch (options) {
 			case 1:
 				DBDemo.initializeDB();
+				i=3;
 				break;
 			case 2:
+				i=3;
 				break;
 			default:
 				System.out.println("Enter valid input");
