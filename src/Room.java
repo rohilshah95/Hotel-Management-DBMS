@@ -5,7 +5,10 @@ import java.sql.*;
 public class Room {
 
 	/*
-	 * Data - hotelID, number, maxOccupancy, nightlyRate, category, availaility;
+	 * create an entry into the rooms table and if the ROOM is a presidential suite then add it to the PRESIDENTIAL table as well.
+	 * 
+	 * Input Parameters: Hotel_id, room number, category, nightlyRate, availability, maxOccupancy
+	 * Output Parameters: N/A
 	 */
 
 	public static void createRoom(int id, int number, String category, int nightlyRate, int availability,
@@ -31,13 +34,16 @@ public class Room {
 				pstmt1.executeUpdate();
 			}
 			
-			
-			// // query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
 
+	/*
+	 * Update information about a particular room in a hotel
+	 * Input Parameters: Hotel_id, room number, category, nightlyRate, availability, maxOccupancy
+	 * Output Paramters: N/A
+	 */
 	public static void updateRoom(int hotelID, int number, String category, int nightlyRate, int availability,
 			int maxOccupancy) {
 		try {
@@ -52,17 +58,18 @@ public class Room {
 			pstmt.setInt(6, number);
 			pstmt.executeUpdate();
 
-			// stmt.executeUpdate("UPDATE CUSTOMER SET Name='"+name+"',
-			// dob='"+dob+"', phone='"+phoneNumber+"', email='"+email+"',
-			// ssn='"+ssn+"', address='"+address+"', hashotelcard="+hasHotelCard
-			// +"WHERE ID="+id+")");
-
-			// query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
 
+	/*
+	 * Delete a room entry from the database. If the room is a presidential suite then it is deleted from the
+	 * presidential table by a cascade operation.
+	 * 
+	 * Input Parameters: Hotel_id, room number, category, nightlyRate, availability, maxOccupancy
+	 * Output Paramters: N/A
+	 */
 	public static void deleteRoom(int hotelID, int number) {
 		try {
 			Connection conn = DBConnection.getConnection();
@@ -76,6 +83,12 @@ public class Room {
 		}
 	}
 
+	/*
+	 * Get all the rooms information for a given hotel which are not occupied.
+	 * 
+	 * Input Parameters: Hotel_id
+	 * Output Paramters: All the details of available rooms.
+	 */
 	public static ResultSet checkRoomAvailability(int hotelId) {
 		ResultSet rs = null;
 		try {
@@ -90,7 +103,13 @@ public class Room {
 		}
 		return rs;
 	}
-
+	
+	/*
+	 * Get all the rooms information for a given hotel and category which are not occupied.
+	 * 
+	 * Input Parameters: Hotel_id, category
+	 * Output Paramters: All the details of available rooms for the given category.
+	 */
 	public static ResultSet checkRoomAvailability(int hotelId, String category) {
 		ResultSet rs = null;
 		try {
@@ -107,6 +126,13 @@ public class Room {
 		return rs;
 	}
 
+	/*
+	 * Update the entry for the customer's current checkin and set the checkout time and date.
+	 * Release room by making it available for further use.
+	 * 
+	 * Input Parameters: Hotel_id, room_number, customer_id
+	 * Output Paramters: N/A
+	 */
 	public static void releaseRoom(int hotelId, int number, int custId) {
 		try {
 			Connection conn = DBConnection.getConnection();
@@ -120,18 +146,22 @@ public class Room {
 			pstmt.setInt(1, hotelId);
 			pstmt.setInt(2, number);
 			pstmt.executeUpdate();
-			// query
+
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		// *********************************** MAKE CHANGES IN REPORT 1, TAKE
-		// HOTEL ID AS A PARAMETER IN THE FUNCTION **************************
 	}
 
+	/*
+	 * Add service to a particular room for the given time. This entry comes in the provides table
+	 * 
+	 * Input Parameters: hotelId, room number, staffId, serviceId
+	 * Output Paramters: N/A
+	 */
 	public static void addServiceToRoom(int hotelId, int number, int staffId, int serviceId) {
 		try {
 			Connection conn = DBConnection.getConnection();
-			// query
+
 			PreparedStatement pstmt = conn.prepareStatement(
 					"INSERT INTO PROVIDES (HotelID, Number, StaffID, ServiceID, Date, Time) VALUES (?,?,?,?,CURDATE(),CURTIME())");
 			pstmt.setInt(1, hotelId);
@@ -142,14 +172,17 @@ public class Room {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		// *********************************** MAKE CHANGES IN REPORT 1, TAKE
-		// HOTEL ID AS A PARAMETER IN THE FUNCTION **************************
 	}
 
+	/*
+	 * Add a aprticular dedicated staff to a presidential suite
+	 * 
+	 * Input Parameters: hotelId, room number, staffId
+	 * Output Paramters: N/A
+	 */
 	public static void addStaffToPresidential(int hotelId, int number, int staffId) {
 		try {
 			Connection conn = DBConnection.getConnection();
-			// query
 			PreparedStatement pstmt = conn
 					.prepareStatement("INSERT INTO ASSIGNED (HotelID, Number, StaffID) VALUES (?,?,?)");
 			pstmt.setInt(1, hotelId);
@@ -164,10 +197,14 @@ public class Room {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		// To create an entry in the provides table, here we have a common
-		// serviceId for the service to provide to presidential suite.
 	}
 
+	/*
+	 * Get all the details of a particular room in the hotel
+	 * 
+	 * Input Parameters: hotelId, room number
+	 * Output Paramters: all the details of the room
+	 */
 	public static ResultSet getRoom(int hotelId, int number) {
 		ResultSet rs = null;
 		try {
@@ -184,6 +221,12 @@ public class Room {
 		return rs;
 	}
 
+	/*
+	 * Get all the details of all the rooms in the room table
+	 * 
+	 * Input Parameters: N/A
+	 * Output Paramters: all the details in the room table
+	 */
 	public static ResultSet getAllRoomsAllHotels() {
 		ResultSet rs = null;
 		try {
@@ -198,6 +241,12 @@ public class Room {
 		return rs;
 	}
 
+	/*
+	 * Get all the details of all rooms in the hotel
+	 * 
+	 * Input Parameters: hotelId
+	 * Output Paramters: all the rooms information for the hotel
+	 */
 	public static ResultSet getAllRooms(int hotelId) {
 		ResultSet rs = null;
 		try {
