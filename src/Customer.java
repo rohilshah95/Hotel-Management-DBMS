@@ -71,7 +71,6 @@ public class Customer {
 		    pstmt.setInt(1, id);
 		    pstmt.executeUpdate();
 
-			// query
 		} catch (Exception e) {
 			System.out.println(e);
 		}
