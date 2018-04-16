@@ -74,7 +74,7 @@ public class Staff {
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
-		    PreparedStatement pstmt = conn.prepareStatement("SELECT * from STAFF JOIN HIRES ON (STAFF.ID=HIRES.HOTELID) WHERE HIRES.HOTELID=?");
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT * from STAFF WHERE ID=?");
 		    pstmt.setInt(1, id);
 		    rs= pstmt.executeQuery();
 
@@ -105,8 +105,9 @@ public class Staff {
 		ResultSet rs = null;
 		try {
 			Connection conn = DBConnection.getConnection();
-		    PreparedStatement pstmt = conn.prepareCall("SELECT STAFF.ID, STAFF.NAME, STAFF.TITLE, STAFF.DEPARTMENT, STAFF.ADDRESS, STAFF.PHONE, STAFF.AVAILABILITY, HIRES.HOTELID FROM STAFF JOIN HIRES WHERE STAFF.ID=HIRES.STAFFID and HIRES.HOTELID=?");
+		    PreparedStatement pstmt = conn.prepareStatement("SELECT STAFF.ID, STAFF.NAME, STAFF.TITLE, STAFF.DEPARTMENT, STAFF.ADDRESS, STAFF.PHONE, STAFF.AVAILABILITY, HIRES.HOTELID FROM STAFF JOIN HIRES ON (STAFF.ID=HIRES.STAFFID) WHERE HIRES.HOTELID=?");
 		    pstmt.setInt(1, hotelId);
+		    rs=pstmt.executeQuery();
 			// query
 		} catch (Exception e) {
 			System.out.println(e);
