@@ -48,9 +48,8 @@ public class Staff {
 			pstmt.setString(3, department);
 			pstmt.setString(4, address);
 			pstmt.setString(5, phone);
-			pstmt.setString(6, address);
-			pstmt.setByte(7, availability);
-			pstmt.setInt(8, id);
+			pstmt.setByte(6, availability);
+			pstmt.setInt(7, id);
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			System.out.println(e);
