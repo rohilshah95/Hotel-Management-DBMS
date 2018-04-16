@@ -143,7 +143,7 @@ public class TeamT {
 				break;
 			case 8: // Previous Menu
 				previous = true;
-				break;	
+				break;
 			case 9:
 				loggedIn = false;
 				break;
@@ -156,10 +156,12 @@ public class TeamT {
 	public static void billingAccounts(int user, int hotelID) {
 		boolean previous = false;
 		while (loggedIn && !previous) {
-			System.out.println("1. Bill\n2. Generate Receipt\n3. Previous  Menu\n4. Logout");
+			System.out.println("1. Bill\n2. Generate Receipt\n3. Checkout customer\n4. Previous  Menu\n5. Logout");
 			int option = readInt();
 			int id = 0;
 			ResultSet rs = null;
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date();
 			switch (option) {
 			case 1:
 				if (user == 4) {
@@ -170,8 +172,6 @@ public class TeamT {
 				id = readInt();
 				System.out.println("Enter Mode of payment:\n1. Hotel Card\n2. Credit/Debit Card\n3. Cash");
 				int op = readInt();
-				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-				Date date = new Date();
 				String modeOfPayment = "cash";
 				switch (op) {
 				case 1:
@@ -209,10 +209,56 @@ public class TeamT {
 				rs = Bill.generateReceipt(id, date1);
 				outputResult(rs);
 				break;
-			case 3: // Previous Menu
-				previous = true;
+			case 3:
+				if (user == 4) {
+					System.out.println("You are not authorised to perform this operation.");
+					break;
+				}
+				System.out.print("Enter Customer ID: ");
+				id = readInt();
+				System.out.println("Enter the Room Numer: ");
+				int number = readInt();
+				Room.releaseRoom(hotelID, number, id);
+
+				System.out.println("Enter Mode of payment:\n1. Hotel Card\n2. Credit/Debit Card\n3. Cash");
+				op = readInt();
+				modeOfPayment = "cash";
+				switch (op) {
+				case 1:
+					modeOfPayment = "hotel credit";
+					break;
+				case 2:
+					modeOfPayment = "credit";
+					break;
+				case 3:
+					modeOfPayment = "cash";
+					break;
+				default:
+
+				}
+				card = "0";
+				if (!modeOfPayment.equals("cash")) {
+					System.out.print("Enter card number: ");
+					card = readInput();
+				}
+
+				System.out.println("Checked Out!\n");
+
+				rs = Bill.calcBill(id, dateFormat.format(date), modeOfPayment, card);
+				outputResult(rs);
+
+				rs = Bill.getAmount(id, dateFormat.format(date));
+				outputResult(rs);
+				System.out.println("----Itemized Receipt----");
+				rs = Bill.generateReceipt(id, dateFormat.format(date));
+				outputResult(rs);
+
 				break;
 			case 4:
+				previous = true;
+				break;
+
+			case 5:
 				loggedIn = false;
 				break;
 			default:
@@ -225,7 +271,7 @@ public class TeamT {
 	public static void serviceRecords(int user, int hotelID) {
 		boolean previous = false;
 		while (loggedIn && !previous) {
-			System.out.println("\n1. Assign room to customer\n2. Assign staff to room\n3. Previous  Menu\n4. Logout");
+			System.out.println("\n1. Assign room to customer\n2. Add service to Room\n3. Previous  Menu\n4. Logout");
 			int option = readInt();
 			switch (option) {
 			case 1:
@@ -269,32 +315,22 @@ public class TeamT {
 				}
 				System.out.println("Room assigned!\n\n");
 				break;
-			case 2: 
-				if (user == 4) {
-					System.out.println("You are not authorised to perform this operation.");
-					break;
-				}
-				System.out.print("enter the room you want to assign staff to: ");
+			case 2:
+				System.out.println("Enter staff id: ");
+				int staffId = readInt();
+
+				System.out.println("The available services are: ");
+				rs = Service.getAllServices();
+				outputResult(rs);
+
+				System.out.print("Enter room number: ");
 				roomId = readInt();
 
-				rs = Room.getRoom(hotelID, roomId);
-				category = "";
-				try {
-					while (rs.next()) {
-						category = rs.getString(3);
-					}
-				} catch (Exception e) {
-					System.out.println(e);
-				}
-				if (category.equals("Presidential")) {
-					rs = Staff.getAvailableStaff(hotelID);
-					outputResult(rs);
-					System.out.print("enter the staff to assign to room: ");
-					int staffId = readInt();
-					Room.addStaffToPresidential(hotelID, roomId, staffId);
-				} else {
-					System.out.println("this room is not presidential suite");
-				}
+				System.out.print("Enter service id: ");
+				int serviceId = readInt();
+
+				Room.addServiceToRoom(hotelID, roomId, staffId, serviceId);
+
 				break;
 			case 3: // Previous Menu
 				previous = true;
@@ -453,6 +489,8 @@ public class TeamT {
 				System.out.println("5. Check rooms available in the hotel");
 				System.out.println("6. Check rooms available of a category in the hotel");
 				System.out.println("7. Assign room to customer");
+				System.out.println("8. Release Room (Equivalent to checkout but no bill generated)");
+
 				op = readInt();
 				if (op == 1) { // Create
 					if (user == 3 || user == 4) {
