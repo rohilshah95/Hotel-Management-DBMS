@@ -3,6 +3,12 @@ package src;
 import java.sql.*;
 
 public class Service {
+	/*
+	 * This function is responsible for creating the entries in the Service table when new Service is added.
+	 * It takes the parameters required and inserts into the database.
+	 * Input Parameters: Name, Cost
+	 * Return Value: Service ID
+	 */
 	public static ResultSet createService( String name, int cost) {
 		ResultSet rs=null;
 		try {
@@ -20,7 +26,12 @@ public class Service {
 		}
 		return rs;
 	}
-
+	
+	/*
+	 * This function deletes the Service with the specified ID.
+	 * Input Parameters: Service ID
+	 * Return Value: N/A
+	 */
 	public static void deleteService(int id) {
 		try {
 			Connection conn = DBConnection.getConnection();
@@ -34,6 +45,11 @@ public class Service {
 		}
 	}
 
+	/*
+	 * This function is responsible for updating everything in the Service Table other than the Service ID. It uses the Service ID in the where clause to update the row.
+	 * Input Parameters: Service ID, Name, Cost 
+	 * Return Value: N/A
+	 */
 	public static void updateService(int serviceId, String name, int cost) {
 		try {
 			Connection conn = DBConnection.getConnection();
@@ -49,6 +65,11 @@ public class Service {
 		}
 	}
 	
+	/*
+	 * This function returns all the information of a particular Hotel when the Service ID is specified.
+	 * Input Parameters: Service ID
+	 * Return Value: All information about Service
+	 */
 	public static ResultSet getService(int serviceId)
 	{
 		ResultSet rs = null;
@@ -65,6 +86,11 @@ public class Service {
 		return rs;
 	}
 	
+	/*
+	 * This function returns a list of all Services and all their information.
+	 * Input parameters: N/A
+	 * Return Value: All information about all Services.
+	 */
 	public static ResultSet getAllServices()
 	{
 		ResultSet rs = null;
