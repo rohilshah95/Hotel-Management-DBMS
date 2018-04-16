@@ -38,20 +38,21 @@ public class TeamT {
 		while (true) {
 			int user = Login.getUser();
 			loggedIn = true;
-			int hotelID;
+			int hotelID = Login.getHotelID();
 			switch (selectOption()) {
 			case 1:
-				hotelID = Login.getHotelID();
 				informationProcessing(user, hotelID);
 				break;
 			case 2:
-				serviceRecords(user);
+				serviceRecords(user, hotelID);
 				break;
 			case 3:
+				hotelID = Login.getHotelID();
+
 				billingAccounts(user);
 				break;
 			case 4:
-				reports(user);
+				reports(user, hotelID);
 				break;
 			case 5:
 				loggedIn = false;
@@ -64,7 +65,7 @@ public class TeamT {
 
 	}
 
-	public static void reports(int user) {
+	public static void reports(int user, int hotelID) {
 		while (loggedIn) {
 			System.out.println(
 					"Make changes into:\n1. Hotel Occupancy\n2. Room Occupancy\n3. Occupancy between a Date Range\n4. City Occupancy\n5. Staff by Role\n6. Staff Serving Customer\n7. Revenue Report\n8. Logout");
@@ -132,12 +133,11 @@ public class TeamT {
 					System.out.println("You are not authorised to perform this operation.");
 					break;
 				}
-				int hotelId = Login.getHotelID();
 				System.out.print("Enter the start date: ");
 				String checkInTime = readInput();
 				System.out.print("Enter the end date: ");
 				String checkOutTime = readInput();
-				rs = Report.revenueReport(hotelId, checkInTime, checkOutTime);
+				rs = Report.revenueReport(hotelID, checkInTime, checkOutTime);
 				outputResult(rs);
 				break;
 			case 8:
@@ -151,7 +151,7 @@ public class TeamT {
 
 	public static void billingAccounts(int user) {
 		while (loggedIn) {
-			System.out.println("Operations to perform:\n1. Calculate  Bill\n2. Generate Receipt\n3. Logout");
+			System.out.println("1. Bill\n2. Generate Receipt\n3. Logout");
 			int option = readInt();
 			int id = 0;
 			ResultSet rs = null;
@@ -181,10 +181,10 @@ public class TeamT {
 				default:
 
 				}
-				int card=0;
+				String card="0";
 				if(!modeOfPayment.equals("cash")){
 					System.out.print("Enter card number: ");
-					card=readInt();
+					card=readInput();
 				}
 				rs = Bill.calcBill(id, dateFormat.format(date), modeOfPayment, card);
 				outputResult(rs);
@@ -214,7 +214,7 @@ public class TeamT {
 		}
 	}
 
-	public static void serviceRecords(int user) {
+	public static void serviceRecords(int user, int hotelID) {
 		while (loggedIn) {
 			System.out.println("\n1. Assign room to customer\n2. Assign staff to room\n3. Logout");
 			int option = readInt();
@@ -224,7 +224,6 @@ public class TeamT {
 					System.out.println("You are not authorised to perform this operation.");
 					break;
 				}
-				int hotelId = Login.getHotelID();
 				System.out.print("Enter the customer ID: ");
 				int customerId = readInt();
 				System.out.print("Enter the number of guests: ");
@@ -232,17 +231,17 @@ public class TeamT {
 
 				// get a list of the available
 				System.out.println("The available rooms are: ");
-				ResultSet rs = Room.checkRoomAvailability(hotelId);
+				ResultSet rs = Room.checkRoomAvailability(hotelID);
 				outputResult(rs);
 
 				System.out.print("Enter room from the above list: ");
 				int roomId = readInt();
 
 				// assign room to the customer
-				Customer.assignRoom(customerId, hotelId, roomId, noOfGuests);
+				Customer.assignRoom(customerId, hotelID, roomId, noOfGuests);
 
 				// check if the room is presidential
-				rs = Room.getRoom(hotelId, roomId);
+				rs = Room.getRoom(hotelID, roomId);
 				String category = "";
 				try {
 					while (rs.next()) {
@@ -253,11 +252,11 @@ public class TeamT {
 				}
 
 				if (category.equals("Presidential")) {
-					rs = Staff.getAvailableStaff(hotelId);
+					rs = Staff.getAvailableStaff(hotelID);
 					outputResult(rs);
 					System.out.print("enter the staff to assign to room: ");
 					int staffId = readInt();
-					Room.addStaffToPresidential(hotelId, roomId, staffId);
+					Room.addStaffToPresidential(hotelID, roomId, staffId);
 				}
 				break;
 			}
@@ -266,11 +265,10 @@ public class TeamT {
 					System.out.println("You are not authorised to perform this operation.");
 					break;
 				}
-				int hotelId = Login.getHotelID();
 				System.out.print("enter the room you want to assign staff to: ");
 				int roomId = readInt();
 
-				ResultSet rs = Room.getRoom(hotelId, roomId);
+				ResultSet rs = Room.getRoom(hotelID, roomId);
 				String category = "";
 				try {
 					while (rs.next()) {
@@ -280,11 +278,11 @@ public class TeamT {
 					System.out.println(e);
 				}
 				if (category.equals("Presidential")) {
-					rs = Staff.getAvailableStaff(hotelId);
+					rs = Staff.getAvailableStaff(hotelID);
 					outputResult(rs);
 					System.out.print("enter the staff to assign to room: ");
 					int staffId = readInt();
-					Room.addStaffToPresidential(hotelId, roomId, staffId);
+					Room.addStaffToPresidential(hotelID, roomId, staffId);
 				} else {
 					System.out.println("this room is not presidential suite");
 				}
@@ -310,6 +308,7 @@ public class TeamT {
 			switch (option) {
 			case 1: // Customer
 				crud();
+				System.out.println("5. Back to previous menu.");
 				op = readInt();
 				if (op == 1) { // Create
 					if (user == 4) {
@@ -538,7 +537,7 @@ public class TeamT {
 					System.out.println("Enter the Room Numer: ");
 					int number = readInt();
 					Room.releaseRoom(hotelID, number, custId);
-					System.out.println("Room released!");
+					System.out.println("Room released!\n");
 				} else {
 				}
 				break;
@@ -563,9 +562,7 @@ public class TeamT {
 					System.out.println("1. All hotels\n2. By Hotel ID");
 					int query = readInt();
 					if (query == 2) {
-						System.out.println("Enter Hotel ID");
-						int id = readInt();
-						ResultSet rs = Hotel.getHotel(id);
+						ResultSet rs = Hotel.getHotel(hotelID);
 						outputResult(rs);
 					} else {
 						ResultSet rs = Hotel.getAllHotels();
@@ -576,9 +573,7 @@ public class TeamT {
 						System.out.println("You are not authorised to perform this operation.");
 						break;
 					}
-					System.out.println("Enter Hotel ID");
-					int id = readInt();
-					ResultSet rs = Hotel.getHotel(id);
+					ResultSet rs = Hotel.getHotel(hotelID);
 					List<String> check = new LinkedList<String>();
 					try {
 						while (rs.next()) {
@@ -598,10 +593,8 @@ public class TeamT {
 						System.out.println("You are not authorised to perform this operation.");
 						break;
 					}
-					System.out.println("Enter Hotel ID");
-					int id = readInt();
-					Hotel.deleteHotel(id);
-					System.out.println("Hotel with ID " + id + " deleted");
+					Hotel.deleteHotel(hotelID);
+					System.out.println("Hotel with ID " + hotelID + " deleted");
 				} else {
 
 				}
@@ -703,7 +696,7 @@ public class TeamT {
 	}
 
 	private static void crud() {
-		System.out.println("Enter operation:\n1. Create\n2. Read\n3. Update\n4. Delete\n");
+		System.out.println("Enter operation:\n1. Create\n2. Read\n3. Update\n4. Delete");
 		return;
 	}
 
@@ -733,6 +726,10 @@ public class TeamT {
 
 	public static void outputResult(ResultSet rs) {
 		try {
+			if (rs == null) {
+				System.out.println("Sorry, something went wrong while fetching the data.");
+				return;
+			}
 			ResultSetMetaData rsmd = rs.getMetaData();
 			// System.out.println("querying SELECT * FROM XXX");
 			int columnsNumber = rsmd.getColumnCount();
