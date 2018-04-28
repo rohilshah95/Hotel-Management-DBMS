@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
-	private static final String user = "rshah8";
-	private static final String jdbcURL = "jdbc:mariadb://classdb2.csc.ncsu.edu:3306/" + user;
-	private static String passwd = "200204305";
+	private static final String user = "username here ";
+	private static final String jdbcURL = "jdbc:mariadb://classdb2.csc.ncsu.edu:3306/" + user;  //enter your mariadb URL
+	private static String passwd = "password here";
 	private static Connection conn = null;
 
 	/*
